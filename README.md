@@ -25,7 +25,7 @@ Permitir que um usuário:
 
 ## Documentação
 
-- [Produto](./docs/product.md)
+- [Visão do produto](./docs/vision.md)
 - [Escopo do MVP](./docs/mvp.md)
 - [Fluxos do usuário](./docs/user-flows.md)
 - [Modelo de dados](./docs/data-model.md)
