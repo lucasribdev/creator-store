@@ -284,14 +284,18 @@ O MVP sera desenvolvido com:
 - Supabase Storage;
 - Drizzle ORM;
 - Zod;
-- React Hook Form;
-- Vercel para deploy inicial.
+- TanStack Form;
+- Cloudflare Workers para deploy inicial.
 
 ### Motivo
 
 A stack permite construir a pagina publica, o dashboard privado, formularios, autenticacao, banco relacional, upload de imagens e metricas basicas com pouca infraestrutura inicial.
 
 TanStack Start foi escolhido por oferecer uma experiencia full-stack React com rotas type-safe, renderizacao no servidor, server functions e boa integracao com TypeScript.
+
+TanStack Form foi escolhido para manter os formularios dentro do ecossistema TanStack e preservar boa tipagem nas telas privadas.
+
+Cloudflare Workers foi escolhido para o deploy inicial por combinar com a portabilidade do TanStack Start, oferecer boa performance global e manter baixo custo operacional.
 
 Supabase reduz o custo de implementacao de autenticacao, banco de dados e storage, que sao necessidades centrais do MVP.
 

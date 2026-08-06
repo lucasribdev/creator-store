@@ -210,7 +210,7 @@ Permite manter as regras de entrada consistentes entre formularios e server func
 
 ## Formularios
 
-### React Hook Form
+### TanStack Form
 
 Biblioteca recomendada para formularios.
 
@@ -225,7 +225,7 @@ Sera utilizada em:
 
 ### Motivo
 
-Ajuda a criar formularios com bom desempenho, validacao clara e pouco codigo repetido.
+Mantem a stack alinhada ao ecossistema TanStack e oferece formularios tipados, validacao flexivel e bom controle de estado.
 
 ---
 
@@ -233,21 +233,21 @@ Ajuda a criar formularios com bom desempenho, validacao clara e pouco codigo rep
 
 ## Opcao recomendada inicial
 
-### Vercel
+### Cloudflare Workers
 
-Recomendado para o primeiro deploy pela simplicidade operacional.
+Recomendado para o deploy inicial do MVP.
 
 ### Motivo
 
 O MVP precisa chegar rapidamente a uma URL publica para validacao com primeiros usuarios.
 
-Vercel reduz o trabalho de infraestrutura no inicio.
+Cloudflare Workers combina com a portabilidade do TanStack Start, oferece boa performance global e mantem baixo custo operacional no inicio.
 
 ## Alternativa
 
-### Cloudflare Workers ou Pages
+### Vercel
 
-Pode ser considerado se a portabilidade e custo em escala forem prioridades.
+Pode ser considerado caso a simplicidade operacional do ecossistema Vercel se torne mais importante do que a portabilidade inicial.
 
 ---
 
@@ -283,8 +283,8 @@ Autenticacao: Supabase Auth
 Storage: Supabase Storage
 ORM: Drizzle
 Validacao: Zod
-Formularios: React Hook Form
-Deploy inicial: Vercel
+Formularios: TanStack Form
+Deploy inicial: Cloudflare Workers
 ```
 
 ---

@@ -1,28 +1,13 @@
-# Dependencies
-node_modules/
-
-# Builds
-dist/
-build/
-.next/
-out/
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Logs
-*.log
-
-# Editors
-.vscode/
-.idea/
-
-# Operating system
+node_modules
 .DS_Store
-Thumbs.db
-
-# Temporary files
-*.tmp
-*.temp
+dist
+dist-ssr
+*.local
+.env
+.nitro
+.tanstack
+.wrangler
+.output
+.vinxi
+__unconfig*
+todos.json
