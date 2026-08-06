@@ -91,6 +91,7 @@ docs/
 ├── mvp.md
 ├── user-flows.md
 ├── data-model.md
+├── tech-stack.md
 ├── roadmap.md
 └── decisions.md
 ```

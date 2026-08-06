@@ -268,6 +268,43 @@ Facilita a organização do projeto e reduz retrabalho.
 
 ---
 
+## Stack tecnica do MVP
+
+**Status:** MVP
+
+### Decisão
+
+O MVP sera desenvolvido com:
+
+- TanStack Start;
+- TypeScript;
+- Tailwind CSS;
+- Supabase Postgres;
+- Supabase Auth;
+- Supabase Storage;
+- Drizzle ORM;
+- Zod;
+- React Hook Form;
+- Vercel para deploy inicial.
+
+### Motivo
+
+A stack permite construir a pagina publica, o dashboard privado, formularios, autenticacao, banco relacional, upload de imagens e metricas basicas com pouca infraestrutura inicial.
+
+TanStack Start foi escolhido por oferecer uma experiencia full-stack React com rotas type-safe, renderizacao no servidor, server functions e boa integracao com TypeScript.
+
+Supabase reduz o custo de implementacao de autenticacao, banco de dados e storage, que sao necessidades centrais do MVP.
+
+### Consequências
+
+O projeto deve manter a arquitetura simples e evitar APIs experimentais sempre que possivel.
+
+As versoes das dependencias principais devem ser fixadas com cuidado.
+
+Caso a escolha do framework gere atrito relevante durante o desenvolvimento, a decisao podera ser revisitada antes da implementacao completa do MVP.
+
+---
+
 # Funcionalidades adiadas
 
 Estas funcionalidades poderão ser avaliadas futuramente, mas não fazem parte do MVP:

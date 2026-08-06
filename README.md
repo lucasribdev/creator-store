@@ -29,5 +29,6 @@ Permitir que um usuário:
 - [Escopo do MVP](./docs/mvp.md)
 - [Fluxos do usuário](./docs/user-flows.md)
 - [Modelo de dados](./docs/data-model.md)
+- [Stack técnica](./docs/tech-stack.md)
 - [Roadmap](./docs/roadmap.md)
 - [Decisões](./docs/decisions.md)
