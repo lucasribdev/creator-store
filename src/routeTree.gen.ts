@@ -16,6 +16,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as DashboardProductsRouteImport } from './routes/dashboard.products'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
+import { Route as DashboardProductsNewRouteImport } from './routes/dashboard.products.new'
+import { Route as DashboardProductsProductIdEditRouteImport } from './routes/dashboard.products.$productId.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +54,17 @@ const DashboardProfileRoute = DashboardProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardProductsNewRoute = DashboardProductsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => DashboardProductsRoute,
+} as any)
+const DashboardProductsProductIdEditRoute =
+  DashboardProductsProductIdEditRouteImport.update({
+    id: '/$productId/edit',
+    path: '/$productId/edit',
+    getParentRoute: () => DashboardProductsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,8 +72,10 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/dashboard/products': typeof DashboardProductsRoute
+  '/dashboard/products': typeof DashboardProductsRouteWithChildren
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/products/new': typeof DashboardProductsNewRoute
+  '/dashboard/products/$productId/edit': typeof DashboardProductsProductIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -68,8 +83,10 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/dashboard/products': typeof DashboardProductsRoute
+  '/dashboard/products': typeof DashboardProductsRouteWithChildren
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/products/new': typeof DashboardProductsNewRoute
+  '/dashboard/products/$productId/edit': typeof DashboardProductsProductIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,8 +95,10 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/dashboard/products': typeof DashboardProductsRoute
+  '/dashboard/products': typeof DashboardProductsRouteWithChildren
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/products/new': typeof DashboardProductsNewRoute
+  '/dashboard/products/$productId/edit': typeof DashboardProductsProductIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +110,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard/products'
     | '/dashboard/profile'
+    | '/dashboard/products/new'
+    | '/dashboard/products/$productId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +121,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard/products'
     | '/dashboard/profile'
+    | '/dashboard/products/new'
+    | '/dashboard/products/$productId/edit'
   id:
     | '__root__'
     | '/'
@@ -109,6 +132,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard/products'
     | '/dashboard/profile'
+    | '/dashboard/products/new'
+    | '/dashboard/products/$productId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -170,16 +195,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardProfileRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/products/new': {
+      id: '/dashboard/products/new'
+      path: '/new'
+      fullPath: '/dashboard/products/new'
+      preLoaderRoute: typeof DashboardProductsNewRouteImport
+      parentRoute: typeof DashboardProductsRoute
+    }
+    '/dashboard/products/$productId/edit': {
+      id: '/dashboard/products/$productId/edit'
+      path: '/$productId/edit'
+      fullPath: '/dashboard/products/$productId/edit'
+      preLoaderRoute: typeof DashboardProductsProductIdEditRouteImport
+      parentRoute: typeof DashboardProductsRoute
+    }
   }
 }
 
+interface DashboardProductsRouteChildren {
+  DashboardProductsNewRoute: typeof DashboardProductsNewRoute
+  DashboardProductsProductIdEditRoute: typeof DashboardProductsProductIdEditRoute
+}
+
+const DashboardProductsRouteChildren: DashboardProductsRouteChildren = {
+  DashboardProductsNewRoute: DashboardProductsNewRoute,
+  DashboardProductsProductIdEditRoute: DashboardProductsProductIdEditRoute,
+}
+
+const DashboardProductsRouteWithChildren =
+  DashboardProductsRoute._addFileChildren(DashboardProductsRouteChildren)
+
 interface DashboardRouteChildren {
-  DashboardProductsRoute: typeof DashboardProductsRoute
+  DashboardProductsRoute: typeof DashboardProductsRouteWithChildren
   DashboardProfileRoute: typeof DashboardProfileRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardProductsRoute: DashboardProductsRoute,
+  DashboardProductsRoute: DashboardProductsRouteWithChildren,
   DashboardProfileRoute: DashboardProfileRoute,
 }
 

@@ -1,0 +1,40 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
+import { ProductFormPrototype } from "#/components/prototype/product-form.tsx";
+import { Button } from "#/components/ui/button.tsx";
+
+export const Route = createFileRoute("/dashboard/products/$productId/edit")({
+	component: EditProductPlaceholder,
+});
+
+function EditProductPlaceholder() {
+	const { productId } = Route.useParams();
+
+	return (
+		<div>
+			<Button asChild variant="ghost" size="sm" className="w-fit px-0">
+				<Link to="/dashboard/products">
+					<ArrowLeft aria-hidden="true" />
+					Voltar para produtos
+				</Link>
+			</Button>
+			<ProductFormPrototype
+				mode="edit"
+				initialValues={{
+					name:
+						productId === "mini-tripe"
+							? "Mini tripe para celular"
+							: "Fone Bluetooth compacto",
+					externalUrl: `https://example.com/${productId}`,
+					description:
+						"Produto ficticio usado para validar a experiencia de edicao.",
+					price: "R$ 149,90",
+					previousPrice: "R$ 199,90",
+					buttonLabel: "Ver produto",
+					isActive: productId !== "ring-light",
+					isFeatured: productId === "fone-bluetooth",
+				}}
+			/>
+		</div>
+	);
+}
