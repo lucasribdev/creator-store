@@ -37,10 +37,13 @@ function LoginPage() {
 							<Label htmlFor="password">Senha</Label>
 							<Input id="password" type="password" placeholder="********" />
 						</div>
-						<Button type="button" className="w-full">
-							Entrar no prototipo
-						</Button>
+						<p className="rounded-md border border-[var(--line)] bg-white/70 px-3 py-2 text-sm text-[var(--sea-ink-soft)]">
+							Prototipo sem autenticacao real: o botao leva direto ao painel.
+						</p>
 					</form>
+					<Button asChild className="mt-4 w-full">
+						<Link to="/dashboard">Entrar no prototipo</Link>
+					</Button>
 				</section>
 			</div>
 		</main>

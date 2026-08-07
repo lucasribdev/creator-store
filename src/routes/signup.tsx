@@ -41,10 +41,13 @@ function SignupPage() {
 							<Label htmlFor="password">Senha</Label>
 							<Input id="password" type="password" placeholder="********" />
 						</div>
-						<Button type="button" className="w-full">
-							Criar conta no prototipo
-						</Button>
+						<p className="rounded-md border border-[var(--line)] bg-white/70 px-3 py-2 text-sm text-[var(--sea-ink-soft)]">
+							Cadastro simulado: nenhum dado sera salvo nesta etapa.
+						</p>
 					</form>
+					<Button asChild className="mt-4 w-full">
+						<Link to="/dashboard">Criar conta no prototipo</Link>
+					</Button>
 				</section>
 			</div>
 		</main>
