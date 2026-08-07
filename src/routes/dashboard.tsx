@@ -1,5 +1,15 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ExternalLink, Package, Store, UserRound } from "lucide-react";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import {
+	ArrowRight,
+	BarChart3,
+	Copy,
+	ExternalLink,
+	Eye,
+	MousePointerClick,
+	Package,
+	Store,
+	UserRound,
+} from "lucide-react";
 
 import { Button } from "#/components/ui/button.tsx";
 
@@ -7,11 +17,14 @@ export const Route = createFileRoute("/dashboard")({
 	component: DashboardPage,
 });
 
+const publicUrl = "/lucasreviews";
+const isPublished = true;
+
 function DashboardPage() {
 	return (
 		<main className="min-h-screen px-5 py-6 text-[var(--sea-ink)] sm:px-8">
-			<div className="mx-auto w-full max-w-5xl">
-				<header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+			<div className="mx-auto w-full max-w-6xl">
+				<header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 					<div>
 						<p className="font-bold text-sm text-[var(--kicker)] uppercase">
 							Painel ficticio
@@ -19,52 +32,121 @@ function DashboardPage() {
 						<h1 className="mt-2 text-3xl font-extrabold sm:text-4xl">
 							Boas-vindas, Lucas Reviews
 						</h1>
-						<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-							Esta tela confirma a entrada simulada do criador. Os dados ainda
-							nao sao persistidos.
+						<p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--sea-ink-soft)]">
+							Resumo visual do painel minimo do MVP. Os numeros e estados sao
+							ficticios nesta etapa do prototipo.
 						</p>
 					</div>
 
-					<Button asChild variant="outline">
-						<Link to="/lucasreviews">
-							Ver vitrine
-							<ExternalLink aria-hidden="true" />
-						</Link>
-					</Button>
+					<StatusBadge published={isPublished} />
 				</header>
 
-				<section className="mt-8 grid gap-4 sm:grid-cols-3">
-					<DashboardCard
-						icon={<Store className="size-5" aria-hidden="true" />}
-						label="Pagina publica"
-						value="/lucasreviews"
-					/>
-					<DashboardCard
+				<Outlet />
+
+				<section className="mt-7 rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 shadow-sm">
+					<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+						<div>
+							<p className="text-sm font-bold text-[var(--sea-ink-soft)]">
+								Link publico da vitrine
+							</p>
+							<p className="mt-2 break-all text-2xl font-extrabold">
+								{publicUrl}
+							</p>
+						</div>
+
+						<div className="grid gap-2 sm:grid-cols-2">
+							<Button asChild>
+								<Link to="/lucasreviews">
+									Ver pagina
+									<ExternalLink aria-hidden="true" />
+								</Link>
+							</Button>
+							<Button type="button" variant="outline">
+								<Copy aria-hidden="true" />
+								Copiar link
+							</Button>
+						</div>
+					</div>
+				</section>
+
+				<section className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+					<DashboardMetric
 						icon={<Package className="size-5" aria-hidden="true" />}
-						label="Produtos"
-						value="3 itens ficticios"
+						label="Produtos cadastrados"
+						value="3"
 					/>
-					<DashboardCard
-						icon={<UserRound className="size-5" aria-hidden="true" />}
-						label="Perfil"
-						value="Configuracao pendente"
+					<DashboardMetric
+						icon={<Store className="size-5" aria-hidden="true" />}
+						label="Produtos ativos"
+						value="2"
+					/>
+					<DashboardMetric
+						icon={<Eye className="size-5" aria-hidden="true" />}
+						label="Visualizacoes"
+						value="184"
+					/>
+					<DashboardMetric
+						icon={<MousePointerClick className="size-5" aria-hidden="true" />}
+						label="Cliques"
+						value="37"
 					/>
 				</section>
 
-				<section className="mt-6 rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 shadow-sm">
-					<h2 className="text-xl font-extrabold">Proximas entregas</h2>
-					<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-						As proximas telas do prototipo vao conectar este painel com edicao
-						de perfil, lista de produtos e formulario de produto usando dados
-						ficticios.
-					</p>
+				<section className="mt-6 grid gap-4 lg:grid-cols-[1fr_1fr]">
+					<QuickAction
+						icon={<UserRound className="size-5" aria-hidden="true" />}
+						title="Editar perfil"
+						description="Ajustar username, nome publico, bio e identidade da pagina."
+						to="/dashboard/profile"
+					/>
+					<QuickAction
+						icon={<Package className="size-5" aria-hidden="true" />}
+						title="Gerenciar produtos"
+						description="Revisar produtos ficticios, estados ativo/inativo e destaque."
+						to="/dashboard/products"
+					/>
+				</section>
+
+				<section className="mt-6 rounded-lg border border-[var(--line)] bg-white/80 p-5 shadow-sm">
+					<div className="flex items-start gap-3">
+						<div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
+							<BarChart3 className="size-5" aria-hidden="true" />
+						</div>
+						<div>
+							<h2 className="text-xl font-extrabold">Metricas simuladas</h2>
+							<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
+								Visualizacoes e cliques sao apenas numeros ficticios para
+								validar a organizacao do painel. O registro real fica fora desta
+								etapa.
+							</p>
+						</div>
+					</div>
 				</section>
 			</div>
 		</main>
 	);
 }
 
-function DashboardCard({
+function StatusBadge({ published }: { published: boolean }) {
+	return (
+		<div className="w-fit rounded-lg border border-[var(--line)] bg-white/85 px-4 py-3 shadow-sm">
+			<p className="text-xs font-bold text-[var(--sea-ink-soft)] uppercase">
+				Status da pagina
+			</p>
+			<div className="mt-2 flex items-center gap-2">
+				<span
+					className="size-2.5 rounded-full bg-[var(--palm)]"
+					aria-hidden="true"
+				/>
+				<p className="font-extrabold">
+					{published ? "Publicada" : "Despublicada"}
+				</p>
+			</div>
+		</div>
+	);
+}
+
+function DashboardMetric({
 	icon,
 	label,
 	value,
@@ -75,13 +157,48 @@ function DashboardCard({
 }) {
 	return (
 		<article className="rounded-lg border border-[var(--line)] bg-white/85 p-4 shadow-sm">
-			<div className="flex size-10 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
-				{icon}
+			<div className="flex items-center justify-between gap-3">
+				<div className="flex size-10 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
+					{icon}
+				</div>
+				<p className="text-3xl font-extrabold">{value}</p>
 			</div>
 			<p className="mt-4 text-sm font-bold text-[var(--sea-ink-soft)]">
 				{label}
 			</p>
-			<p className="mt-1 text-lg font-extrabold">{value}</p>
 		</article>
+	);
+}
+
+function QuickAction({
+	icon,
+	title,
+	description,
+	to,
+}: {
+	icon: React.ReactNode;
+	title: string;
+	description: string;
+	to: "/dashboard/profile" | "/dashboard/products";
+}) {
+	return (
+		<Link
+			to={to}
+			className="group rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 text-[var(--sea-ink)] no-underline shadow-sm transition hover:bg-white"
+		>
+			<div className="flex items-start justify-between gap-4">
+				<div className="flex size-11 shrink-0 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
+					{icon}
+				</div>
+				<ArrowRight
+					className="size-5 text-[var(--sea-ink-soft)] transition group-hover:translate-x-1"
+					aria-hidden="true"
+				/>
+			</div>
+			<h2 className="mt-4 text-xl font-extrabold">{title}</h2>
+			<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
+				{description}
+			</p>
+		</Link>
 	);
 }
