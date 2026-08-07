@@ -6,6 +6,7 @@ import { Button } from "#/components/ui/button.tsx";
 export const Route = createFileRoute("/$username")({
 	validateSearch: (search: Record<string, unknown>) => ({
 		empty: search.empty === "1",
+		published: search.published !== "0",
 	}),
 	component: CreatorPage,
 });
@@ -47,7 +48,7 @@ const products = [
 
 function CreatorPage() {
 	const { username } = Route.useParams();
-	const { empty } = Route.useSearch();
+	const { empty, published } = Route.useSearch();
 	const activeProducts = empty
 		? []
 		: products.filter((product) => product.active);
@@ -66,6 +67,25 @@ function CreatorPage() {
 						<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
 							Neste prototipo, apenas /lucasreviews representa uma vitrine
 							publica ficticia.
+						</p>
+					</section>
+				</div>
+			</main>
+		);
+	}
+
+	if (!published) {
+		return (
+			<main className="min-h-screen px-4 py-5 text-[var(--sea-ink)]">
+				<div className="mx-auto w-full max-w-md">
+					<Link to="/" className="text-sm font-bold no-underline">
+						Creator Store
+					</Link>
+					<section className="mt-5 rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 shadow-sm">
+						<h1 className="text-2xl font-extrabold">Pagina despublicada</h1>
+						<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
+							Esta vitrine existe no prototipo, mas esta marcada como
+							despublicada e nao exibe produtos para visitantes.
 						</p>
 					</section>
 				</div>

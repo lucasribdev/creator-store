@@ -4,11 +4,15 @@ import { ProductFormPrototype } from "#/components/prototype/product-form.tsx";
 import { Button } from "#/components/ui/button.tsx";
 
 export const Route = createFileRoute("/dashboard/products/$productId/edit")({
+	validateSearch: (search: Record<string, unknown>) => ({
+		error: search.error === "1",
+	}),
 	component: EditProductPlaceholder,
 });
 
 function EditProductPlaceholder() {
 	const { productId } = Route.useParams();
+	const { error } = Route.useSearch();
 
 	return (
 		<div>
@@ -20,6 +24,7 @@ function EditProductPlaceholder() {
 			</Button>
 			<ProductFormPrototype
 				mode="edit"
+				showError={error}
 				initialValues={{
 					name:
 						productId === "mini-tripe"

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Image, Info, Package } from "lucide-react";
+import { AlertTriangle, Image, Info, Package } from "lucide-react";
 
 import { Button } from "#/components/ui/button.tsx";
 import { Input } from "#/components/ui/input.tsx";
@@ -21,11 +21,13 @@ type ProductFormValues = {
 type ProductFormProps = {
 	mode: "new" | "edit";
 	initialValues: ProductFormValues;
+	showError?: boolean;
 };
 
 export function ProductFormPrototype({
 	mode,
 	initialValues,
+	showError = false,
 }: ProductFormProps) {
 	return (
 		<section className="mt-6 rounded-lg border border-[var(--line)] bg-white/80 p-5 shadow-sm">
@@ -41,6 +43,22 @@ export function ProductFormPrototype({
 				recomendacao. O botao do produto sempre direciona o visitante para um
 				link externo.
 			</p>
+
+			{showError ? (
+				<div className="mt-5 flex items-start gap-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
+					<AlertTriangle
+						className="mt-0.5 size-5 shrink-0"
+						aria-hidden="true"
+					/>
+					<div>
+						<p className="font-bold">Nao foi possivel salvar o produto.</p>
+						<p className="mt-1 text-red-800">
+							Erro visual generico do prototipo. Nenhuma validacao real foi
+							executada.
+						</p>
+					</div>
+				</div>
+			) : null}
 
 			<form className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
 				<div className="space-y-5">

@@ -1,10 +1,12 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import {
 	ArrowLeft,
+	BadgeAlert,
 	CheckCircle2,
 	Edit3,
 	Eye,
 	EyeOff,
+	ImageOff,
 	Package,
 	Plus,
 	Star,
@@ -16,6 +18,7 @@ import { Switch } from "#/components/ui/switch.tsx";
 
 export const Route = createFileRoute("/dashboard/products")({
 	validateSearch: (search: Record<string, unknown>) => ({
+		empty: search.empty === "1",
 		saved: search.saved === "product" ? "product" : undefined,
 	}),
 	component: ProductsListPage,
@@ -30,6 +33,7 @@ const products = [
 		status: "active",
 		featured: true,
 		price: "R$ 149,90",
+		hasImage: true,
 	},
 	{
 		id: "mini-tripe",
@@ -38,6 +42,7 @@ const products = [
 		status: "active",
 		featured: false,
 		price: "R$ 59,90",
+		hasImage: false,
 	},
 	{
 		id: "ring-light",
@@ -47,12 +52,14 @@ const products = [
 		status: "inactive",
 		featured: false,
 		price: "R$ 89,90",
+		hasImage: true,
 	},
 ] as const;
 
 function ProductsListPage() {
-	const { saved } = Route.useSearch();
-	const activeProducts = products.filter(
+	const { empty, saved } = Route.useSearch();
+	const visibleProducts = empty ? [] : products;
+	const activeProducts = visibleProducts.filter(
 		(product) => product.status === "active",
 	);
 
@@ -85,12 +92,20 @@ function ProductsListPage() {
 				</p>
 
 				<div className="mt-5 grid gap-3 sm:grid-cols-3">
-					<SummaryItem label="Cadastrados" value={String(products.length)} />
+					<SummaryItem
+						label="Cadastrados"
+						value={String(visibleProducts.length)}
+					/>
 					<SummaryItem
 						label="Ativos na vitrine"
 						value={String(activeProducts.length)}
 					/>
-					<SummaryItem label="Em destaque" value="1" />
+					<SummaryItem
+						label="Em destaque"
+						value={String(
+							visibleProducts.filter((product) => product.featured).length,
+						)}
+					/>
 				</div>
 
 				{saved === "product" ? (
@@ -112,25 +127,30 @@ function ProductsListPage() {
 
 				<Outlet />
 
-				<div className="mt-6 space-y-3">
-					{products.map((product) => (
-						<ProductRow key={product.id} product={product} />
-					))}
-				</div>
-
-				<section className="mt-6 rounded-lg border border-dashed border-[var(--line)] bg-white/65 p-5">
-					<h3 className="text-lg font-extrabold">Estado vazio</h3>
-					<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-						Quando nao houver produtos cadastrados, esta area deve orientar o
-						criador a adicionar o primeiro produto recomendado.
-					</p>
-					<Button asChild variant="outline" className="mt-4">
-						<Link to="/dashboard/products/new">
-							<Plus aria-hidden="true" />
-							Adicionar primeiro produto
-						</Link>
-					</Button>
-				</section>
+				{visibleProducts.length > 0 ? (
+					<div className="mt-6 space-y-3">
+						{visibleProducts.map((product) => (
+							<ProductRow key={product.id} product={product} />
+						))}
+					</div>
+				) : (
+					<section className="mt-6 rounded-lg border border-dashed border-[var(--line)] bg-white/65 p-5">
+						<div className="flex size-11 items-center justify-center rounded-md bg-[var(--sand)] text-[var(--sea-ink-soft)]">
+							<BadgeAlert className="size-5" aria-hidden="true" />
+						</div>
+						<h3 className="mt-4 text-lg font-extrabold">Lista vazia</h3>
+						<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
+							Quando nao houver produtos cadastrados, esta area deve orientar o
+							criador a adicionar o primeiro produto recomendado.
+						</p>
+						<Button asChild variant="outline" className="mt-4">
+							<Link to="/dashboard/products/new">
+								<Plus aria-hidden="true" />
+								Adicionar primeiro produto
+							</Link>
+						</Button>
+					</section>
+				)}
 			</div>
 		</section>
 	);
@@ -155,7 +175,11 @@ function ProductRow({ product }: { product: (typeof products)[number] }) {
 			<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 				<div className="flex gap-4">
 					<div className="flex size-20 shrink-0 items-center justify-center rounded-md bg-[var(--sand)] text-[var(--sea-ink-soft)]">
-						<Package className="size-6" aria-hidden="true" />
+						{product.hasImage ? (
+							<Package className="size-6" aria-hidden="true" />
+						) : (
+							<ImageOff className="size-6" aria-hidden="true" />
+						)}
 					</div>
 					<div className="min-w-0">
 						<div className="flex flex-wrap items-center gap-2">
@@ -174,6 +198,12 @@ function ProductRow({ product }: { product: (typeof products)[number] }) {
 								)}
 								{isActive ? "Ativo" : "Inativo"}
 							</span>
+							{product.hasImage ? null : (
+								<span className="inline-flex items-center gap-1 rounded-md border border-dashed border-[var(--line)] bg-white/70 px-2 py-1 text-xs font-bold">
+									<ImageOff className="size-3" aria-hidden="true" />
+									Sem imagem
+								</span>
+							)}
 						</div>
 						<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
 							{product.description}
