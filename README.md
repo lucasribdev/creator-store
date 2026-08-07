@@ -40,8 +40,8 @@ Welcome to your new TanStack Start app!
 To run this application:
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 # Building For Production
@@ -49,7 +49,7 @@ npm run dev
 To build this application for production:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 ## Styling
@@ -70,16 +70,16 @@ If you prefer not to use Tailwind CSS:
 This project uses [Biome](https://biomejs.dev/) for linting and formatting. The following scripts are available:
 
 ```bash
-npm run lint
-npm run format
-npm run check
+pnpm run lint
+pnpm run format
+pnpm run check
 ```
 
 ## Deploy to Cloudflare Workers
 
 This project uses the Cloudflare Vite plugin (configured in `vite.config.ts`) and `wrangler.jsonc`:
 
-1. Install Wrangler: `npm install -g wrangler`
+1. Install Wrangler: `pnpm install -g wrangler`
 2. Authenticate: `wrangler login`
 3. Deploy: `npx wrangler deploy`
 
