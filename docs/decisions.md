@@ -309,6 +309,30 @@ Caso a escolha do framework gere atrito relevante durante o desenvolvimento, a d
 
 ---
 
+## Validar conexao Postgres no Cloudflare Workers
+
+**Status:** MVP
+
+### Decisão
+
+Antes de implementar funcionalidades que dependam fortemente do banco, a aplicacao devera validar uma consulta minima ao Supabase Postgres no runtime publicado do Cloudflare Workers.
+
+O projeto pode manter `pg`/`node-postgres`, Drizzle e `nodejs_compat` durante a preparacao tecnica, mas a conexao em producao devera ser validada cedo. Caso a conexao direta gere instabilidade, limite de conexoes ou incompatibilidade operacional, Hyperdrive sera a alternativa preferida.
+
+### Motivo
+
+Cloudflare Workers suporta drivers Postgres com compatibilidade Node.js e conexoes TCP, mas Postgres em Workers tem consideracoes operacionais de pooling, latencia e runtime.
+
+Hyperdrive e o caminho recomendado pela Cloudflare para conectar Workers a bancos Postgres em producao, mantendo compatibilidade com drivers e ORMs existentes.
+
+### Consequências
+
+A camada de acesso ao banco deve evitar ficar acoplada permanentemente a `process.env.DATABASE_URL`.
+
+Uma milestone tecnica curta devera executar uma consulta simples, como `select 1`, no Worker publicado antes do desenvolvimento completo de autenticacao, perfil e produtos.
+
+---
+
 # Funcionalidades adiadas
 
 Estas funcionalidades poderão ser avaliadas futuramente, mas não fazem parte do MVP:
