@@ -61,6 +61,8 @@ Crie um arquivo `.env.local` com base em `.env.example`.
 
 ```bash
 pnpm install
+pnpm dlx supabase start
+pnpm db:migrate
 pnpm dev
 ```
 
@@ -69,6 +71,16 @@ A aplicacao roda em:
 ```text
 http://localhost:3000
 ```
+
+Supabase local:
+
+```text
+API: http://127.0.0.1:54321
+Studio: http://127.0.0.1:54323
+Postgres: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+```
+
+Use a chave anon local exibida por `pnpm dlx supabase start` em `SUPABASE_ANON_KEY`.
 
 ## Scripts
 
