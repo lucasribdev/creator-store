@@ -17,6 +17,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardProductsRouteImport } from './routes/dashboard.products'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
+import { Route as ApiHealthDbRouteImport } from './routes/api/health/db'
 import { Route as DashboardProductsNewRouteImport } from './routes/dashboard.products_.new'
 import { Route as DashboardProductsProductIdEditRouteImport } from './routes/dashboard.products_.$productId.edit'
 
@@ -60,6 +61,11 @@ const DashboardProfileRoute = DashboardProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => DashboardRoute,
 } as any)
+const ApiHealthDbRoute = ApiHealthDbRouteImport.update({
+  id: '/api/health/db',
+  path: '/api/health/db',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardProductsNewRoute = DashboardProductsNewRouteImport.update({
   id: '/products_/new',
   path: '/products/new',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/api/health/db': typeof ApiHealthDbRoute
   '/dashboard/products/new': typeof DashboardProductsNewRoute
   '/dashboard/products/$productId/edit': typeof DashboardProductsProductIdEditRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/api/health/db': typeof ApiHealthDbRoute
   '/dashboard/products/new': typeof DashboardProductsNewRoute
   '/dashboard/products/$productId/edit': typeof DashboardProductsProductIdEditRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/api/health/db': typeof ApiHealthDbRoute
   '/dashboard/products_/new': typeof DashboardProductsNewRoute
   '/dashboard/products_/$productId/edit': typeof DashboardProductsProductIdEditRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/dashboard/products'
     | '/dashboard/profile'
     | '/dashboard/'
+    | '/api/health/db'
     | '/dashboard/products/new'
     | '/dashboard/products/$productId/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | '/dashboard/products'
     | '/dashboard/profile'
     | '/dashboard'
+    | '/api/health/db'
     | '/dashboard/products/new'
     | '/dashboard/products/$productId/edit'
   id:
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
     | '/dashboard/products'
     | '/dashboard/profile'
     | '/dashboard/'
+    | '/api/health/db'
     | '/dashboard/products_/new'
     | '/dashboard/products_/$productId/edit'
   fileRoutesById: FileRoutesById
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  ApiHealthDbRoute: typeof ApiHealthDbRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardProfileRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/api/health/db': {
+      id: '/api/health/db'
+      path: '/api/health/db'
+      fullPath: '/api/health/db'
+      preLoaderRoute: typeof ApiHealthDbRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/products_/new': {
       id: '/dashboard/products_/new'
       path: '/products/new'
@@ -255,6 +275,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  ApiHealthDbRoute: ApiHealthDbRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
