@@ -333,6 +333,104 @@ Uma milestone tecnica curta devera executar uma consulta simples, como `select 1
 
 ---
 
+# Banco de dados
+
+## A tabela public.users espelha o Supabase Auth
+
+**Status:** MVP
+
+### Decisão
+
+A tabela `public.users` devera espelhar o usuario autenticado pelo Supabase Auth.
+
+O campo `public.users.id` devera usar o mesmo UUID de `auth.users.id`.
+
+### Motivo
+
+Supabase Auth sera responsavel por credenciais, sessoes e fluxo de autenticacao.
+
+A aplicacao precisa de uma tabela propria no schema publico para relacionar perfis, produtos e metricas sem consultar diretamente os dados internos de autenticacao em todas as operacoes de produto.
+
+### Consequências
+
+O schema Drizzle deve modelar `users.id` como UUID primario fornecido pelo Supabase Auth.
+
+A criacao do registro em `public.users` deve acontecer de forma coordenada com a criacao do usuario autenticado.
+
+---
+
+## Username normalizado em lowercase
+
+**Status:** MVP
+
+### Decisão
+
+O campo `profiles.username` sera armazenado normalizado em lowercase.
+
+### Motivo
+
+O username e usado na URL publica e deve ser unico sem diferenciar letras maiusculas e minusculas.
+
+Armazenar o valor ja normalizado simplifica consultas, validacoes e garantias de unicidade no banco.
+
+### Consequências
+
+Entradas de username devem ser convertidas para lowercase antes de persistir.
+
+O banco deve possuir restricao de unicidade sobre `profiles.username`.
+
+A exibicao publica deve usar esse valor normalizado como identificador da URL.
+
+---
+
+## Um produto em destaque por perfil no banco
+
+**Status:** MVP
+
+### Decisão
+
+A regra de apenas um produto em destaque por perfil devera ser garantida no banco por um indice unico parcial.
+
+O indice devera considerar `profile_id` apenas quando `is_featured = true`.
+
+### Motivo
+
+A aplicacao pode remover o destaque anterior ao marcar um novo produto, mas a regra e uma invariante do produto e nao deve depender apenas da camada de aplicacao.
+
+### Consequências
+
+O schema Drizzle deve declarar ou acompanhar uma migration com indice unico parcial para produtos em destaque.
+
+Mutations que alteram destaque devem tratar conflito de unicidade e manter uma experiencia clara para o usuario.
+
+---
+
+## Cliques de produto validam o perfil do produto
+
+**Status:** MVP
+
+### Decisão
+
+A tabela `product_clicks` devera garantir que `product_id` pertence ao mesmo `profile_id` registrado no clique.
+
+Essa garantia devera ser feita por chave estrangeira composta referenciando a combinacao correspondente em `products`.
+
+### Motivo
+
+Cliques sao metricas basicas do MVP e precisam permanecer consistentes com o perfil visitado.
+
+Sem essa garantia, seria possivel registrar um clique associando um produto de um perfil a outro perfil.
+
+### Consequências
+
+A tabela `products` deve expor uma chave unica ou primaria compativel com a referencia composta.
+
+`product_clicks` deve armazenar `profile_id` e `product_id` e validar a combinacao no banco.
+
+Falhas ao registrar clique nao devem impedir o redirecionamento do visitante para o link externo.
+
+---
+
 # Funcionalidades adiadas
 
 Estas funcionalidades poderão ser avaliadas futuramente, mas não fazem parte do MVP:
