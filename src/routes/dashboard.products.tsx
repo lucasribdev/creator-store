@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
 	ArrowLeft,
 	BadgeAlert,
@@ -75,10 +75,7 @@ function ProductsListPage() {
 					</Button>
 
 					<Button asChild>
-						<Link
-							to="/dashboard/products/new"
-							search={{ empty: false, error: false, saved: undefined }}
-						>
+						<Link to="/dashboard/products/new" search={{ error: false }}>
 							<Plus aria-hidden="true" />
 							Adicionar produto
 						</Link>
@@ -128,8 +125,6 @@ function ProductsListPage() {
 					</div>
 				) : null}
 
-				<Outlet />
-
 				{visibleProducts.length > 0 ? (
 					<div className="mt-6 space-y-3">
 						{visibleProducts.map((product) => (
@@ -147,10 +142,7 @@ function ProductsListPage() {
 							criador a adicionar o primeiro produto recomendado.
 						</p>
 						<Button asChild variant="outline" className="mt-4">
-							<Link
-								to="/dashboard/products/new"
-								search={{ empty: false, error: false, saved: undefined }}
-							>
+							<Link to="/dashboard/products/new" search={{ error: false }}>
 								<Plus aria-hidden="true" />
 								Adicionar primeiro produto
 							</Link>
@@ -231,7 +223,7 @@ function ProductRow({ product }: { product: (typeof products)[number] }) {
 						<Link
 							to="/dashboard/products/$productId/edit"
 							params={{ productId: product.id }}
-							search={{ empty: false, error: false, saved: undefined }}
+							search={{ error: false }}
 						>
 							<Edit3 aria-hidden="true" />
 							Editar

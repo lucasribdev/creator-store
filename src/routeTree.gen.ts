@@ -14,10 +14,11 @@ import { Route as UsernameRouteImport } from './routes/$username'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardProductsRouteImport } from './routes/dashboard.products'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
-import { Route as DashboardProductsNewRouteImport } from './routes/dashboard.products.new'
-import { Route as DashboardProductsProductIdEditRouteImport } from './routes/dashboard.products.$productId.edit'
+import { Route as DashboardProductsNewRouteImport } from './routes/dashboard.products_.new'
+import { Route as DashboardProductsProductIdEditRouteImport } from './routes/dashboard.products_.$productId.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -44,6 +45,11 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardProductsRoute = DashboardProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -55,15 +61,15 @@ const DashboardProfileRoute = DashboardProfileRouteImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardProductsNewRoute = DashboardProductsNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => DashboardProductsRoute,
+  id: '/products_/new',
+  path: '/products/new',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardProductsProductIdEditRoute =
   DashboardProductsProductIdEditRouteImport.update({
-    id: '/$productId/edit',
-    path: '/$productId/edit',
-    getParentRoute: () => DashboardProductsRoute,
+    id: '/products_/$productId/edit',
+    path: '/products/$productId/edit',
+    getParentRoute: () => DashboardRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -72,19 +78,20 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/dashboard/products': typeof DashboardProductsRouteWithChildren
+  '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/products/new': typeof DashboardProductsNewRoute
   '/dashboard/products/$productId/edit': typeof DashboardProductsProductIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$username': typeof UsernameRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/dashboard/products': typeof DashboardProductsRouteWithChildren
+  '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/dashboard/products/new': typeof DashboardProductsNewRoute
   '/dashboard/products/$productId/edit': typeof DashboardProductsProductIdEditRoute
 }
@@ -95,10 +102,11 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/dashboard/products': typeof DashboardProductsRouteWithChildren
+  '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/profile': typeof DashboardProfileRoute
-  '/dashboard/products/new': typeof DashboardProductsNewRoute
-  '/dashboard/products/$productId/edit': typeof DashboardProductsProductIdEditRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/products_/new': typeof DashboardProductsNewRoute
+  '/dashboard/products_/$productId/edit': typeof DashboardProductsProductIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -110,17 +118,18 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard/products'
     | '/dashboard/profile'
+    | '/dashboard/'
     | '/dashboard/products/new'
     | '/dashboard/products/$productId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/$username'
-    | '/dashboard'
     | '/login'
     | '/signup'
     | '/dashboard/products'
     | '/dashboard/profile'
+    | '/dashboard'
     | '/dashboard/products/new'
     | '/dashboard/products/$productId/edit'
   id:
@@ -132,8 +141,9 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard/products'
     | '/dashboard/profile'
-    | '/dashboard/products/new'
-    | '/dashboard/products/$productId/edit'
+    | '/dashboard/'
+    | '/dashboard/products_/new'
+    | '/dashboard/products_/$productId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -181,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/products': {
       id: '/dashboard/products'
       path: '/products'
@@ -195,44 +212,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardProfileRouteImport
       parentRoute: typeof DashboardRoute
     }
-    '/dashboard/products/new': {
-      id: '/dashboard/products/new'
-      path: '/new'
+    '/dashboard/products_/new': {
+      id: '/dashboard/products_/new'
+      path: '/products/new'
       fullPath: '/dashboard/products/new'
       preLoaderRoute: typeof DashboardProductsNewRouteImport
-      parentRoute: typeof DashboardProductsRoute
+      parentRoute: typeof DashboardRoute
     }
-    '/dashboard/products/$productId/edit': {
-      id: '/dashboard/products/$productId/edit'
-      path: '/$productId/edit'
+    '/dashboard/products_/$productId/edit': {
+      id: '/dashboard/products_/$productId/edit'
+      path: '/products/$productId/edit'
       fullPath: '/dashboard/products/$productId/edit'
       preLoaderRoute: typeof DashboardProductsProductIdEditRouteImport
-      parentRoute: typeof DashboardProductsRoute
+      parentRoute: typeof DashboardRoute
     }
   }
 }
 
-interface DashboardProductsRouteChildren {
+interface DashboardRouteChildren {
+  DashboardProductsRoute: typeof DashboardProductsRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardProductsNewRoute: typeof DashboardProductsNewRoute
   DashboardProductsProductIdEditRoute: typeof DashboardProductsProductIdEditRoute
 }
 
-const DashboardProductsRouteChildren: DashboardProductsRouteChildren = {
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardProductsRoute: DashboardProductsRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
   DashboardProductsNewRoute: DashboardProductsNewRoute,
   DashboardProductsProductIdEditRoute: DashboardProductsProductIdEditRoute,
-}
-
-const DashboardProductsRouteWithChildren =
-  DashboardProductsRoute._addFileChildren(DashboardProductsRouteChildren)
-
-interface DashboardRouteChildren {
-  DashboardProductsRoute: typeof DashboardProductsRouteWithChildren
-  DashboardProfileRoute: typeof DashboardProfileRoute
-}
-
-const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardProductsRoute: DashboardProductsRouteWithChildren,
-  DashboardProfileRoute: DashboardProfileRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(

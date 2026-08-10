@@ -3,14 +3,15 @@ import { ArrowLeft } from "lucide-react";
 import { ProductFormPrototype } from "#/components/prototype/product-form.tsx";
 import { Button } from "#/components/ui/button.tsx";
 
-export const Route = createFileRoute("/dashboard/products/new")({
+export const Route = createFileRoute("/dashboard/products_/$productId/edit")({
 	validateSearch: (search: Record<string, unknown>) => ({
 		error: search.error === "1",
 	}),
-	component: NewProductPlaceholder,
+	component: EditProductPlaceholder,
 });
 
-function NewProductPlaceholder() {
+function EditProductPlaceholder() {
+	const { productId } = Route.useParams();
 	const { error } = Route.useSearch();
 
 	return (
@@ -25,17 +26,21 @@ function NewProductPlaceholder() {
 				</Link>
 			</Button>
 			<ProductFormPrototype
-				mode="new"
+				mode="edit"
 				showError={error}
 				initialValues={{
-					name: "",
-					externalUrl: "",
-					description: "",
-					price: "",
-					previousPrice: "",
+					name:
+						productId === "mini-tripe"
+							? "Mini tripe para celular"
+							: "Fone Bluetooth compacto",
+					externalUrl: `https://example.com/${productId}`,
+					description:
+						"Produto ficticio usado para validar a experiencia de edicao.",
+					price: "R$ 149,90",
+					previousPrice: "R$ 199,90",
 					buttonLabel: "Ver produto",
-					isActive: true,
-					isFeatured: false,
+					isActive: productId !== "ring-light",
+					isFeatured: productId === "fone-bluetooth",
 				}}
 			/>
 		</div>
