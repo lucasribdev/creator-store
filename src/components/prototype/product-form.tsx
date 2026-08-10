@@ -155,7 +155,12 @@ export function ProductFormPrototype({
 							<a href="/dashboard/products?saved=product">Salvar produto</a>
 						</Button>
 						<Button asChild variant="outline">
-							<Link to="/dashboard/products">Voltar para lista</Link>
+							<Link
+								to="/dashboard/products"
+								search={{ empty: false, saved: undefined }}
+							>
+								Voltar para lista
+							</Link>
 						</Button>
 						<Button asChild variant="ghost">
 							<Link to="/dashboard">Voltar ao painel</Link>

@@ -16,7 +16,10 @@ function NewProductPlaceholder() {
 	return (
 		<div>
 			<Button asChild variant="ghost" size="sm" className="w-fit px-0">
-				<Link to="/dashboard/products">
+				<Link
+					to="/dashboard/products"
+					search={{ empty: false, saved: undefined }}
+				>
 					<ArrowLeft aria-hidden="true" />
 					Voltar para produtos
 				</Link>

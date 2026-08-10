@@ -58,7 +58,11 @@ function Home() {
 							</Link>
 						</Button>
 						<Button asChild variant="outline" size="lg">
-							<Link to="/lucasreviews">
+							<Link
+								to="/$username"
+								params={{ username: "lucasreviews" }}
+								search={{ empty: false, published: true }}
+							>
 								Ver vitrine ficticia
 								<ExternalLink aria-hidden="true" />
 							</Link>

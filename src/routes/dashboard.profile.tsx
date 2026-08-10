@@ -22,7 +22,7 @@ function ProfileFormPage() {
 
 	return (
 		<section className="mt-7 rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 shadow-sm">
-			<div className="max-w-4xl">
+			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<Button asChild variant="ghost" size="sm" className="w-fit px-0">
 						<Link to="/dashboard">
@@ -32,7 +32,11 @@ function ProfileFormPage() {
 					</Button>
 
 					<Button asChild variant="outline" size="sm">
-						<Link to="/lucasreviews">
+						<Link
+							to="/$username"
+							params={{ username: "lucasreviews" }}
+							search={{ empty: false, published: true }}
+						>
 							Visualizar pagina
 							<ExternalLink aria-hidden="true" />
 						</Link>
@@ -105,7 +109,11 @@ function ProfileFormPage() {
 								Salvar alteracoes
 							</Button>
 							<Button asChild type="button" variant="outline">
-								<Link to="/lucasreviews">
+								<Link
+									to="/$username"
+									params={{ username: "lucasreviews" }}
+									search={{ empty: false, published: true }}
+								>
 									Visualizar pagina
 									<ExternalLink aria-hidden="true" />
 								</Link>

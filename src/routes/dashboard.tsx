@@ -56,7 +56,11 @@ function DashboardPage() {
 
 						<div className="grid gap-2 sm:grid-cols-2">
 							<Button asChild>
-								<Link to="/lucasreviews">
+								<Link
+									to="/$username"
+									params={{ username: "lucasreviews" }}
+									search={{ empty: false, published: true }}
+								>
 									Ver pagina
 									<ExternalLink aria-hidden="true" />
 								</Link>

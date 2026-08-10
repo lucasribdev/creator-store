@@ -65,7 +65,7 @@ function ProductsListPage() {
 
 	return (
 		<section className="mt-7 rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 shadow-sm">
-			<div className="max-w-5xl">
+			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<Button asChild variant="ghost" size="sm" className="w-fit px-0">
 						<Link to="/dashboard">
@@ -75,7 +75,10 @@ function ProductsListPage() {
 					</Button>
 
 					<Button asChild>
-						<Link to="/dashboard/products/new">
+						<Link
+							to="/dashboard/products/new"
+							search={{ empty: false, error: false, saved: undefined }}
+						>
 							<Plus aria-hidden="true" />
 							Adicionar produto
 						</Link>
@@ -144,7 +147,10 @@ function ProductsListPage() {
 							criador a adicionar o primeiro produto recomendado.
 						</p>
 						<Button asChild variant="outline" className="mt-4">
-							<Link to="/dashboard/products/new">
+							<Link
+								to="/dashboard/products/new"
+								search={{ empty: false, error: false, saved: undefined }}
+							>
 								<Plus aria-hidden="true" />
 								Adicionar primeiro produto
 							</Link>
@@ -225,6 +231,7 @@ function ProductRow({ product }: { product: (typeof products)[number] }) {
 						<Link
 							to="/dashboard/products/$productId/edit"
 							params={{ productId: product.id }}
+							search={{ empty: false, error: false, saved: undefined }}
 						>
 							<Edit3 aria-hidden="true" />
 							Editar
