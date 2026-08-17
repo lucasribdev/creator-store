@@ -331,6 +331,26 @@ A camada de acesso ao banco deve evitar ficar acoplada permanentemente a `proces
 
 Uma milestone tecnica curta devera executar uma consulta simples, como `select 1`, no Worker publicado antes do desenvolvimento completo de autenticacao, perfil e produtos.
 
+### Resultado da validacao
+
+Em 2026-08-10, a rota publicada:
+
+```text
+/api/health/db
+```
+
+executou uma consulta `select 1` contra o Supabase Postgres a partir do Cloudflare Worker e retornou:
+
+```json
+{
+  "ok": true
+}
+```
+
+Com isso, a conexao direta usando `pg`/`node-postgres`, Drizzle e `nodejs_compat` esta validada para o proximo corte do MVP.
+
+Esta validacao nao elimina riscos operacionais futuros de pooling, limites de conexao ou latencia. Caso esses problemas aparecam durante o desenvolvimento ou uso real, Hyperdrive continua sendo a alternativa preferida para producao.
+
 ---
 
 # Banco de dados
