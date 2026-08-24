@@ -36,7 +36,7 @@ function DashboardLayout() {
 				/>
 
 				<nav
-					className="mt-5 flex gap-2 overflow-x-auto rounded-2xl border border-border/80 bg-surface p-1 shadow-xs"
+					className="mt-5 grid grid-cols-4 gap-1 rounded-2xl border border-border/80 bg-surface p-1 shadow-xs sm:flex sm:gap-2"
 					aria-label="Navegacao da area privada"
 				>
 					<DashboardNavLink
@@ -90,16 +90,16 @@ function DashboardNavLink({
 			activeOptions={{ exact }}
 			activeProps={{
 				className:
-					"bg-primary text-primary-foreground hover:bg-primary-hover hover:text-primary-foreground",
+					"bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary",
 			}}
 			inactiveProps={{
 				className:
-					"text-muted-foreground hover:bg-accent hover:text-foreground",
+					"text-muted-foreground hover:bg-accent/70 hover:text-foreground",
 			}}
-			className="inline-flex h-10 min-w-28 shrink-0 items-center justify-center gap-2 rounded-xl px-3 text-sm font-bold no-underline"
+			className="inline-flex h-12 min-w-0 items-center justify-center gap-1 rounded-xl px-1 text-center text-[0.6875rem] font-bold leading-none no-underline transition-colors duration-[180ms] ease-in-out outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:h-10 sm:min-w-28 sm:flex-row sm:gap-2 sm:px-3 sm:text-sm"
 		>
 			<span className="[&_svg]:size-4">{icon}</span>
-			{label}
+			<span className="min-w-0 text-balance">{label}</span>
 		</Link>
 	);
 }
