@@ -1,13 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
 	BadgeCheck,
-	ExternalLink,
-	ImageOff,
 	Instagram,
 	Music2,
 	Package,
 	Share2,
-	ShoppingBag,
 	Youtube,
 } from "lucide-react";
 import { useState } from "react";
@@ -17,12 +14,13 @@ import {
 	EmptyState,
 	ExternalRedirectModal,
 	type ExternalRedirectProduct,
+	FeaturedProductCard,
 	InlineAlert,
+	ProductCard,
 	StatusBadge,
 	Toast,
 } from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
-import { cn } from "#/lib/utils.ts";
 
 export const Route = createFileRoute("/$username")({
 	validateSearch: (search: Record<string, unknown>) => ({
@@ -54,6 +52,7 @@ const products = [
 		url: "https://example.com/fone-bluetooth",
 		storeName: "Loja parceira",
 		price: "R$ 189,90",
+		previousPrice: "R$ 229,90",
 		featured: true,
 		active: true,
 		hasImage: true,
@@ -67,6 +66,7 @@ const products = [
 		url: "https://example.com/mini-tripe",
 		storeName: "Marketplace externo",
 		price: "R$ 79,90",
+		previousPrice: "",
 		featured: false,
 		active: true,
 		hasImage: true,
@@ -81,6 +81,7 @@ const products = [
 		url: "https://example.com/checklist-reviews",
 		storeName: "Pagina do criador",
 		price: "Gratuito",
+		previousPrice: "",
 		featured: false,
 		active: true,
 		hasImage: false,
@@ -93,6 +94,7 @@ const products = [
 		url: "https://example.com/ring-light",
 		storeName: "Loja parceira",
 		price: "R$ 139,90",
+		previousPrice: "",
 		featured: false,
 		active: false,
 		hasImage: true,
@@ -204,6 +206,7 @@ function CreatorPage() {
 								icon={<Package className="size-5" aria-hidden="true" />}
 								title="Esta vitrine ainda nao tem produtos ativos"
 								description={`Quando ${creator.displayName} publicar recomendacoes, elas aparecem aqui.`}
+								variant="products"
 							/>
 						) : (
 							<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -320,149 +323,5 @@ function CreatorHeader() {
 				</div>
 			</div>
 		</section>
-	);
-}
-
-function FeaturedProductCard({
-	onOpenRedirect,
-	product,
-}: {
-	onOpenRedirect: (product: (typeof products)[number]) => void;
-	product: (typeof products)[number];
-}) {
-	return (
-		<article className="group overflow-hidden rounded-lg border bg-surface shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:shadow-md">
-			<ProductImage
-				className="aspect-[16/10] w-full rounded-none border-0"
-				hasImage={product.hasImage}
-				imageUrl={product.imageUrl}
-				name={product.name}
-			/>
-			<div className="p-4">
-				<div className="flex items-start gap-3">
-					<div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-600">
-						<ShoppingBag className="size-5" aria-hidden="true" />
-					</div>
-					<div className="min-w-0 flex-1">
-						<h2 className="break-words text-xl font-extrabold">
-							{product.name}
-						</h2>
-						<p className="mt-2 break-words text-sm leading-6 text-muted-foreground">
-							{product.description}
-						</p>
-					</div>
-				</div>
-				<ExternalProductButton
-					className="mt-4"
-					label={product.buttonLabel}
-					onClick={() => onOpenRedirect(product)}
-				/>
-			</div>
-		</article>
-	);
-}
-
-function ProductCard({
-	onOpenRedirect,
-	product,
-}: {
-	onOpenRedirect: (product: (typeof products)[number]) => void;
-	product: (typeof products)[number];
-}) {
-	return (
-		<article className="group flex min-h-full flex-col overflow-hidden rounded-lg border bg-surface shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:shadow-md">
-			<ProductImage
-				className="aspect-[4/3] w-full rounded-none border-0"
-				hasImage={product.hasImage}
-				imageUrl={product.imageUrl}
-				name={product.name}
-			/>
-			<div className="flex flex-1 flex-col p-4">
-				<div className="flex flex-wrap items-center gap-2">
-					<h3 className="break-words font-extrabold">{product.name}</h3>
-					{product.hasImage ? null : (
-						<StatusBadge tone="warning" icon="image-missing">
-							Sem imagem
-						</StatusBadge>
-					)}
-				</div>
-				<p className="mt-2 flex-1 break-words text-sm leading-5 text-muted-foreground">
-					{product.description}
-				</p>
-				<ExternalProductButton
-					className="mt-4"
-					label={product.buttonLabel}
-					onClick={() => onOpenRedirect(product)}
-					variant="outline"
-				/>
-			</div>
-		</article>
-	);
-}
-
-function ProductImage({
-	className,
-	hasImage,
-	imageUrl,
-	name,
-}: {
-	className: string;
-	hasImage: boolean;
-	imageUrl: string;
-	name: string;
-}) {
-	if (!hasImage) {
-		return (
-			<div
-				className={`flex items-center justify-center overflow-hidden rounded-md border border-dashed bg-surface-muted text-muted-foreground ${className}`}
-				role="img"
-				aria-label={`Produto sem imagem: ${name}`}
-			>
-				<ImageOff
-					className="size-6 transition-transform duration-300 ease-in-out group-hover:scale-105"
-					aria-hidden="true"
-				/>
-			</div>
-		);
-	}
-
-	return (
-		<div
-			className={cn("overflow-hidden rounded-md bg-surface-muted", className)}
-		>
-			<img
-				src={imageUrl}
-				alt={`Imagem do produto: ${name}`}
-				className="size-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-			/>
-		</div>
-	);
-}
-
-function ExternalProductButton({
-	className,
-	label,
-	onClick,
-	variant,
-}: {
-	className?: string;
-	label: string;
-	onClick: () => void;
-	variant?: "outline";
-}) {
-	return (
-		<Button
-			className={cn("group/product min-h-10 w-full", className)}
-			onClick={onClick}
-			type="button"
-			variant={variant}
-			aria-label={`Abrir link externo: ${label}`}
-		>
-			<span className="min-w-0 break-words text-center">{label}</span>
-			<ExternalLink
-				className="transition-transform duration-[180ms] ease-in-out group-hover/product:translate-x-1"
-				aria-hidden="true"
-			/>
-		</Button>
 	);
 }

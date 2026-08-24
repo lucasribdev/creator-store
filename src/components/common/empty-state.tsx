@@ -5,6 +5,7 @@ type EmptyStateProps = {
 	title: string;
 	description?: string;
 	action?: ReactNode;
+	variant?: "default" | "products";
 };
 
 export function EmptyState({
@@ -12,11 +13,26 @@ export function EmptyState({
 	title,
 	description,
 	action,
+	variant = "default",
 }: EmptyStateProps) {
+	const isProducts = variant === "products";
+
 	return (
-		<section className="rounded-lg border border-dashed bg-surface p-5">
+		<section
+			className={
+				isProducts
+					? "rounded-xl border border-dashed border-slate-300 bg-white p-6 shadow-xs"
+					: "rounded-lg border border-dashed bg-surface p-5"
+			}
+		>
 			{icon ? (
-				<div className="flex size-11 items-center justify-center rounded-md bg-muted text-muted-foreground">
+				<div
+					className={
+						isProducts
+							? "flex size-12 items-center justify-center rounded-xl bg-slate-100 text-slate-500"
+							: "flex size-11 items-center justify-center rounded-md bg-muted text-muted-foreground"
+					}
+				>
 					{icon}
 				</div>
 			) : null}

@@ -1,15 +1,21 @@
-import { ImageOff, Package } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { StatusBadge } from "#/components/common/status-badge.tsx";
+import {
+	PriceBlock,
+	ProductImage,
+	StatusPill,
+} from "#/components/common/product-card.tsx";
 
 type ProductRowProps = {
 	name: string;
 	description?: string;
 	price?: string;
+	previousPrice?: string;
+	storeName?: string;
 	isActive: boolean;
 	isFeatured?: boolean;
 	hasImage?: boolean;
+	imageUrl?: string;
 	actions?: ReactNode;
 };
 
@@ -17,54 +23,42 @@ export function ProductRow({
 	name,
 	description,
 	price,
+	previousPrice,
+	storeName,
 	isActive,
 	isFeatured = false,
 	hasImage = true,
+	imageUrl,
 	actions,
 }: ProductRowProps) {
 	return (
-		<article className="rounded-lg border bg-surface p-4 shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:shadow-md">
+		<article className="rounded-xl border bg-white p-3 shadow-xs transition-all duration-[180ms] ease-in-out hover:border-slate-300 hover:shadow-sm sm:p-4">
 			<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-				<div className="flex min-w-0 gap-4">
-					<div className="flex size-20 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
-						{hasImage ? (
-							<Package className="size-6" aria-hidden="true" />
-						) : (
-							<ImageOff className="size-6" aria-hidden="true" />
-						)}
-					</div>
+				<div className="flex min-w-0 gap-3 sm:gap-4">
+					<ProductImage
+						aspectRatio="square"
+						className="size-24 shrink-0 rounded-lg"
+						hasImage={hasImage}
+						imageUrl={imageUrl}
+						name={name}
+						storeName={storeName}
+					/>
 					<div className="min-w-0">
 						<div className="flex flex-wrap items-center gap-2">
 							<h3 className="min-w-0 break-words font-extrabold text-foreground">
 								{name}
 							</h3>
-							{isFeatured ? (
-								<StatusBadge tone="success" icon="featured">
-									Destaque
-								</StatusBadge>
-							) : null}
-							<StatusBadge
-								tone={isActive ? "success" : "neutral"}
-								icon={isActive ? "active" : "inactive"}
-							>
-								{isActive ? "Ativo" : "Inativo"}
-							</StatusBadge>
-							{hasImage ? null : (
-								<StatusBadge tone="warning" icon="image-missing">
-									Sem imagem
-								</StatusBadge>
-							)}
+							{isFeatured ? <StatusPill status="featured" /> : null}
+							<StatusPill status={isActive ? "active" : "inactive"} />
 						</div>
 						{description ? (
 							<p className="mt-2 break-words text-sm leading-6 text-muted-foreground">
 								{description}
 							</p>
 						) : null}
-						{price ? (
-							<p className="mt-2 text-sm font-extrabold text-foreground">
-								{price}
-							</p>
-						) : null}
+						<div className="mt-2">
+							<PriceBlock price={price} previousPrice={previousPrice} />
+						</div>
 					</div>
 				</div>
 				{actions ? (

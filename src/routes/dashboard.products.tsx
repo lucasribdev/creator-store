@@ -36,7 +36,11 @@ const products = [
 		status: "active",
 		featured: true,
 		price: "R$ 149,90",
+		previousPrice: "R$ 189,90",
+		storeName: "Loja parceira",
 		hasImage: true,
+		imageUrl:
+			"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
 	},
 	{
 		id: "mini-tripe",
@@ -45,7 +49,10 @@ const products = [
 		status: "active",
 		featured: false,
 		price: "R$ 59,90",
+		previousPrice: "",
+		storeName: "Marketplace externo",
 		hasImage: false,
+		imageUrl: "",
 	},
 	{
 		id: "ring-light",
@@ -55,7 +62,11 @@ const products = [
 		status: "inactive",
 		featured: false,
 		price: "R$ 89,90",
+		previousPrice: "R$ 119,90",
+		storeName: "Loja parceira",
 		hasImage: true,
+		imageUrl:
+			"https://images.unsplash.com/photo-1617957689233-207e3cd3c610?auto=format&fit=crop&w=600&q=80",
 	},
 ] as const;
 
@@ -128,9 +139,12 @@ function ProductsListPage() {
 								name={product.name}
 								description={product.description}
 								price={product.price}
+								previousPrice={product.previousPrice}
+								storeName={product.storeName}
 								isActive={product.status === "active"}
 								isFeatured={product.featured}
 								hasImage={product.hasImage}
+								imageUrl={product.imageUrl}
 								actions={<ProductActions product={product} />}
 							/>
 						))}
@@ -141,6 +155,7 @@ function ProductsListPage() {
 							icon={<BadgeAlert className="size-5" aria-hidden="true" />}
 							title="Nenhum produto cadastrado"
 							description="Adicione o primeiro produto recomendado para montar a vitrine."
+							variant="products"
 							action={
 								<Button asChild variant="outline">
 									<Link to="/dashboard/products/new" search={{ error: false }}>
