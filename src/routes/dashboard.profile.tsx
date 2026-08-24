@@ -16,7 +16,7 @@ function ProfileFormPage() {
 	const [saved, setSaved] = useState(false);
 
 	return (
-		<section className="mt-7 rounded-lg border bg-surface p-5 shadow-sm">
+		<section className="mt-6 rounded-lg border bg-surface p-4 shadow-sm sm:p-5">
 			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<Button asChild variant="ghost" size="sm" className="w-fit px-0">
@@ -42,56 +42,64 @@ function ProfileFormPage() {
 					<SectionHeader
 						icon={<UserRound className="size-5" aria-hidden="true" />}
 						title="Editar perfil"
-						description="Username e nome de exibicao sao os dados minimos para preparar a pagina publica do criador."
+						description="Mantenha os dados publicos essenciais completos antes de compartilhar a vitrine."
 					/>
 				</div>
 
 				{saved ? (
 					<div className="mt-5">
-						<InlineAlert tone="success">
-							Perfil salvo com sucesso nos dados demonstrativos.
-						</InlineAlert>
+						<InlineAlert tone="success">Perfil salvo com sucesso.</InlineAlert>
 					</div>
 				) : null}
 
 				<form className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
 					<div className="space-y-5">
-						<div className="space-y-2">
-							<Label htmlFor="username">Username obrigatorio</Label>
-							<div className="flex overflow-hidden rounded-md border border-input bg-surface shadow-xs focus-within:ring-[3px] focus-within:ring-ring/50">
-								<span className="flex shrink-0 items-center border-r border-input px-3 text-sm text-muted-foreground">
-									/
-								</span>
-								<Input
-									id="username"
-									defaultValue="lucasreviews"
-									className="border-0 bg-transparent shadow-none focus-visible:ring-0"
-								/>
+						<fieldset className="space-y-4 rounded-lg border p-4">
+							<legend className="px-1 text-sm font-extrabold">
+								Dados obrigatorios
+							</legend>
+							<div className="space-y-2">
+								<Label htmlFor="username">Username</Label>
+								<div className="flex overflow-hidden rounded-md border border-input bg-surface shadow-xs focus-within:ring-[3px] focus-within:ring-ring/50">
+									<span className="flex shrink-0 items-center border-r border-input px-3 text-sm text-muted-foreground">
+										/
+									</span>
+									<Input
+										id="username"
+										defaultValue="lucasreviews"
+										className="border-0 bg-transparent shadow-none focus-visible:ring-0"
+									/>
+								</div>
+								<p className="text-xs leading-5 text-muted-foreground">
+									Usado no link publico da vitrine: /lucasreviews.
+								</p>
 							</div>
-							<p className="text-xs leading-5 text-muted-foreground">
-								Usado no link publico da vitrine: /lucasreviews.
-							</p>
-						</div>
 
-						<div className="space-y-2">
-							<Label htmlFor="display-name">Nome de exibicao obrigatorio</Label>
-							<Input id="display-name" defaultValue="Lucas Reviews" />
-							<p className="text-xs leading-5 text-muted-foreground">
-								Esse nome aparece no topo da pagina publica.
-							</p>
-						</div>
+							<div className="space-y-2">
+								<Label htmlFor="display-name">Nome de exibicao</Label>
+								<Input id="display-name" defaultValue="Lucas Reviews" />
+								<p className="text-xs leading-5 text-muted-foreground">
+									Esse nome aparece no topo da pagina publica.
+								</p>
+							</div>
+						</fieldset>
 
-						<div className="space-y-2">
-							<Label htmlFor="bio">Bio</Label>
-							<Textarea
-								id="bio"
-								defaultValue="Produtos e acessorios que uso no dia a dia e recomendo para quem cria conteudo pelo celular."
-								className="min-h-28"
-							/>
-							<p className="text-xs leading-5 text-muted-foreground">
-								Texto curto para explicar o que o visitante encontra na vitrine.
-							</p>
-						</div>
+						<fieldset className="space-y-4 rounded-lg border p-4">
+							<legend className="px-1 text-sm font-extrabold">
+								Dados opcionais
+							</legend>
+							<div className="space-y-2">
+								<Label htmlFor="bio">Bio</Label>
+								<Textarea
+									id="bio"
+									defaultValue="Produtos e acessorios que uso no dia a dia e recomendo para quem cria conteudo pelo celular."
+									className="min-h-28"
+								/>
+								<p className="text-xs leading-5 text-muted-foreground">
+									Texto curto para orientar quem chega pela bio das redes.
+								</p>
+							</div>
+						</fieldset>
 
 						<div className="flex flex-col gap-3 sm:flex-row">
 							<Button type="button" onClick={() => setSaved(true)}>
@@ -111,8 +119,16 @@ function ProfileFormPage() {
 					</div>
 
 					<aside className="space-y-4">
-						<ImagePlaceholder label="Avatar" shape="avatar" />
-						<ImagePlaceholder label="Banner" shape="banner" />
+						<ImagePlaceholder
+							label="Avatar"
+							shape="avatar"
+							description="Quando vazio, a pagina usa um marcador com a inicial do nome."
+						/>
+						<ImagePlaceholder
+							label="Banner"
+							shape="banner"
+							description="Opcional. Use quando quiser reforcar a identidade visual da vitrine."
+						/>
 					</aside>
 				</form>
 			</div>
@@ -123,9 +139,11 @@ function ProfileFormPage() {
 function ImagePlaceholder({
 	label,
 	shape,
+	description,
 }: {
 	label: string;
 	shape: "avatar" | "banner";
+	description: string;
 }) {
 	return (
 		<div className="rounded-lg border border-dashed bg-surface p-4">
@@ -140,7 +158,7 @@ function ImagePlaceholder({
 			</div>
 			<p className="mt-3 text-sm font-bold">{label}</p>
 			<p className="mt-1 text-xs leading-5 text-muted-foreground">
-				Area reservada para imagem. Upload real fica fora desta etapa.
+				{description}
 			</p>
 		</div>
 	);

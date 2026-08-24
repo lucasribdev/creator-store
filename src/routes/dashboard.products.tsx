@@ -88,7 +88,7 @@ function ProductsListPage() {
 					<SectionHeader
 						icon={<Package className="size-5" aria-hidden="true" />}
 						title="Produtos"
-						description="Produtos ativos aparecem na pagina publica. Produtos inativos ficam salvos apenas no painel."
+						description="Acompanhe o que esta publicado, o que esta oculto e qual produto esta em destaque."
 					/>
 				</div>
 
@@ -111,14 +111,16 @@ function ProductsListPage() {
 
 				{saved === "product" ? (
 					<div className="mt-5">
-						<InlineAlert tone="success" title="Produto salvo com sucesso.">
-							As alteracoes usam dados demonstrativos nesta etapa.
-						</InlineAlert>
+						<InlineAlert tone="success">Produto salvo com sucesso.</InlineAlert>
 					</div>
 				) : null}
 
 				{visibleProducts.length > 0 ? (
 					<div className="mt-6 space-y-3">
+						<InlineAlert tone="info" title="Dica para remover da vitrine">
+							Desative um produto quando ele nao deve aparecer publicamente, mas
+							voce ainda quer manter os dados no painel.
+						</InlineAlert>
 						{visibleProducts.map((product) => (
 							<ProductRow
 								key={product.id}
@@ -158,9 +160,11 @@ function ProductActions({ product }: { product: (typeof products)[number] }) {
 	const isActive = product.status === "active";
 
 	return (
-		<div className="grid gap-2 sm:grid-cols-[auto_auto_auto] lg:min-w-80">
+		<div className="grid gap-2 sm:grid-cols-[auto_auto] lg:min-w-80">
 			<div className="flex items-center justify-between gap-3 rounded-md border bg-muted/50 px-3 py-2">
-				<span className="text-sm font-bold">Ativo</span>
+				<span className="text-sm font-bold">
+					{isActive ? "Publicado" : "Oculto"}
+				</span>
 				<Switch
 					checked={isActive}
 					size="sm"
@@ -177,7 +181,12 @@ function ProductActions({ product }: { product: (typeof products)[number] }) {
 					Editar
 				</Link>
 			</Button>
-			<Button type="button" variant="outline" size="sm">
+			<Button
+				type="button"
+				variant="ghost"
+				size="sm"
+				className="text-muted-foreground hover:text-danger sm:col-span-2"
+			>
 				<Trash2 aria-hidden="true" />
 				Excluir
 			</Button>

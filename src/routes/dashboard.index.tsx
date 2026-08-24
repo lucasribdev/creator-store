@@ -6,6 +6,7 @@ import {
 	Eye,
 	MousePointerClick,
 	Package,
+	Plus,
 	Store,
 	UserRound,
 } from "lucide-react";
@@ -23,18 +24,18 @@ const publicUrl = "/lucasreviews";
 function DashboardHomePage() {
 	return (
 		<>
-			<section className="mt-7 rounded-lg border bg-surface p-5 shadow-sm">
-				<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-					<div>
-						<p className="text-sm font-bold text-muted-foreground">
+			<section className="mt-6 rounded-lg border bg-surface p-4 shadow-sm sm:p-5">
+				<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+					<div className="min-w-0">
+						<p className="text-xs font-bold text-muted-foreground uppercase">
 							Link publico da vitrine
 						</p>
-						<p className="mt-2 break-all text-2xl font-extrabold text-foreground">
+						<p className="mt-2 break-all text-xl font-extrabold text-foreground sm:text-2xl">
 							{publicUrl}
 						</p>
 					</div>
 
-					<div className="grid gap-2 sm:grid-cols-2">
+					<div className="grid gap-2 sm:grid-cols-2 lg:min-w-72">
 						<Button asChild>
 							<Link
 								to="/$username"
@@ -76,25 +77,31 @@ function DashboardHomePage() {
 				/>
 			</section>
 
-			<section className="mt-6 grid gap-4 lg:grid-cols-[1fr_1fr]">
+			<section className="mt-6 grid gap-4 lg:grid-cols-[1fr_1fr_1fr]">
 				<QuickAction
 					icon={<UserRound className="size-5" aria-hidden="true" />}
 					title="Editar perfil"
-					description="Ajustar username, nome publico, bio e identidade da pagina."
+					description="Username, nome publico, bio, avatar e banner."
 					to="/dashboard/profile"
+				/>
+				<QuickAction
+					icon={<Plus className="size-5" aria-hidden="true" />}
+					title="Adicionar produto"
+					description="Cadastrar uma nova recomendacao com link externo."
+					to="/dashboard/products/new"
 				/>
 				<QuickAction
 					icon={<Package className="size-5" aria-hidden="true" />}
 					title="Gerenciar produtos"
-					description="Revisar recomendacoes, estados ativo/inativo e destaque."
+					description="Revisar status, destaque, imagens e exclusoes."
 					to="/dashboard/products"
 				/>
 			</section>
 
 			<div className="mt-6">
-				<InlineAlert tone="info" title="Metricas demonstrativas">
-					Visualizacoes e cliques usam dados de exemplo enquanto o registro real
-					nao esta conectado.
+				<InlineAlert tone="info" title="Metricas em preparacao">
+					Visualizacoes e cliques serao conectados ao registro real em uma etapa
+					posterior do MVP.
 				</InlineAlert>
 			</div>
 		</>
@@ -110,7 +117,7 @@ function QuickAction({
 	icon: ReactNode;
 	title: string;
 	description: string;
-	to: "/dashboard/profile" | "/dashboard/products";
+	to: "/dashboard/profile" | "/dashboard/products" | "/dashboard/products/new";
 }) {
 	return (
 		<Link
