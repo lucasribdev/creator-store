@@ -289,7 +289,7 @@ function CreatorHeader() {
 						aria-label="Perfil verificado"
 					/>
 				</div>
-				<p className="mt-1 break-words text-sm font-extrabold text-blue-600">
+				<p className="mt-1 break-words text-sm font-extrabold text-primary">
 					@{creator.username}
 				</p>
 				<p className="mt-3 break-words text-sm leading-6 text-muted-foreground">

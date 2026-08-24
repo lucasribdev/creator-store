@@ -25,7 +25,7 @@ export function AuthScreen({
 	footer,
 }: AuthScreenProps) {
 	return (
-		<div className="min-h-screen bg-slate-50 text-slate-900">
+		<div className="min-h-screen bg-background text-foreground">
 			<header className="mx-auto flex min-h-16 w-full max-w-md items-center px-4 sm:px-6">
 				<Button asChild variant="ghost" className="-ml-3">
 					<Link to={backTo}>
@@ -40,20 +40,20 @@ export function AuthScreen({
 					<div className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-xs">
 						<Store className="size-7" aria-hidden="true" />
 					</div>
-					<h1 className="mt-5 text-3xl font-extrabold tracking-normal text-slate-950">
+					<h1 className="mt-5 text-3xl font-extrabold tracking-normal text-foreground">
 						{title}
 					</h1>
-					<p className="mt-2 max-w-sm text-sm leading-6 text-slate-600">
+					<p className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
 						{description}
 					</p>
 				</div>
 
-				<section className="mt-7 rounded-3xl border border-slate-200 bg-white p-5 shadow-xs">
+				<section className="mt-7 rounded-3xl border border-border bg-card p-5 shadow-xs">
 					{children}
 				</section>
 
 				{footer ? (
-					<div className="mt-5 text-center text-sm text-slate-600">
+					<div className="mt-5 text-center text-sm text-muted-foreground">
 						{footer}
 					</div>
 				) : null}
@@ -78,18 +78,18 @@ export function AuthInput({
 		<div className="space-y-2">
 			<Label
 				htmlFor={id}
-				className="text-xs font-bold uppercase text-slate-700"
+				className="text-xs font-bold uppercase text-foreground"
 			>
 				{label}
 			</Label>
 			<div className="relative">
 				<Icon
-					className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+					className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
 					aria-hidden="true"
 				/>
 				<Input
 					id={id}
-					className={cn("h-11 bg-white pl-10", className)}
+					className={cn("h-11 bg-surface pl-10", className)}
 					{...props}
 				/>
 			</div>

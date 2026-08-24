@@ -62,7 +62,7 @@ function ForgotPasswordPage() {
 					Lembrou a senha?{" "}
 					<Link
 						to="/login"
-						className="font-bold text-blue-700 underline-offset-4 hover:underline"
+						className="font-bold text-primary underline-offset-4 hover:underline"
 					>
 						Entrar
 					</Link>

@@ -47,7 +47,7 @@ function LoginPage() {
 					Ainda nao tem conta?{" "}
 					<Link
 						to="/signup"
-						className="font-bold text-blue-700 underline-offset-4 hover:underline"
+						className="font-bold text-primary underline-offset-4 hover:underline"
 					>
 						Criar conta
 					</Link>
@@ -81,7 +81,7 @@ function LoginPage() {
 						<Link
 							to="/forgot-password"
 							search={{ error: undefined }}
-							className="text-xs font-bold text-blue-700 underline-offset-4 hover:underline"
+							className="text-xs font-bold text-primary underline-offset-4 hover:underline"
 						>
 							Esqueci minha senha
 						</Link>

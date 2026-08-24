@@ -27,7 +27,7 @@ export function FeaturedProductCard<TProduct extends ProductVisual>({
 	product,
 }: ProductCardProps<TProduct>) {
 	return (
-		<article className="group overflow-hidden rounded-3xl border border-blue-100/80 bg-blue-50/80 shadow-xs transition-all duration-[180ms] ease-in-out hover:border-blue-200">
+		<article className="group overflow-hidden rounded-3xl border border-primary/20 bg-card shadow-xs transition-all duration-[180ms] ease-in-out hover:border-primary/35">
 			<ProductImage
 				aspectRatio="wide"
 				hasImage={product.hasImage}
@@ -42,13 +42,13 @@ export function FeaturedProductCard<TProduct extends ProductVisual>({
 					</div>
 					<div className="min-w-0 flex-1">
 						<div className="flex flex-wrap items-center gap-2">
-							<h2 className="break-words text-xl font-extrabold text-slate-950">
+							<h2 className="break-words text-xl font-extrabold text-foreground">
 								{product.name}
 							</h2>
 							<StatusPill status="featured" />
 						</div>
 						{product.description ? (
-							<p className="mt-2 break-words text-sm leading-6 text-slate-600">
+							<p className="mt-2 break-words text-sm leading-6 text-muted-foreground">
 								{product.description}
 							</p>
 						) : null}
@@ -75,7 +75,7 @@ export function ProductCard<TProduct extends ProductVisual>({
 	product,
 }: ProductCardProps<TProduct>) {
 	return (
-		<article className="group flex min-h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs transition-all duration-[180ms] ease-in-out hover:border-slate-300">
+		<article className="group flex min-h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-xs transition-all duration-[180ms] ease-in-out hover:border-primary/35">
 			<ProductImage
 				aspectRatio="standard"
 				hasImage={product.hasImage}
@@ -85,13 +85,13 @@ export function ProductCard<TProduct extends ProductVisual>({
 			/>
 			<div className="flex flex-1 flex-col p-4">
 				<div className="flex flex-wrap items-center gap-2">
-					<h3 className="min-w-0 break-words font-extrabold text-slate-950">
+					<h3 className="min-w-0 break-words font-extrabold text-foreground">
 						{product.name}
 					</h3>
 					{product.featured ? <StatusPill status="featured" /> : null}
 				</div>
 				{product.description ? (
-					<p className="mt-2 flex-1 break-words text-sm leading-5 text-slate-600">
+					<p className="mt-2 flex-1 break-words text-sm leading-5 text-muted-foreground">
 						{product.description}
 					</p>
 				) : null}
@@ -125,12 +125,12 @@ export function PriceBlock({
 	return (
 		<div className="min-w-0">
 			{previousPrice ? (
-				<p className="text-xs font-bold text-slate-400 line-through">
+				<p className="text-xs font-bold text-muted-foreground/70 line-through">
 					{previousPrice}
 				</p>
 			) : null}
 			{price ? (
-				<p className="break-words text-lg font-extrabold text-slate-950">
+				<p className="break-words text-lg font-extrabold text-foreground">
 					{price}
 				</p>
 			) : null}
@@ -162,7 +162,7 @@ export function ProductImage({
 	return (
 		<div
 			className={cn(
-				"relative w-full overflow-hidden bg-slate-100",
+				"relative w-full overflow-hidden bg-muted",
 				aspectClassName,
 				className,
 			)}
@@ -184,7 +184,7 @@ export function ProductImage({
 export function ProductImagePlaceholder({ name }: { name: string }) {
 	return (
 		<div
-			className="flex size-full flex-col items-center justify-center gap-2 bg-slate-100 text-slate-500"
+			className="flex size-full flex-col items-center justify-center gap-2 bg-muted text-muted-foreground"
 			role="img"
 			aria-label={`Produto sem imagem: ${name}`}
 		>
@@ -206,7 +206,7 @@ export function StatusPill({
 }) {
 	const statusClassName = {
 		active: "border-emerald-200 bg-emerald-50 text-emerald-700",
-		inactive: "border-slate-200 bg-slate-100 text-slate-600",
+		inactive: "border-border bg-muted text-muted-foreground",
 		featured: "border-amber-200 bg-amber-50 text-amber-700",
 	}[status];
 	const label = {
