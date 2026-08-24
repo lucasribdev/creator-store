@@ -58,7 +58,7 @@ export function ExternalRedirectModal({
 						id="external-redirect-title"
 						className="mt-1 text-lg font-extrabold"
 					>
-						Ir para loja
+						Abrir pagina externa
 					</h2>
 				</div>
 
@@ -100,7 +100,7 @@ export function ExternalRedirectModal({
 					</Button>
 					<Button asChild onClick={onConfirm}>
 						<a href={product.url} target="_blank" rel="noreferrer">
-							Ir para loja
+							Abrir link
 							<ExternalLink aria-hidden="true" />
 						</a>
 					</Button>

@@ -27,7 +27,11 @@ export function FeaturedProductCard<TProduct extends ProductVisual>({
 	product,
 }: ProductCardProps<TProduct>) {
 	return (
-		<article className="group overflow-hidden rounded-3xl border border-primary/20 bg-card shadow-xs transition-all duration-[180ms] ease-in-out hover:border-primary/35">
+		<article className="group overflow-hidden rounded-2xl border border-primary/35 bg-card shadow-xs ring-1 ring-primary/10 transition-all duration-[180ms] ease-in-out hover:border-primary/50 hover:shadow-sm active:scale-[0.998] dark:border-primary/45 dark:ring-primary/20">
+			<div className="flex items-center gap-2 border-b border-primary/15 bg-[color-mix(in_oklab,var(--primary)_8%,var(--surface))] px-4 py-2 text-xs font-extrabold text-primary dark:bg-[color-mix(in_oklab,var(--primary)_14%,var(--surface))]">
+				<Star className="size-3.5" aria-hidden="true" />
+				Recomendacao principal
+			</div>
 			<ProductImage
 				aspectRatio="wide"
 				hasImage={product.hasImage}
@@ -37,7 +41,7 @@ export function FeaturedProductCard<TProduct extends ProductVisual>({
 			/>
 			<div className="p-4 sm:p-5">
 				<div className="flex items-start gap-3">
-					<div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-xs">
+					<div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-xs">
 						<ShoppingBag className="size-5" aria-hidden="true" />
 					</div>
 					<div className="min-w-0 flex-1">
@@ -75,7 +79,7 @@ export function ProductCard<TProduct extends ProductVisual>({
 	product,
 }: ProductCardProps<TProduct>) {
 	return (
-		<article className="group flex min-h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-xs transition-all duration-[180ms] ease-in-out hover:border-primary/35">
+		<article className="group flex min-h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-xs transition-all duration-[180ms] ease-in-out hover:border-primary/35 hover:shadow-sm active:scale-[0.998] dark:border-slate-700 dark:hover:border-primary/45">
 			<ProductImage
 				aspectRatio="standard"
 				hasImage={product.hasImage}
@@ -184,7 +188,7 @@ export function ProductImage({
 export function ProductImagePlaceholder({ name }: { name: string }) {
 	return (
 		<div
-			className="flex size-full flex-col items-center justify-center gap-2 bg-muted text-muted-foreground"
+			className="flex size-full flex-col items-center justify-center gap-2 border-b border-dashed border-border bg-[color-mix(in_oklab,var(--muted)_78%,var(--surface)_22%)] text-muted-foreground dark:bg-[color-mix(in_oklab,var(--muted)_72%,var(--surface)_28%)]"
 			role="img"
 			aria-label={`Produto sem imagem: ${name}`}
 		>
@@ -205,9 +209,11 @@ export function StatusPill({
 	status: "active" | "inactive" | "featured";
 }) {
 	const statusClassName = {
-		active: "border-emerald-200 bg-emerald-50 text-emerald-700",
+		active:
+			"border-[color-mix(in_oklab,var(--success)_32%,var(--border))] bg-[color-mix(in_oklab,var(--success)_9%,var(--surface))] text-success",
 		inactive: "border-border bg-muted text-muted-foreground",
-		featured: "border-amber-200 bg-amber-50 text-amber-700",
+		featured:
+			"border-[color-mix(in_oklab,var(--warning)_34%,var(--border))] bg-[color-mix(in_oklab,var(--warning)_10%,var(--surface))] text-warning",
 	}[status];
 	const label = {
 		active: "Ativo",
@@ -232,7 +238,7 @@ export function StatusPill({
 
 function StoreOverlay({ storeName }: { storeName: string }) {
 	return (
-		<span className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] truncate rounded-full bg-slate-900/80 px-2.5 py-1 text-[0.6875rem] font-extrabold text-white shadow-xs backdrop-blur-md">
+		<span className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] truncate rounded-full bg-slate-950/80 px-2.5 py-1 text-[0.6875rem] font-extrabold text-white shadow-xs backdrop-blur-md">
 			{storeName}
 		</span>
 	);
@@ -251,7 +257,10 @@ function ExternalProductButton({
 }) {
 	return (
 		<Button
-			className={cn("group/product min-h-10 w-full", className)}
+			className={cn(
+				"group/product h-auto min-h-10 w-full whitespace-normal py-2",
+				className,
+			)}
 			onClick={onClick}
 			type="button"
 			variant={variant}

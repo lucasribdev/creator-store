@@ -48,7 +48,7 @@ const products = [
 		name: "Fone Bluetooth compacto",
 		description:
 			"Modelo leve para editar videos, assistir aulas e gravar em movimento.",
-		buttonLabel: "Ver produto",
+		buttonLabel: "Abrir recomendacao",
 		url: "https://example.com/fone-bluetooth",
 		storeName: "Loja parceira",
 		price: "R$ 189,90",
@@ -62,7 +62,7 @@ const products = [
 	{
 		name: "Mini tripe para celular",
 		description: "Ajuda a gravar reviews e stories com enquadramento estavel.",
-		buttonLabel: "Ver produto",
+		buttonLabel: "Abrir recomendacao",
 		url: "https://example.com/mini-tripe",
 		storeName: "Marketplace externo",
 		price: "R$ 79,90",
@@ -90,7 +90,7 @@ const products = [
 	{
 		name: "Ring light de mesa",
 		description: "Iluminacao compacta para gravacoes em mesa.",
-		buttonLabel: "Ver produto",
+		buttonLabel: "Abrir recomendacao",
 		url: "https://example.com/ring-light",
 		storeName: "Loja parceira",
 		price: "R$ 139,90",
@@ -184,10 +184,10 @@ function CreatorPage() {
 			<div className="pb-10">
 				<CreatorHeader />
 
-				<div className="mx-auto mt-6 w-full max-w-3xl space-y-6">
+				<div className="mx-auto mt-6 w-full max-w-3xl space-y-6 px-4 sm:px-6 lg:px-0">
 					{featuredProduct ? (
 						<section className="space-y-3">
-							<StatusBadge tone="success" icon="featured">
+							<StatusBadge tone="warning" icon="featured">
 								Produto em destaque
 							</StatusBadge>
 							<FeaturedProductCard
@@ -232,7 +232,10 @@ function CreatorPage() {
 				onClose={() => setRedirectProduct(null)}
 				onConfirm={handleRedirectConfirm}
 			/>
-			<Toast message="Redirecionando para a loja" visible={showRedirectToast} />
+			<Toast
+				message="Abrindo recomendacao externa"
+				visible={showRedirectToast}
+			/>
 		</AppShell>
 	);
 }
@@ -256,7 +259,7 @@ function CreatorHeader() {
 				<div className="absolute inset-0 bg-gradient-to-br from-blue-500/55 to-blue-800/60" />
 			</header>
 
-			<div className="mx-auto w-full max-w-3xl">
+			<div className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-0">
 				<div className="relative -mt-12 size-24">
 					<div className="flex size-24 items-center justify-center overflow-hidden rounded-full border-4 border-surface bg-secondary text-xl font-extrabold text-secondary-foreground shadow-xs">
 						{creator.avatarUrl ? (
