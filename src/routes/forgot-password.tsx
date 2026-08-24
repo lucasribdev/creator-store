@@ -1,16 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Mail, RotateCcw } from "lucide-react";
+import { CheckCircle2, Loader2, Mail } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
 
 import {
-	AppShell,
-	InlineAlert,
-	PublicHeader,
-} from "#/components/common/index.ts";
+	AuthError,
+	AuthInput,
+	AuthScreen,
+} from "#/components/auth/auth-screen.tsx";
 import { Button } from "#/components/ui/button.tsx";
-import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 
 export const Route = createFileRoute("/forgot-password")({
 	validateSearch: (search: Record<string, unknown>) => ({
@@ -24,88 +22,91 @@ export const Route = createFileRoute("/forgot-password")({
 
 function ForgotPasswordPage() {
 	const search = Route.useSearch();
-	const hasError = search.error === 1;
+	const [email, setEmail] = useState("");
+	const [loading, setLoading] = useState(false);
 	const [sent, setSent] = useState(false);
+	const [error, setError] = useState(
+		search.error === 1
+			? "Nao foi possivel enviar as instrucoes agora. Tente novamente."
+			: "",
+	);
 
 	function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		setSent(true);
+		setLoading(true);
+		setSent(false);
+		setError("");
+
+		window.setTimeout(() => {
+			setLoading(false);
+
+			if (email.toLowerCase().includes("erro")) {
+				setError(
+					"Nao foi possivel enviar as instrucoes agora. Tente novamente.",
+				);
+				return;
+			}
+
+			setSent(true);
+		}, 800);
 	}
 
 	return (
-		<AppShell header={<PublicHeader />} mainClassName="max-w-md">
-			<div className="flex w-full flex-col gap-5">
-				<Button asChild variant="ghost" className="w-fit px-0">
-					<Link to="/login">
-						<ArrowLeft aria-hidden="true" />
-						Voltar para login
+		<AuthScreen
+			backTo="/login"
+			backLabel="Voltar para login"
+			title="Recuperar senha"
+			description="Informe o email usado na Creator Store para receber instrucoes de recuperacao."
+			footer={
+				<p>
+					Lembrou a senha?{" "}
+					<Link
+						to="/login"
+						className="font-bold text-blue-700 underline-offset-4 hover:underline"
+					>
+						Entrar
 					</Link>
+				</p>
+			}
+		>
+			<form className="space-y-4" onSubmit={handleSubmit}>
+				<AuthInput
+					id="email"
+					icon={Mail}
+					label="Email"
+					type="email"
+					placeholder="criador@email.com"
+					autoComplete="email"
+					value={email}
+					onChange={(event) => setEmail(event.target.value)}
+					required
+				/>
+
+				{error ? <AuthError>{error}</AuthError> : null}
+
+				{sent ? (
+					<div className="flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">
+						<CheckCircle2
+							className="mt-0.5 size-4 shrink-0 text-emerald-600"
+							aria-hidden="true"
+						/>
+						<p>
+							Se esse email estiver cadastrado, as instrucoes serao enviadas.
+						</p>
+					</div>
+				) : null}
+
+				<Button type="submit" className="h-11 w-full" disabled={loading}>
+					{loading ? (
+						<Loader2 className="animate-spin" aria-hidden="true" />
+					) : null}
+					{loading
+						? "Enviando..."
+						: sent
+							? "Reenviar instrucoes"
+							: "Enviar instrucoes"}
 				</Button>
-
-				<section className="rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 shadow-sm">
-					<div className="flex size-11 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
-						<Mail className="size-5" aria-hidden="true" />
-					</div>
-					<h1 className="mt-5 text-3xl font-extrabold">Recuperar senha</h1>
-					<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-						Informe o email usado na Creator Store para receber as instrucoes de
-						recuperacao.
-					</p>
-
-					<form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-						<div className="space-y-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								type="email"
-								placeholder="criador@email.com"
-								autoComplete="email"
-								required
-							/>
-						</div>
-
-						{hasError ? (
-							<InlineAlert tone="danger" title="Nao foi possivel enviar">
-								Tente novamente em instantes. Se o problema continuar, volte ao
-								login e refaca o acesso mais tarde.
-							</InlineAlert>
-						) : null}
-
-						{sent ? (
-							<InlineAlert tone="success" title="Confira seu email">
-								Se esse email estiver cadastrado, as instrucoes para recuperar a
-								senha serao enviadas.
-							</InlineAlert>
-						) : null}
-
-						<Button type="submit" className="w-full">
-							{sent ? (
-								<>
-									<RotateCcw aria-hidden="true" />
-									Reenviar instrucoes
-								</>
-							) : (
-								"Enviar instrucoes"
-							)}
-						</Button>
-					</form>
-
-					<div className="mt-5 flex flex-col gap-2 text-center text-sm sm:flex-row sm:justify-center sm:gap-4">
-						<Link
-							to="/login"
-							className="font-bold text-[var(--sea-ink)] underline-offset-4 hover:underline"
-						>
-							Voltar para login
-						</Link>
-						<Link
-							to="/"
-							className="font-bold text-[var(--sea-ink)] underline-offset-4 hover:underline"
-						>
-							Voltar para home
-						</Link>
-					</div>
-				</section>
-			</div>
-		</AppShell>
+			</form>
+		</AuthScreen>
 	);
 }

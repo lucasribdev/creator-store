@@ -1,74 +1,96 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, UserPlus } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Loader2, Lock, Mail, User } from "lucide-react";
+import type { FormEvent } from "react";
+import { useState } from "react";
 
 import {
-	AppShell,
-	InlineAlert,
-	PublicHeader,
-} from "#/components/common/index.ts";
+	AuthError,
+	AuthInput,
+	AuthScreen,
+} from "#/components/auth/auth-screen.tsx";
 import { Button } from "#/components/ui/button.tsx";
-import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 
 export const Route = createFileRoute("/signup")({ component: SignupPage });
 
 function SignupPage() {
+	const navigate = useNavigate();
+	const [email, setEmail] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
+
+	function handleSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		setLoading(true);
+		setError("");
+
+		window.setTimeout(() => {
+			setLoading(false);
+
+			if (email.toLowerCase().includes("erro")) {
+				setError("Nao foi possivel criar a conta. Tente outro email.");
+				return;
+			}
+
+			void navigate({ to: "/dashboard" });
+		}, 800);
+	}
+
 	return (
-		<AppShell header={<PublicHeader />} mainClassName="max-w-md">
-			<div className="flex w-full flex-col gap-5">
-				<Button asChild variant="ghost" className="w-fit px-0">
-					<Link to="/">
-						<ArrowLeft aria-hidden="true" />
-						Voltar
+		<AuthScreen
+			backTo="/"
+			title="Criar conta"
+			description="Monte sua area de criador e prepare a primeira versao da sua vitrine."
+			footer={
+				<p>
+					Ja tem conta?{" "}
+					<Link
+						to="/login"
+						className="font-bold text-blue-700 underline-offset-4 hover:underline"
+					>
+						Entrar
 					</Link>
+				</p>
+			}
+		>
+			<form className="space-y-4" onSubmit={handleSubmit}>
+				<AuthInput
+					id="name"
+					icon={User}
+					label="Nome"
+					placeholder="Lucas Reviews"
+					autoComplete="name"
+					required
+				/>
+				<AuthInput
+					id="email"
+					icon={Mail}
+					label="Email"
+					type="email"
+					placeholder="criador@email.com"
+					autoComplete="email"
+					value={email}
+					onChange={(event) => setEmail(event.target.value)}
+					required
+				/>
+				<AuthInput
+					id="password"
+					icon={Lock}
+					label="Senha"
+					type="password"
+					placeholder="********"
+					autoComplete="new-password"
+					required
+				/>
+
+				{error ? <AuthError>{error}</AuthError> : null}
+
+				<Button type="submit" className="h-11 w-full" disabled={loading}>
+					{loading ? (
+						<Loader2 className="animate-spin" aria-hidden="true" />
+					) : null}
+					{loading ? "Criando conta..." : "Criar conta"}
 				</Button>
-
-				<section className="rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 shadow-sm">
-					<div className="flex size-11 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
-						<UserPlus className="size-5" aria-hidden="true" />
-					</div>
-					<h1 className="mt-5 text-3xl font-extrabold">Criar conta</h1>
-					<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-						Crie sua area de criador e monte a primeira versao da sua vitrine.
-					</p>
-
-					<form className="mt-6 space-y-4">
-						<div className="space-y-2">
-							<Label htmlFor="name">Nome</Label>
-							<Input
-								id="name"
-								placeholder="Lucas Reviews"
-								autoComplete="name"
-							/>
-						</div>
-						<div className="space-y-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								type="email"
-								placeholder="criador@email.com"
-								autoComplete="email"
-							/>
-						</div>
-						<div className="space-y-2">
-							<Label htmlFor="password">Senha</Label>
-							<Input
-								id="password"
-								type="password"
-								placeholder="********"
-								autoComplete="new-password"
-							/>
-						</div>
-						<InlineAlert tone="info" title="Fluxo de avaliacao">
-							Depois de preencher os dados, siga para o painel e confira as
-							etapas essenciais da vitrine.
-						</InlineAlert>
-					</form>
-					<Button asChild className="mt-4 w-full">
-						<Link to="/dashboard">Continuar para o painel</Link>
-					</Button>
-				</section>
-			</div>
-		</AppShell>
+			</form>
+		</AuthScreen>
 	);
 }

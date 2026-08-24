@@ -1,68 +1,102 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, LogIn } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Loader2, Lock, Mail } from "lucide-react";
+import type { FormEvent } from "react";
+import { useState } from "react";
 
-import { AppShell, PublicHeader } from "#/components/common/index.ts";
+import {
+	AuthError,
+	AuthInput,
+	AuthScreen,
+} from "#/components/auth/auth-screen.tsx";
 import { Button } from "#/components/ui/button.tsx";
-import { Input } from "#/components/ui/input.tsx";
-import { Label } from "#/components/ui/label.tsx";
 
 export const Route = createFileRoute("/login")({ component: LoginPage });
 
 function LoginPage() {
+	const navigate = useNavigate();
+	const [email, setEmail] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
+
+	function handleSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		setLoading(true);
+		setError("");
+
+		window.setTimeout(() => {
+			setLoading(false);
+
+			if (email.toLowerCase().includes("erro")) {
+				setError(
+					"Email ou senha invalidos. Revise os dados e tente novamente.",
+				);
+				return;
+			}
+
+			void navigate({ to: "/dashboard" });
+		}, 800);
+	}
+
 	return (
-		<AppShell header={<PublicHeader />} mainClassName="max-w-md">
-			<div className="flex w-full flex-col gap-5">
-				<Button asChild variant="ghost" className="w-fit px-0">
-					<Link to="/">
-						<ArrowLeft aria-hidden="true" />
-						Voltar
+		<AuthScreen
+			backTo="/"
+			title="Entrar"
+			description="Acesse seu painel para atualizar perfil, redes sociais e produtos recomendados."
+			footer={
+				<p>
+					Ainda nao tem conta?{" "}
+					<Link
+						to="/signup"
+						className="font-bold text-blue-700 underline-offset-4 hover:underline"
+					>
+						Criar conta
 					</Link>
-				</Button>
+				</p>
+			}
+		>
+			<form className="space-y-4" onSubmit={handleSubmit}>
+				<AuthInput
+					id="email"
+					icon={Mail}
+					label="Email"
+					type="email"
+					placeholder="criador@email.com"
+					autoComplete="email"
+					value={email}
+					onChange={(event) => setEmail(event.target.value)}
+					required
+				/>
 
-				<section className="rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 shadow-sm">
-					<div className="flex size-11 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
-						<LogIn className="size-5" aria-hidden="true" />
+				<div className="space-y-2">
+					<AuthInput
+						id="password"
+						icon={Lock}
+						label="Senha"
+						type="password"
+						placeholder="********"
+						autoComplete="current-password"
+						required
+					/>
+					<div className="text-right">
+						<Link
+							to="/forgot-password"
+							search={{ error: undefined }}
+							className="text-xs font-bold text-blue-700 underline-offset-4 hover:underline"
+						>
+							Esqueci minha senha
+						</Link>
 					</div>
-					<h1 className="mt-5 text-3xl font-extrabold">Entrar</h1>
-					<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-						Acesse seu painel para atualizar perfil, publicacao e produtos
-						recomendados.
-					</p>
+				</div>
 
-					<form className="mt-6 space-y-4">
-						<div className="space-y-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								type="email"
-								placeholder="criador@email.com"
-								autoComplete="email"
-							/>
-						</div>
-						<div className="space-y-2">
-							<div className="flex items-center justify-between gap-3">
-								<Label htmlFor="password">Senha</Label>
-								<Link
-									to="/forgot-password"
-									search={{ error: undefined }}
-									className="text-sm font-bold text-[var(--sea-ink)] underline-offset-4 hover:underline"
-								>
-									Esqueci minha senha
-								</Link>
-							</div>
-							<Input
-								id="password"
-								type="password"
-								placeholder="********"
-								autoComplete="current-password"
-							/>
-						</div>
-					</form>
-					<Button asChild className="mt-4 w-full">
-						<Link to="/dashboard">Acessar painel</Link>
-					</Button>
-				</section>
-			</div>
-		</AppShell>
+				{error ? <AuthError>{error}</AuthError> : null}
+
+				<Button type="submit" className="h-11 w-full" disabled={loading}>
+					{loading ? (
+						<Loader2 className="animate-spin" aria-hidden="true" />
+					) : null}
+					{loading ? "Entrando..." : "Entrar"}
+				</Button>
+			</form>
+		</AuthScreen>
 	);
 }
