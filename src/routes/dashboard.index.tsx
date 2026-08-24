@@ -4,6 +4,7 @@ import {
 	Copy,
 	ExternalLink,
 	Eye,
+	Link2,
 	MousePointerClick,
 	Package,
 	Plus,
@@ -77,12 +78,18 @@ function DashboardHomePage() {
 				/>
 			</section>
 
-			<section className="mt-6 grid gap-4 lg:grid-cols-[1fr_1fr_1fr]">
+			<section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 				<QuickAction
 					icon={<UserRound className="size-5" aria-hidden="true" />}
 					title="Editar perfil"
 					description="Username, nome publico, bio, avatar e banner."
 					to="/dashboard/profile"
+				/>
+				<QuickAction
+					icon={<Link2 className="size-5" aria-hidden="true" />}
+					title="Redes sociais"
+					description="Atualizar os links exibidos na pagina publica."
+					to="/dashboard/social-links"
 				/>
 				<QuickAction
 					icon={<Plus className="size-5" aria-hidden="true" />}
@@ -117,7 +124,11 @@ function QuickAction({
 	icon: ReactNode;
 	title: string;
 	description: string;
-	to: "/dashboard/profile" | "/dashboard/products" | "/dashboard/products/new";
+	to:
+		| "/dashboard/profile"
+		| "/dashboard/products"
+		| "/dashboard/products/new"
+		| "/dashboard/social-links";
 }) {
 	return (
 		<Link

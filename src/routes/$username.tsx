@@ -1,8 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
 	ExternalLink,
+	Globe,
 	ImageOff,
 	Instagram,
+	Link2,
+	MessageCircle,
 	Music2,
 	Package,
 	Store,
@@ -79,18 +82,33 @@ const products = [
 const socialLinks = [
 	{
 		label: "Instagram",
-		url: "https://instagram.com",
+		url: "https://instagram.com/lucasreviews",
 		icon: Instagram,
 	},
 	{
 		label: "TikTok",
-		url: "https://tiktok.com",
+		url: "https://tiktok.com/@lucasreviews",
 		icon: Music2,
 	},
 	{
 		label: "YouTube",
-		url: "https://youtube.com",
+		url: "https://youtube.com/@lucasreviews",
 		icon: Youtube,
+	},
+	{
+		label: "WhatsApp",
+		url: "https://wa.me/5511999999999",
+		icon: MessageCircle,
+	},
+	{
+		label: "Site pessoal",
+		url: "https://lucasreviews.com",
+		icon: Globe,
+	},
+	{
+		label: "Kit de gravacao",
+		url: "https://example.com/kit-gravacao",
+		icon: Link2,
 	},
 ];
 

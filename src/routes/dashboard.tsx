@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
-import { LayoutDashboard, Package, UserRound } from "lucide-react";
+import { LayoutDashboard, Link2, Package, UserRound } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { PageHeader, StatusBadge } from "#/components/common/index.ts";
@@ -41,6 +41,11 @@ function DashboardLayout() {
 						icon={<Package aria-hidden="true" />}
 						label="Produtos"
 					/>
+					<DashboardNavLink
+						to="/dashboard/social-links"
+						icon={<Link2 aria-hidden="true" />}
+						label="Redes sociais"
+					/>
 				</nav>
 
 				<Outlet />
@@ -55,7 +60,11 @@ function DashboardNavLink({
 	label,
 	exact = false,
 }: {
-	to: "/dashboard" | "/dashboard/profile" | "/dashboard/products";
+	to:
+		| "/dashboard"
+		| "/dashboard/profile"
+		| "/dashboard/products"
+		| "/dashboard/social-links";
 	icon: ReactNode;
 	label: string;
 	exact?: boolean;

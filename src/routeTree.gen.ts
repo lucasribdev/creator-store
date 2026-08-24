@@ -12,11 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsernameRouteImport } from './routes/$username'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardProductsRouteImport } from './routes/dashboard.products'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
+import { Route as DashboardSocialLinksRouteImport } from './routes/dashboard.social-links'
 import { Route as ApiHealthDbRouteImport } from './routes/api/health/db'
 import { Route as DashboardProductsNewRouteImport } from './routes/dashboard.products_.new'
 import { Route as DashboardProductsProductIdEditRouteImport } from './routes/dashboard.products_.$productId.edit'
@@ -34,6 +36,11 @@ const UsernameRoute = UsernameRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -61,6 +68,11 @@ const DashboardProfileRoute = DashboardProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardSocialLinksRoute = DashboardSocialLinksRouteImport.update({
+  id: '/social-links',
+  path: '/social-links',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const ApiHealthDbRoute = ApiHealthDbRouteImport.update({
   id: '/api/health/db',
   path: '/api/health/db',
@@ -82,10 +94,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$username': typeof UsernameRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/social-links': typeof DashboardSocialLinksRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/health/db': typeof ApiHealthDbRoute
   '/dashboard/products/new': typeof DashboardProductsNewRoute
@@ -94,10 +108,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$username': typeof UsernameRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/social-links': typeof DashboardSocialLinksRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/health/db': typeof ApiHealthDbRoute
   '/dashboard/products/new': typeof DashboardProductsNewRoute
@@ -108,10 +124,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$username': typeof UsernameRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/dashboard/products': typeof DashboardProductsRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/social-links': typeof DashboardSocialLinksRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/health/db': typeof ApiHealthDbRoute
   '/dashboard/products_/new': typeof DashboardProductsNewRoute
@@ -123,10 +141,12 @@ export interface FileRouteTypes {
     | '/'
     | '/$username'
     | '/dashboard'
+    | '/forgot-password'
     | '/login'
     | '/signup'
     | '/dashboard/products'
     | '/dashboard/profile'
+    | '/dashboard/social-links'
     | '/dashboard/'
     | '/api/health/db'
     | '/dashboard/products/new'
@@ -135,10 +155,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$username'
+    | '/forgot-password'
     | '/login'
     | '/signup'
     | '/dashboard/products'
     | '/dashboard/profile'
+    | '/dashboard/social-links'
     | '/dashboard'
     | '/api/health/db'
     | '/dashboard/products/new'
@@ -148,10 +170,12 @@ export interface FileRouteTypes {
     | '/'
     | '/$username'
     | '/dashboard'
+    | '/forgot-password'
     | '/login'
     | '/signup'
     | '/dashboard/products'
     | '/dashboard/profile'
+    | '/dashboard/social-links'
     | '/dashboard/'
     | '/api/health/db'
     | '/dashboard/products_/new'
@@ -162,6 +186,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   UsernameRoute: typeof UsernameRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   ApiHealthDbRoute: typeof ApiHealthDbRoute
@@ -188,6 +213,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -225,6 +257,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardProfileRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/social-links': {
+      id: '/dashboard/social-links'
+      path: '/social-links'
+      fullPath: '/dashboard/social-links'
+      preLoaderRoute: typeof DashboardSocialLinksRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/api/health/db': {
       id: '/api/health/db'
       path: '/api/health/db'
@@ -252,6 +291,7 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteChildren {
   DashboardProductsRoute: typeof DashboardProductsRoute
   DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardSocialLinksRoute: typeof DashboardSocialLinksRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardProductsNewRoute: typeof DashboardProductsNewRoute
   DashboardProductsProductIdEditRoute: typeof DashboardProductsProductIdEditRoute
@@ -260,6 +300,7 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardProductsRoute: DashboardProductsRoute,
   DashboardProfileRoute: DashboardProfileRoute,
+  DashboardSocialLinksRoute: DashboardSocialLinksRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardProductsNewRoute: DashboardProductsNewRoute,
   DashboardProductsProductIdEditRoute: DashboardProductsProductIdEditRoute,
@@ -273,6 +314,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   UsernameRoute: UsernameRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   ApiHealthDbRoute: ApiHealthDbRoute,

@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, LogIn } from "lucide-react";
 
-import { InlineAlert } from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
 import { Input } from "#/components/ui/input.tsx";
 import { Label } from "#/components/ui/label.tsx";
@@ -40,7 +39,16 @@ function LoginPage() {
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="password">Senha</Label>
+							<div className="flex items-center justify-between gap-3">
+								<Label htmlFor="password">Senha</Label>
+								<Link
+									to="/forgot-password"
+									search={{ error: undefined }}
+									className="text-sm font-bold text-[var(--sea-ink)] underline-offset-4 hover:underline"
+								>
+									Esqueci minha senha
+								</Link>
+							</div>
 							<Input
 								id="password"
 								type="password"
@@ -48,10 +56,6 @@ function LoginPage() {
 								autoComplete="current-password"
 							/>
 						</div>
-						<InlineAlert tone="info" title="Acesso de avaliacao">
-							Use o botao abaixo para navegar pelo fluxo principal da Creator
-							Store.
-						</InlineAlert>
 					</form>
 					<Button asChild className="mt-4 w-full">
 						<Link to="/dashboard">Acessar painel</Link>
