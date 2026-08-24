@@ -2,17 +2,19 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
 	ArrowLeft,
 	BadgeAlert,
-	CheckCircle2,
 	Edit3,
-	Eye,
-	EyeOff,
-	ImageOff,
 	Package,
 	Plus,
-	Star,
 	Trash2,
 } from "lucide-react";
 
+import {
+	EmptyState,
+	InlineAlert,
+	MetricCard,
+	ProductRow,
+	SectionHeader,
+} from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
 import { Switch } from "#/components/ui/switch.tsx";
 
@@ -64,7 +66,7 @@ function ProductsListPage() {
 	);
 
 	return (
-		<section className="mt-7 rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-5 shadow-sm">
+		<section className="mt-7 rounded-lg border bg-surface p-5 shadow-sm">
 			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<Button asChild variant="ghost" size="sm" className="w-fit px-0">
@@ -82,25 +84,24 @@ function ProductsListPage() {
 					</Button>
 				</div>
 
-				<div className="mt-5 flex size-11 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
-					<Package className="size-5" aria-hidden="true" />
+				<div className="mt-5">
+					<SectionHeader
+						icon={<Package className="size-5" aria-hidden="true" />}
+						title="Produtos"
+						description="Produtos ativos aparecem na pagina publica. Produtos inativos ficam salvos apenas no painel."
+					/>
 				</div>
-				<h2 className="mt-5 text-3xl font-extrabold">Produtos</h2>
-				<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-					Produtos ativos aparecem na pagina publica. Produtos inativos ficam
-					salvos apenas no painel.
-				</p>
 
 				<div className="mt-5 grid gap-3 sm:grid-cols-3">
-					<SummaryItem
+					<MetricCard
 						label="Cadastrados"
 						value={String(visibleProducts.length)}
 					/>
-					<SummaryItem
+					<MetricCard
 						label="Ativos na vitrine"
 						value={String(activeProducts.length)}
 					/>
-					<SummaryItem
+					<MetricCard
 						label="Em destaque"
 						value={String(
 							visibleProducts.filter((product) => product.featured).length,
@@ -109,132 +110,77 @@ function ProductsListPage() {
 				</div>
 
 				{saved === "product" ? (
-					<div className="mt-5 flex items-start gap-3 rounded-md border border-[var(--chip-line)] bg-white/80 px-4 py-3 text-sm text-[var(--sea-ink)]">
-						<CheckCircle2
-							className="mt-0.5 size-5 shrink-0 text-[var(--palm)]"
-							aria-hidden="true"
-						/>
-						<div>
-							<p className="font-bold">
-								Produto salvo com sucesso no prototipo.
-							</p>
-							<p className="mt-1 text-[var(--sea-ink-soft)]">
-								Nenhuma informacao foi persistida em banco.
-							</p>
-						</div>
+					<div className="mt-5">
+						<InlineAlert tone="success" title="Produto salvo com sucesso.">
+							As alteracoes usam dados demonstrativos nesta etapa.
+						</InlineAlert>
 					</div>
 				) : null}
 
 				{visibleProducts.length > 0 ? (
 					<div className="mt-6 space-y-3">
 						{visibleProducts.map((product) => (
-							<ProductRow key={product.id} product={product} />
+							<ProductRow
+								key={product.id}
+								name={product.name}
+								description={product.description}
+								price={product.price}
+								isActive={product.status === "active"}
+								isFeatured={product.featured}
+								hasImage={product.hasImage}
+								actions={<ProductActions product={product} />}
+							/>
 						))}
 					</div>
 				) : (
-					<section className="mt-6 rounded-lg border border-dashed border-[var(--line)] bg-white/65 p-5">
-						<div className="flex size-11 items-center justify-center rounded-md bg-[var(--sand)] text-[var(--sea-ink-soft)]">
-							<BadgeAlert className="size-5" aria-hidden="true" />
-						</div>
-						<h3 className="mt-4 text-lg font-extrabold">Lista vazia</h3>
-						<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-							Quando nao houver produtos cadastrados, esta area deve orientar o
-							criador a adicionar o primeiro produto recomendado.
-						</p>
-						<Button asChild variant="outline" className="mt-4">
-							<Link to="/dashboard/products/new" search={{ error: false }}>
-								<Plus aria-hidden="true" />
-								Adicionar primeiro produto
-							</Link>
-						</Button>
-					</section>
+					<div className="mt-6">
+						<EmptyState
+							icon={<BadgeAlert className="size-5" aria-hidden="true" />}
+							title="Nenhum produto cadastrado"
+							description="Adicione o primeiro produto recomendado para montar a vitrine."
+							action={
+								<Button asChild variant="outline">
+									<Link to="/dashboard/products/new" search={{ error: false }}>
+										<Plus aria-hidden="true" />
+										Adicionar primeiro produto
+									</Link>
+								</Button>
+							}
+						/>
+					</div>
 				)}
 			</div>
 		</section>
 	);
 }
 
-function SummaryItem({ label, value }: { label: string; value: string }) {
-	return (
-		<div className="rounded-md border border-[var(--line)] bg-white/75 p-4">
-			<p className="text-2xl font-extrabold">{value}</p>
-			<p className="mt-1 text-sm font-bold text-[var(--sea-ink-soft)]">
-				{label}
-			</p>
-		</div>
-	);
-}
-
-function ProductRow({ product }: { product: (typeof products)[number] }) {
+function ProductActions({ product }: { product: (typeof products)[number] }) {
 	const isActive = product.status === "active";
 
 	return (
-		<article className="rounded-lg border border-[var(--line)] bg-white/85 p-4 shadow-sm">
-			<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-				<div className="flex gap-4">
-					<div className="flex size-20 shrink-0 items-center justify-center rounded-md bg-[var(--sand)] text-[var(--sea-ink-soft)]">
-						{product.hasImage ? (
-							<Package className="size-6" aria-hidden="true" />
-						) : (
-							<ImageOff className="size-6" aria-hidden="true" />
-						)}
-					</div>
-					<div className="min-w-0">
-						<div className="flex flex-wrap items-center gap-2">
-							<h3 className="font-extrabold">{product.name}</h3>
-							{product.featured ? (
-								<span className="inline-flex items-center gap-1 rounded-md border border-[var(--chip-line)] bg-[var(--chip-bg)] px-2 py-1 text-xs font-bold text-[var(--palm)]">
-									<Star className="size-3" aria-hidden="true" />
-									Destaque
-								</span>
-							) : null}
-							<span className="inline-flex items-center gap-1 rounded-md border border-[var(--line)] bg-white/70 px-2 py-1 text-xs font-bold">
-								{isActive ? (
-									<Eye className="size-3" aria-hidden="true" />
-								) : (
-									<EyeOff className="size-3" aria-hidden="true" />
-								)}
-								{isActive ? "Ativo" : "Inativo"}
-							</span>
-							{product.hasImage ? null : (
-								<span className="inline-flex items-center gap-1 rounded-md border border-dashed border-[var(--line)] bg-white/70 px-2 py-1 text-xs font-bold">
-									<ImageOff className="size-3" aria-hidden="true" />
-									Sem imagem
-								</span>
-							)}
-						</div>
-						<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-							{product.description}
-						</p>
-						<p className="mt-2 text-sm font-extrabold">{product.price}</p>
-					</div>
-				</div>
-
-				<div className="grid gap-2 sm:grid-cols-[auto_auto_auto] lg:min-w-80">
-					<div className="flex items-center justify-between gap-3 rounded-md border border-[var(--line)] bg-white/60 px-3 py-2">
-						<span className="text-sm font-bold">Ativo</span>
-						<Switch
-							checked={isActive}
-							size="sm"
-							aria-label={`Status de ${product.name}`}
-						/>
-					</div>
-					<Button asChild variant="outline" size="sm">
-						<Link
-							to="/dashboard/products/$productId/edit"
-							params={{ productId: product.id }}
-							search={{ error: false }}
-						>
-							<Edit3 aria-hidden="true" />
-							Editar
-						</Link>
-					</Button>
-					<Button type="button" variant="outline" size="sm">
-						<Trash2 aria-hidden="true" />
-						Excluir
-					</Button>
-				</div>
+		<div className="grid gap-2 sm:grid-cols-[auto_auto_auto] lg:min-w-80">
+			<div className="flex items-center justify-between gap-3 rounded-md border bg-muted/50 px-3 py-2">
+				<span className="text-sm font-bold">Ativo</span>
+				<Switch
+					checked={isActive}
+					size="sm"
+					aria-label={`Status de ${product.name}`}
+				/>
 			</div>
-		</article>
+			<Button asChild variant="outline" size="sm">
+				<Link
+					to="/dashboard/products/$productId/edit"
+					params={{ productId: product.id }}
+					search={{ error: false }}
+				>
+					<Edit3 aria-hidden="true" />
+					Editar
+				</Link>
+			</Button>
+			<Button type="button" variant="outline" size="sm">
+				<Trash2 aria-hidden="true" />
+				Excluir
+			</Button>
+		</div>
 	);
 }

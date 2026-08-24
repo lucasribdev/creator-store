@@ -35,7 +35,7 @@ function EditProductPlaceholder() {
 							: "Fone Bluetooth compacto",
 					externalUrl: `https://example.com/${productId}`,
 					description:
-						"Produto ficticio usado para validar a experiencia de edicao.",
+						"Produto de exemplo usado para validar a experiencia de edicao.",
 					price: "R$ 149,90",
 					previousPrice: "R$ 199,90",
 					buttonLabel: "Ver produto",

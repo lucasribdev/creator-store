@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { AlertTriangle, Image, Info, Package } from "lucide-react";
+import { Image, Info, Package } from "lucide-react";
 
+import { InlineAlert, SectionHeader } from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
 import { Input } from "#/components/ui/input.tsx";
 import { Label } from "#/components/ui/label.tsx";
@@ -30,33 +31,18 @@ export function ProductFormPrototype({
 	showError = false,
 }: ProductFormProps) {
 	return (
-		<section className="mt-6 rounded-lg border border-[var(--line)] bg-white/80 p-5 shadow-sm">
-			<div className="flex size-11 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
-				<Package className="size-5" aria-hidden="true" />
-			</div>
-
-			<h2 className="mt-5 text-2xl font-extrabold">
-				{mode === "new" ? "Adicionar produto" : "Editar produto"}
-			</h2>
-			<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-				Este formulario valida os campos necessarios para apresentar uma
-				recomendacao. O botao do produto sempre direciona o visitante para um
-				link externo.
-			</p>
+		<section className="mt-6 rounded-lg border bg-surface p-5 shadow-sm">
+			<SectionHeader
+				icon={<Package className="size-5" aria-hidden="true" />}
+				title={mode === "new" ? "Adicionar produto" : "Editar produto"}
+				description="Preencha os dados da recomendacao. O botao do produto sempre direciona o visitante para um link externo."
+			/>
 
 			{showError ? (
-				<div className="mt-5 flex items-start gap-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
-					<AlertTriangle
-						className="mt-0.5 size-5 shrink-0"
-						aria-hidden="true"
-					/>
-					<div>
-						<p className="font-bold">Nao foi possivel salvar o produto.</p>
-						<p className="mt-1 text-red-800">
-							Erro visual generico do prototipo. Nenhuma validacao real foi
-							executada.
-						</p>
-					</div>
+				<div className="mt-5">
+					<InlineAlert tone="danger" title="Nao foi possivel salvar o produto.">
+						Mensagem demonstrativa. A validacao real fica fora desta etapa.
+					</InlineAlert>
 				</div>
 			) : null}
 
@@ -78,7 +64,7 @@ export function ProductFormPrototype({
 							defaultValue={initialValues.externalUrl}
 							placeholder="https://loja.com/produto"
 						/>
-						<p className="flex items-start gap-2 text-xs leading-5 text-[var(--sea-ink-soft)]">
+						<p className="flex items-start gap-2 text-xs leading-5 text-muted-foreground">
 							<Info className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />A
 							Creator Store nao vende o produto. O visitante sera enviado para
 							este endereco externo.
@@ -124,10 +110,10 @@ export function ProductFormPrototype({
 					</div>
 
 					<div className="grid gap-3 sm:grid-cols-2">
-						<div className="flex items-center justify-between gap-4 rounded-md border border-[var(--line)] bg-white/70 px-4 py-3">
+						<div className="flex items-center justify-between gap-4 rounded-md border bg-muted/50 px-4 py-3">
 							<div>
 								<p className="text-sm font-bold">Produto ativo</p>
-								<p className="mt-1 text-xs text-[var(--sea-ink-soft)]">
+								<p className="mt-1 text-xs text-muted-foreground">
 									Ativos aparecem publicamente.
 								</p>
 							</div>
@@ -136,10 +122,10 @@ export function ProductFormPrototype({
 								aria-label="Produto ativo"
 							/>
 						</div>
-						<div className="flex items-center justify-between gap-4 rounded-md border border-[var(--line)] bg-white/70 px-4 py-3">
+						<div className="flex items-center justify-between gap-4 rounded-md border bg-muted/50 px-4 py-3">
 							<div>
 								<p className="text-sm font-bold">Produto em destaque</p>
-								<p className="mt-1 text-xs text-[var(--sea-ink-soft)]">
+								<p className="mt-1 text-xs text-muted-foreground">
 									Apenas um destaque por perfil.
 								</p>
 							</div>
@@ -168,14 +154,14 @@ export function ProductFormPrototype({
 					</div>
 				</div>
 
-				<aside className="rounded-lg border border-dashed border-[var(--line)] bg-white/65 p-4">
-					<div className="flex aspect-[4/3] items-center justify-center rounded-md bg-[var(--sand)] text-[var(--sea-ink-soft)]">
+				<aside className="rounded-lg border border-dashed bg-surface p-4">
+					<div className="flex aspect-[4/3] items-center justify-center rounded-md bg-muted text-muted-foreground">
 						<Image className="size-8" aria-hidden="true" />
 					</div>
 					<p className="mt-3 text-sm font-bold">Imagem do produto</p>
-					<p className="mt-1 text-xs leading-5 text-[var(--sea-ink-soft)]">
-						Placeholder visual. Upload real e validacao de arquivo ficam fora
-						desta etapa.
+					<p className="mt-1 text-xs leading-5 text-muted-foreground">
+						Area reservada para imagem. Upload real e validacao de arquivo ficam
+						fora desta etapa.
 					</p>
 					<Button type="button" variant="outline" className="mt-4 w-full">
 						Escolher imagem fake
