@@ -1,3 +1,9 @@
+export {
+	AppShell,
+	DashboardHeader,
+	PublicHeader,
+	StatusPill,
+} from "#/components/common/app-shell.tsx";
 export { EmptyState } from "#/components/common/empty-state.tsx";
 export { InlineAlert } from "#/components/common/inline-alert.tsx";
 export { MetricCard } from "#/components/common/metric-card.tsx";

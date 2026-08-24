@@ -8,15 +8,16 @@ import {
 	MessageCircle,
 	Music2,
 	Package,
-	Store,
 	Youtube,
 } from "lucide-react";
-import type { ReactNode } from "react";
 
 import {
+	AppShell,
 	EmptyState,
 	InlineAlert,
+	PublicHeader,
 	StatusBadge,
+	StatusPill,
 } from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
 
@@ -123,9 +124,9 @@ function CreatorPage() {
 
 	if (username !== creator.username) {
 		return (
-			<PublicShell>
+			<AppShell header={<PublicHeader />} mainClassName="max-w-2xl">
 				<EmptyState
-					icon={<Store className="size-5" aria-hidden="true" />}
+					icon={<Package className="size-5" aria-hidden="true" />}
 					title="Pagina indisponivel"
 					description="Nao encontramos uma vitrine publicada para este endereco. Confira o link ou peca ao criador uma nova URL."
 					action={
@@ -134,126 +135,109 @@ function CreatorPage() {
 						</Button>
 					}
 				/>
-			</PublicShell>
+			</AppShell>
 		);
 	}
 
 	if (!published) {
 		return (
-			<PublicShell>
+			<AppShell header={<PublicHeader />} mainClassName="max-w-2xl">
 				<InlineAlert tone="warning" title="Pagina despublicada">
 					Esta vitrine esta temporariamente fora do ar. Quando o criador
 					publicar novamente, as recomendacoes voltam a aparecer neste link.
 				</InlineAlert>
-			</PublicShell>
+			</AppShell>
 		);
 	}
 
 	return (
-		<PublicShell>
-			<CreatorHeader />
+		<AppShell header={<PublicHeader />} mainClassName="max-w-2xl">
+			<div className="space-y-5">
+				<CreatorHeader />
 
-			{featuredProduct ? (
-				<section className="mt-5 rounded-lg border bg-surface p-4 shadow-sm">
-					<div className="flex flex-wrap items-center justify-between gap-2">
-						<StatusBadge tone="success" icon="featured">
-							Produto em destaque
-						</StatusBadge>
-						<span className="text-xs font-bold text-muted-foreground">
-							Recomendacao do criador
-						</span>
+				{featuredProduct ? (
+					<section className="rounded-lg border bg-surface p-4 shadow-sm">
+						<div className="flex flex-wrap items-center justify-between gap-2">
+							<StatusBadge tone="success" icon="featured">
+								Produto em destaque
+							</StatusBadge>
+							<span className="text-xs font-bold text-muted-foreground">
+								Recomendacao do criador
+							</span>
+						</div>
+						<ProductImage
+							className="mt-3 aspect-[4/3] w-full"
+							hasImage={featuredProduct.hasImage}
+							name={featuredProduct.name}
+						/>
+						<h2 className="mt-4 break-words text-xl font-extrabold">
+							{featuredProduct.name}
+						</h2>
+						<p className="mt-2 break-words text-sm leading-6 text-muted-foreground">
+							{featuredProduct.description}
+						</p>
+						<ExternalProductButton
+							className="mt-4"
+							href={featuredProduct.url}
+							label={featuredProduct.buttonLabel}
+						/>
+					</section>
+				) : null}
+
+				<section className="space-y-3">
+					<div>
+						<h2 className="text-lg font-extrabold">Recomendacoes</h2>
+						<p className="mt-1 text-sm leading-6 text-muted-foreground">
+							Produtos selecionados por {creator.displayName}. Cada botao abre
+							um link externo.
+						</p>
 					</div>
-					<ProductImage
-						className="mt-3 aspect-[4/3] w-full"
-						hasImage={featuredProduct.hasImage}
-						name={featuredProduct.name}
-					/>
-					<h2 className="mt-4 break-words text-xl font-extrabold">
-						{featuredProduct.name}
-					</h2>
-					<p className="mt-2 break-words text-sm leading-6 text-muted-foreground">
-						{featuredProduct.description}
-					</p>
-					<ExternalProductButton
-						className="mt-4"
-						href={featuredProduct.url}
-						label={featuredProduct.buttonLabel}
-					/>
-				</section>
-			) : null}
-
-			<section className="mt-5 space-y-3">
-				<div>
-					<h2 className="text-lg font-extrabold">Recomendacoes</h2>
-					<p className="mt-1 text-sm leading-6 text-muted-foreground">
-						Produtos selecionados por {creator.displayName}. Cada botao abre um
-						link externo.
-					</p>
-				</div>
-				{activeProducts.length === 0 ? (
-					<EmptyState
-						icon={<Package className="size-5" aria-hidden="true" />}
-						title="Esta vitrine ainda nao tem produtos ativos"
-						description={`Quando ${creator.displayName} publicar recomendacoes, elas aparecem aqui.`}
-					/>
-				) : (
-					regularProducts.map((product) => (
-						<article
-							key={product.name}
-							className="rounded-lg border bg-surface p-4 shadow-sm"
-						>
-							<div className="flex gap-3">
-								<ProductImage
-									className="size-20 shrink-0"
-									hasImage={product.hasImage}
-									name={product.name}
-								/>
-								<div className="min-w-0 flex-1">
-									<div className="flex flex-wrap items-center gap-2">
-										<h3 className="break-words font-extrabold">
-											{product.name}
-										</h3>
-										{product.hasImage ? null : (
-											<StatusBadge tone="warning" icon="image-missing">
-												Sem imagem
-											</StatusBadge>
-										)}
+					{activeProducts.length === 0 ? (
+						<EmptyState
+							icon={<Package className="size-5" aria-hidden="true" />}
+							title="Esta vitrine ainda nao tem produtos ativos"
+							description={`Quando ${creator.displayName} publicar recomendacoes, elas aparecem aqui.`}
+						/>
+					) : (
+						regularProducts.map((product) => (
+							<article
+								key={product.name}
+								className="rounded-lg border bg-surface p-4 shadow-sm"
+							>
+								<div className="flex gap-3">
+									<ProductImage
+										className="size-20 shrink-0"
+										hasImage={product.hasImage}
+										name={product.name}
+									/>
+									<div className="min-w-0 flex-1">
+										<div className="flex flex-wrap items-center gap-2">
+											<h3 className="break-words font-extrabold">
+												{product.name}
+											</h3>
+											{product.hasImage ? null : (
+												<StatusBadge tone="warning" icon="image-missing">
+													Sem imagem
+												</StatusBadge>
+											)}
+										</div>
+										<p className="mt-1 break-words text-sm leading-5 text-muted-foreground">
+											{product.description}
+										</p>
 									</div>
-									<p className="mt-1 break-words text-sm leading-5 text-muted-foreground">
-										{product.description}
-									</p>
 								</div>
-							</div>
-							<ExternalProductButton
-								className="mt-3"
-								href={product.url}
-								label={product.buttonLabel}
-								variant="outline"
-							/>
-						</article>
-					))
-				)}
-			</section>
-		</PublicShell>
-	);
-}
-
-function PublicShell({ children }: { children: ReactNode }) {
-	return (
-		<main className="min-h-screen px-4 py-5 text-foreground">
-			<div className="mx-auto w-full max-w-md">
-				<Link
-					to="/"
-					className="inline-flex items-center gap-2 text-sm font-extrabold text-foreground no-underline"
-				>
-					<span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-						<Store className="size-4" aria-hidden="true" />
-					</span>
-					Creator Store
-				</Link>
-				<div className="mt-5">{children}</div>
+								<ExternalProductButton
+									className="mt-3"
+									href={product.url}
+									label={product.buttonLabel}
+									variant="outline"
+								/>
+							</article>
+						))
+					)}
+				</section>
 			</div>
-		</main>
+		</AppShell>
 	);
 }
 
@@ -269,9 +253,7 @@ function CreatorHeader() {
 					<h1 className="break-words text-3xl font-extrabold">
 						{creator.displayName}
 					</h1>
-					<StatusBadge tone="success" icon="active">
-						Publicado
-					</StatusBadge>
+					<StatusPill published />
 				</div>
 				<p className="mt-1 break-words text-sm font-semibold text-muted-foreground">
 					@{creator.username}

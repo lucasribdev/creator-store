@@ -2,7 +2,12 @@ import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { LayoutDashboard, Link2, Package, UserRound } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { PageHeader, StatusBadge } from "#/components/common/index.ts";
+import {
+	AppShell,
+	DashboardHeader,
+	PageHeader,
+	StatusPill,
+} from "#/components/common/index.ts";
 
 export const Route = createFileRoute("/dashboard")({
 	component: DashboardLayout,
@@ -12,8 +17,17 @@ const isPublished = true;
 
 function DashboardLayout() {
 	return (
-		<main className="min-h-screen px-4 py-5 text-foreground sm:px-8 sm:py-7">
-			<div className="mx-auto w-full max-w-6xl">
+		<AppShell
+			header={
+				<DashboardHeader
+					displayName="Lucas Reviews"
+					username="lucasreviews"
+					published={isPublished}
+				/>
+			}
+			mainClassName="max-w-6xl"
+		>
+			<div className="space-y-5">
 				<PageHeader
 					kicker="Painel"
 					title="Boas-vindas, Lucas Reviews"
@@ -50,7 +64,7 @@ function DashboardLayout() {
 
 				<Outlet />
 			</div>
-		</main>
+		</AppShell>
 	);
 }
 
@@ -97,9 +111,7 @@ function PageStatusBadge({ published }: { published: boolean }) {
 				Status da pagina
 			</p>
 			<div className="mt-2 flex items-center gap-2">
-				<StatusBadge tone={published ? "success" : "warning"}>
-					{published ? "Publicada" : "Despublicada"}
-				</StatusBadge>
+				<StatusPill published={published} />
 			</div>
 		</div>
 	);

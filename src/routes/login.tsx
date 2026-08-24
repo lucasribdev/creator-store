@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, LogIn } from "lucide-react";
 
+import { AppShell, PublicHeader } from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
 import { Input } from "#/components/ui/input.tsx";
 import { Label } from "#/components/ui/label.tsx";
@@ -9,8 +10,8 @@ export const Route = createFileRoute("/login")({ component: LoginPage });
 
 function LoginPage() {
 	return (
-		<main className="min-h-screen px-5 py-6 text-[var(--sea-ink)]">
-			<div className="mx-auto flex w-full max-w-md flex-col gap-8">
+		<AppShell header={<PublicHeader />} mainClassName="max-w-md">
+			<div className="flex w-full flex-col gap-5">
 				<Button asChild variant="ghost" className="w-fit px-0">
 					<Link to="/">
 						<ArrowLeft aria-hidden="true" />
@@ -62,6 +63,6 @@ function LoginPage() {
 					</Button>
 				</section>
 			</div>
-		</main>
+		</AppShell>
 	);
 }

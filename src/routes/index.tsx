@@ -1,49 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-	ArrowRight,
-	ExternalLink,
-	ImageOff,
-	LogIn,
-	Store,
-	UserPlus,
-} from "lucide-react";
+import { ArrowRight, ExternalLink, ImageOff } from "lucide-react";
 
-import { StatusBadge } from "#/components/common/status-badge.tsx";
+import {
+	AppShell,
+	PublicHeader,
+	StatusBadge,
+} from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
 
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
 	return (
-		<div className="min-h-screen px-4 py-4 text-foreground sm:px-6">
-			<header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 py-2">
-				<Link
-					to="/"
-					className="flex min-w-0 items-center gap-2 font-extrabold text-foreground no-underline"
-				>
-					<span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
-						<Store className="size-5" aria-hidden="true" />
-					</span>
-					<span className="truncate">Creator Store</span>
-				</Link>
-
-				<nav className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-					<Button asChild variant="ghost" size="sm">
-						<Link to="/login" aria-label="Entrar">
-							<LogIn aria-hidden="true" />
-							<span className="hidden sm:inline">Entrar</span>
-						</Link>
-					</Button>
-					<Button asChild size="sm">
-						<Link to="/signup">
-							<UserPlus aria-hidden="true" />
-							Criar conta
-						</Link>
-					</Button>
-				</nav>
-			</header>
-
-			<main className="mx-auto grid w-full max-w-5xl gap-8 pb-10 pt-8 md:min-h-[calc(100vh-4.5rem)] md:grid-cols-[minmax(0,1fr)_22rem] md:items-center md:pt-4">
+		<AppShell header={<PublicHeader />} mainClassName="max-w-6xl">
+			<div className="grid gap-8 pt-4 md:min-h-[calc(100vh-7rem)] md:grid-cols-[minmax(0,1fr)_22rem] md:items-center lg:grid-cols-[minmax(0,1fr)_24rem]">
 				<section className="max-w-2xl">
 					<p className="island-kicker">Link da bio para recomendacoes</p>
 					<h1 className="display-title mt-4 max-w-2xl text-4xl font-bold leading-tight text-foreground sm:text-5xl">
@@ -119,7 +89,7 @@ function Home() {
 						</div>
 					</div>
 				</section>
-			</main>
-		</div>
+			</div>
+		</AppShell>
 	);
 }
