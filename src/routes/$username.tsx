@@ -277,7 +277,7 @@ function CreatorHeader() {
 									href={socialLink.url}
 									target="_blank"
 									rel="noreferrer"
-									aria-label={socialLink.label}
+									aria-label={`Abrir ${socialLink.label} de ${creator.displayName}`}
 								>
 									<Icon aria-hidden="true" />
 								</a>
@@ -339,7 +339,12 @@ function ExternalProductButton({
 			className={`min-h-10 w-full ${className ?? ""}`}
 			variant={variant}
 		>
-			<a href={href} target="_blank" rel="noreferrer">
+			<a
+				href={href}
+				target="_blank"
+				rel="noreferrer"
+				aria-label={`Abrir link externo: ${label}`}
+			>
 				<span className="min-w-0 break-words text-center">{label}</span>
 				<ExternalLink aria-hidden="true" />
 			</a>

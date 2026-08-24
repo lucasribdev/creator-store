@@ -29,7 +29,7 @@ function Home() {
 
 				<nav className="flex shrink-0 items-center gap-1.5 sm:gap-2">
 					<Button asChild variant="ghost" size="sm">
-						<Link to="/login">
+						<Link to="/login" aria-label="Entrar">
 							<LogIn aria-hidden="true" />
 							<span className="hidden sm:inline">Entrar</span>
 						</Link>

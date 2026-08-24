@@ -233,7 +233,8 @@ export function ProductFormPrototype({
 						id="product-image-help"
 						className="mt-2 text-xs leading-5 text-muted-foreground"
 					>
-						Upload de imagens sera conectado em uma etapa posterior.
+						Adicione uma imagem para facilitar o reconhecimento na pagina
+						publica.
 					</p>
 				</aside>
 			</form>

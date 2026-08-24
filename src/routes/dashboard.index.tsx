@@ -93,15 +93,15 @@ function DashboardHomePage() {
 				<QuickAction
 					icon={<Package className="size-5" aria-hidden="true" />}
 					title="Gerenciar produtos"
-					description="Revisar status, destaque, imagens e exclusoes."
+					description="Revisar status, destaque, imagens e links externos."
 					to="/dashboard/products"
 				/>
 			</section>
 
 			<div className="mt-6">
-				<InlineAlert tone="info" title="Metricas em preparacao">
-					Visualizacoes e cliques serao conectados ao registro real em uma etapa
-					posterior do MVP.
+				<InlineAlert tone="info" title="Metricas basicas">
+					Acompanhe visualizacoes e cliques para entender quais recomendacoes
+					geram mais interesse.
 				</InlineAlert>
 			</div>
 		</>

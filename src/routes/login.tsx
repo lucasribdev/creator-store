@@ -25,8 +25,8 @@ function LoginPage() {
 					</div>
 					<h1 className="mt-5 text-3xl font-extrabold">Entrar</h1>
 					<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-						Acesse o painel para configurar perfil, publicacao e produtos da sua
-						vitrine.
+						Acesse seu painel para atualizar perfil, publicacao e produtos
+						recomendados.
 					</p>
 
 					<form className="mt-6 space-y-4">
@@ -48,9 +48,9 @@ function LoginPage() {
 								autoComplete="current-password"
 							/>
 						</div>
-						<InlineAlert tone="info" title="Acesso em preparacao">
-							O envio de credenciais sera conectado em uma etapa posterior. Por
-							enquanto, continue para revisar a experiencia do painel.
+						<InlineAlert tone="info" title="Acesso de avaliacao">
+							Use o botao abaixo para navegar pelo fluxo principal da Creator
+							Store.
 						</InlineAlert>
 					</form>
 					<Button asChild className="mt-4 w-full">

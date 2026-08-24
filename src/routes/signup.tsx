@@ -25,8 +25,7 @@ function SignupPage() {
 					</div>
 					<h1 className="mt-5 text-3xl font-extrabold">Criar conta</h1>
 					<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-						Comece pela configuracao da pagina publica e dos produtos
-						recomendados.
+						Crie sua area de criador e monte a primeira versao da sua vitrine.
 					</p>
 
 					<form className="mt-6 space-y-4">
@@ -56,9 +55,9 @@ function SignupPage() {
 								autoComplete="new-password"
 							/>
 						</div>
-						<InlineAlert tone="info" title="Cadastro em preparacao">
-							O envio dos dados sera conectado em uma etapa posterior. Por
-							enquanto, continue para revisar a experiencia inicial.
+						<InlineAlert tone="info" title="Fluxo de avaliacao">
+							Depois de preencher os dados, siga para o painel e confira as
+							etapas essenciais da vitrine.
 						</InlineAlert>
 					</form>
 					<Button asChild className="mt-4 w-full">
