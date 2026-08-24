@@ -1,7 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { Image, Info, Package, Save } from "lucide-react";
+import { Image, ImageOff, Info, Package, Save } from "lucide-react";
 
-import { InlineAlert, SectionHeader } from "#/components/common/index.ts";
+import {
+	InlineAlert,
+	SectionHeader,
+	StatusBadge,
+} from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
 import { Input } from "#/components/ui/input.tsx";
 import { Label } from "#/components/ui/label.tsx";
@@ -58,7 +62,21 @@ export function ProductFormPrototype({
 								id="product-name"
 								defaultValue={initialValues.name}
 								placeholder="Fone Bluetooth compacto"
+								aria-invalid={showError && initialValues.name.trim() === ""}
+								aria-describedby={
+									showError && initialValues.name.trim() === ""
+										? "product-name-error"
+										: undefined
+								}
 							/>
+							{showError && initialValues.name.trim() === "" ? (
+								<p
+									id="product-name-error"
+									className="text-xs font-medium text-danger"
+								>
+									Informe o nome do produto.
+								</p>
+							) : null}
 						</div>
 
 						<div className="space-y-2">
@@ -67,8 +85,27 @@ export function ProductFormPrototype({
 								id="external-url"
 								defaultValue={initialValues.externalUrl}
 								placeholder="https://loja.com/produto"
+								aria-invalid={
+									showError && initialValues.externalUrl.trim() === ""
+								}
+								aria-describedby={
+									showError && initialValues.externalUrl.trim() === ""
+										? "external-url-error external-url-help"
+										: "external-url-help"
+								}
 							/>
-							<p className="flex items-start gap-2 text-xs leading-5 text-muted-foreground">
+							{showError && initialValues.externalUrl.trim() === "" ? (
+								<p
+									id="external-url-error"
+									className="text-xs font-medium text-danger"
+								>
+									Informe o link externo do produto.
+								</p>
+							) : null}
+							<p
+								id="external-url-help"
+								className="flex items-start gap-2 text-xs leading-5 text-muted-foreground"
+							>
 								<Info className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
 								A Creator Store apresenta a recomendacao e envia o visitante
 								para este endereco.
@@ -170,16 +207,34 @@ export function ProductFormPrototype({
 
 				<aside className="rounded-lg border border-dashed bg-surface p-4">
 					<div className="flex aspect-[4/3] items-center justify-center rounded-md bg-muted text-muted-foreground">
-						<Image className="size-8" aria-hidden="true" />
+						<ImageOff className="size-8" aria-hidden="true" />
 					</div>
-					<p className="mt-3 text-sm font-bold">Imagem do produto</p>
+					<div className="mt-3 flex flex-wrap items-center gap-2">
+						<p className="text-sm font-bold">Imagem do produto</p>
+						<StatusBadge tone="warning" icon="image-missing">
+							Sem imagem
+						</StatusBadge>
+					</div>
 					<p className="mt-1 text-xs leading-5 text-muted-foreground">
 						O produto continua publicavel sem imagem, com marcador visual na
 						vitrine.
 					</p>
-					<Button type="button" variant="outline" className="mt-4 w-full">
+					<Button
+						type="button"
+						variant="outline"
+						className="mt-4 w-full"
+						disabled
+						aria-describedby="product-image-help"
+					>
+						<Image aria-hidden="true" />
 						Escolher imagem
 					</Button>
+					<p
+						id="product-image-help"
+						className="mt-2 text-xs leading-5 text-muted-foreground"
+					>
+						Upload de imagens sera conectado em uma etapa posterior.
+					</p>
 				</aside>
 			</form>
 		</section>

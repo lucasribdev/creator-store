@@ -5,7 +5,8 @@ import { Button } from "#/components/ui/button.tsx";
 
 export const Route = createFileRoute("/dashboard/products_/$productId/edit")({
 	validateSearch: (search: Record<string, unknown>) => ({
-		error: search.error === "1",
+		error:
+			search.error === true || search.error === "1" || search.error === "true",
 	}),
 	component: EditProductPlaceholder,
 });
@@ -35,7 +36,7 @@ function EditProductPlaceholder() {
 							: "Fone Bluetooth compacto",
 					externalUrl: `https://example.com/${productId}`,
 					description:
-						"Produto de exemplo usado para validar a experiencia de edicao.",
+						"Recomendacao com link externo, exibida conforme status e destaque definidos pelo criador.",
 					price: "R$ 149,90",
 					previousPrice: "R$ 199,90",
 					buttonLabel: "Ver produto",

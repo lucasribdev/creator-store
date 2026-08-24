@@ -25,7 +25,7 @@ export function ProductRow({
 	return (
 		<article className="rounded-lg border bg-surface p-4 shadow-sm">
 			<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-				<div className="flex gap-4">
+				<div className="flex min-w-0 gap-4">
 					<div className="flex size-20 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
 						{hasImage ? (
 							<Package className="size-6" aria-hidden="true" />
@@ -35,7 +35,9 @@ export function ProductRow({
 					</div>
 					<div className="min-w-0">
 						<div className="flex flex-wrap items-center gap-2">
-							<h3 className="font-extrabold text-foreground">{name}</h3>
+							<h3 className="min-w-0 break-words font-extrabold text-foreground">
+								{name}
+							</h3>
 							{isFeatured ? (
 								<StatusBadge tone="success" icon="featured">
 									Destaque
@@ -54,7 +56,7 @@ export function ProductRow({
 							)}
 						</div>
 						{description ? (
-							<p className="mt-2 text-sm leading-6 text-muted-foreground">
+							<p className="mt-2 break-words text-sm leading-6 text-muted-foreground">
 								{description}
 							</p>
 						) : null}
@@ -65,7 +67,9 @@ export function ProductRow({
 						) : null}
 					</div>
 				</div>
-				{actions ? <div className="shrink-0">{actions}</div> : null}
+				{actions ? (
+					<div className="w-full shrink-0 lg:w-auto">{actions}</div>
+				) : null}
 			</div>
 		</article>
 	);

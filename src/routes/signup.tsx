@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, UserPlus } from "lucide-react";
 
+import { InlineAlert } from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
 import { Input } from "#/components/ui/input.tsx";
 import { Label } from "#/components/ui/label.tsx";
@@ -24,29 +25,44 @@ function SignupPage() {
 					</div>
 					<h1 className="mt-5 text-3xl font-extrabold">Criar conta</h1>
 					<p className="mt-2 text-sm leading-6 text-[var(--sea-ink-soft)]">
-						Fluxo visual sem autenticacao real. A proxima entrega conecta esse
-						ponto ao dashboard ficticio.
+						Comece pela configuracao da pagina publica e dos produtos
+						recomendados.
 					</p>
 
 					<form className="mt-6 space-y-4">
 						<div className="space-y-2">
 							<Label htmlFor="name">Nome</Label>
-							<Input id="name" placeholder="Lucas Reviews" />
+							<Input
+								id="name"
+								placeholder="Lucas Reviews"
+								autoComplete="name"
+							/>
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="email">Email</Label>
-							<Input id="email" type="email" placeholder="criador@email.com" />
+							<Input
+								id="email"
+								type="email"
+								placeholder="criador@email.com"
+								autoComplete="email"
+							/>
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="password">Senha</Label>
-							<Input id="password" type="password" placeholder="********" />
+							<Input
+								id="password"
+								type="password"
+								placeholder="********"
+								autoComplete="new-password"
+							/>
 						</div>
-						<p className="rounded-md border border-[var(--line)] bg-white/70 px-3 py-2 text-sm text-[var(--sea-ink-soft)]">
-							Cadastro simulado: nenhum dado sera salvo nesta etapa.
-						</p>
+						<InlineAlert tone="info" title="Cadastro em preparacao">
+							O envio dos dados sera conectado em uma etapa posterior. Por
+							enquanto, continue para revisar a experiencia inicial.
+						</InlineAlert>
 					</form>
 					<Button asChild className="mt-4 w-full">
-						<Link to="/dashboard">Criar conta no prototipo</Link>
+						<Link to="/dashboard">Continuar para o painel</Link>
 					</Button>
 				</section>
 			</div>

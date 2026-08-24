@@ -20,7 +20,8 @@ import { Switch } from "#/components/ui/switch.tsx";
 
 export const Route = createFileRoute("/dashboard/products")({
 	validateSearch: (search: Record<string, unknown>) => ({
-		empty: search.empty === "1",
+		empty:
+			search.empty === true || search.empty === "1" || search.empty === "true",
 		saved: search.saved === "product" ? "product" : undefined,
 	}),
 	component: ProductsListPage,
@@ -160,18 +161,14 @@ function ProductActions({ product }: { product: (typeof products)[number] }) {
 	const isActive = product.status === "active";
 
 	return (
-		<div className="grid gap-2 sm:grid-cols-[auto_auto] lg:min-w-80">
-			<div className="flex items-center justify-between gap-3 rounded-md border bg-muted/50 px-3 py-2">
-				<span className="text-sm font-bold">
-					{isActive ? "Publicado" : "Oculto"}
+		<div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] lg:min-w-80">
+			<div className="flex min-h-10 items-center justify-between gap-3 rounded-md border bg-muted/50 px-3 py-2">
+				<span className="min-w-0 text-sm font-bold">
+					{isActive ? "Ativo na vitrine" : "Inativo na vitrine"}
 				</span>
-				<Switch
-					checked={isActive}
-					size="sm"
-					aria-label={`Status de ${product.name}`}
-				/>
+				<Switch checked={isActive} aria-label={`Status de ${product.name}`} />
 			</div>
-			<Button asChild variant="outline" size="sm">
+			<Button asChild variant="outline" className="w-full sm:w-auto">
 				<Link
 					to="/dashboard/products/$productId/edit"
 					params={{ productId: product.id }}
@@ -184,8 +181,7 @@ function ProductActions({ product }: { product: (typeof products)[number] }) {
 			<Button
 				type="button"
 				variant="ghost"
-				size="sm"
-				className="text-muted-foreground hover:text-danger sm:col-span-2"
+				className="w-full text-muted-foreground hover:text-danger sm:col-span-2"
 			>
 				<Trash2 aria-hidden="true" />
 				Excluir

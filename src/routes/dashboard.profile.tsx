@@ -52,7 +52,13 @@ function ProfileFormPage() {
 					</div>
 				) : null}
 
-				<form className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+				<form
+					className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]"
+					onSubmit={(event) => {
+						event.preventDefault();
+						setSaved(true);
+					}}
+				>
 					<div className="space-y-5">
 						<fieldset className="space-y-4 rounded-lg border p-4">
 							<legend className="px-1 text-sm font-extrabold">
@@ -102,9 +108,7 @@ function ProfileFormPage() {
 						</fieldset>
 
 						<div className="flex flex-col gap-3 sm:flex-row">
-							<Button type="button" onClick={() => setSaved(true)}>
-								Salvar alteracoes
-							</Button>
+							<Button type="submit">Salvar alteracoes</Button>
 							<Button asChild type="button" variant="outline">
 								<Link
 									to="/$username"

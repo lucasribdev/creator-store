@@ -5,7 +5,8 @@ import { Button } from "#/components/ui/button.tsx";
 
 export const Route = createFileRoute("/dashboard/products_/new")({
 	validateSearch: (search: Record<string, unknown>) => ({
-		error: search.error === "1",
+		error:
+			search.error === true || search.error === "1" || search.error === "true",
 	}),
 	component: NewProductPlaceholder,
 });
