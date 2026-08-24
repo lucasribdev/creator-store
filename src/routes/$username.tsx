@@ -145,11 +145,11 @@ function CreatorPage() {
 	}
 
 	return (
-		<AppShell mainClassName="max-w-none p-0">
+		<AppShell mainClassName="!max-w-none !p-0 !px-0 !py-0 sm:!px-0 lg:!px-0">
 			<div className="pb-10">
 				<CreatorHeader />
 
-				<div className="mx-auto w-full max-w-3xl space-y-6 px-4 pt-6 sm:px-6">
+				<div className="mx-auto mt-6 w-full max-w-3xl space-y-6">
 					{featuredProduct ? (
 						<section className="space-y-3">
 							<StatusBadge tone="success" icon="featured">
@@ -206,7 +206,7 @@ function CreatorHeader() {
 				<div className="absolute inset-0 bg-gradient-to-br from-blue-500/55 to-blue-800/60" />
 			</header>
 
-			<div className="mx-auto w-full max-w-3xl px-4 sm:px-6">
+			<div className="mx-auto w-full max-w-3xl">
 				<div className="relative -mt-12 size-24">
 					<div className="flex size-24 items-center justify-center overflow-hidden rounded-full border-4 border-surface bg-secondary text-xl font-extrabold text-secondary-foreground shadow-lg">
 						{creator.avatarUrl ? (
