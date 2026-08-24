@@ -1,29 +1,37 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ExternalLink, LogIn, Store, UserPlus } from "lucide-react";
+import {
+	ArrowRight,
+	ExternalLink,
+	ImageOff,
+	LogIn,
+	Store,
+	UserPlus,
+} from "lucide-react";
 
+import { StatusBadge } from "#/components/common/status-badge.tsx";
 import { Button } from "#/components/ui/button.tsx";
 
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
 	return (
-		<div className="min-h-screen px-5 py-5 text-[var(--sea-ink)] sm:px-8">
-			<header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 py-2">
+		<div className="min-h-screen px-4 py-4 text-foreground sm:px-6">
+			<header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 py-2">
 				<Link
 					to="/"
-					className="flex items-center gap-2 font-extrabold text-[var(--sea-ink)] no-underline"
+					className="flex min-w-0 items-center gap-2 font-extrabold text-foreground no-underline"
 				>
-					<span className="flex size-9 items-center justify-center rounded-md bg-[var(--sea-ink)] text-white">
+					<span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
 						<Store className="size-5" aria-hidden="true" />
 					</span>
-					<span>Creator Store</span>
+					<span className="truncate">Creator Store</span>
 				</Link>
 
-				<nav className="flex items-center gap-2">
+				<nav className="flex shrink-0 items-center gap-1.5 sm:gap-2">
 					<Button asChild variant="ghost" size="sm">
 						<Link to="/login">
 							<LogIn aria-hidden="true" />
-							Entrar
+							<span className="hidden sm:inline">Entrar</span>
 						</Link>
 					</Button>
 					<Button asChild size="sm">
@@ -35,25 +43,22 @@ function Home() {
 				</nav>
 			</header>
 
-			<main className="mx-auto grid w-full max-w-6xl gap-10 pb-12 pt-10 md:min-h-[calc(100vh-5rem)] md:grid-cols-[minmax(0,1fr)_24rem] md:items-center md:pt-6">
-				<section className="max-w-3xl">
-					<p className="font-bold text-sm text-[var(--kicker)] uppercase tracking-normal">
-						Link da bio para recomendacoes
-					</p>
-					<h1 className="mt-4 max-w-3xl text-4xl font-extrabold leading-tight text-[var(--sea-ink)] sm:text-5xl lg:text-6xl">
-						Transforme suas recomendacoes em uma vitrine simples de
-						compartilhar.
+			<main className="mx-auto grid w-full max-w-5xl gap-8 pb-10 pt-8 md:min-h-[calc(100vh-4.5rem)] md:grid-cols-[minmax(0,1fr)_22rem] md:items-center md:pt-4">
+				<section className="max-w-2xl">
+					<p className="island-kicker">Link da bio para recomendacoes</p>
+					<h1 className="display-title mt-4 max-w-2xl text-4xl font-bold leading-tight text-foreground sm:text-5xl">
+						Transforme o link da bio em uma vitrine de produtos recomendados.
 					</h1>
-					<p className="mt-5 max-w-2xl text-base leading-7 text-[var(--sea-ink-soft)] sm:text-lg">
-						A Creator Store ajuda criadores a organizar perfil, redes sociais e
-						produtos recomendados em uma pagina publica mobile first. A compra
-						continua acontecendo fora da plataforma.
+					<p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+						Organize perfil, redes sociais e recomendacoes em uma pagina publica
+						feita para celular. O visitante descobre o produto e segue para o
+						link externo cadastrado pelo criador.
 					</p>
 
-					<div className="mt-7 flex flex-col gap-3 sm:flex-row">
+					<div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
 						<Button asChild size="lg">
 							<Link to="/signup">
-								Comecar prototipo
+								Criar conta
 								<ArrowRight aria-hidden="true" />
 							</Link>
 						</Button>
@@ -63,37 +68,54 @@ function Home() {
 								params={{ username: "lucasreviews" }}
 								search={{ empty: false, published: true }}
 							>
-								Ver vitrine ficticia
+								Ver exemplo de vitrine
 								<ExternalLink aria-hidden="true" />
 							</Link>
 						</Button>
 					</div>
+
+					<ul className="mt-7 grid gap-3 text-sm leading-6 text-muted-foreground sm:grid-cols-3">
+						<li className="rounded-md border bg-surface px-3 py-2">
+							Produtos cadastrados manualmente
+						</li>
+						<li className="rounded-md border bg-surface px-3 py-2">
+							Pagina publica sem login
+						</li>
+						<li className="rounded-md border bg-surface px-3 py-2">
+							Cliques levam para fora da plataforma
+						</li>
+					</ul>
 				</section>
 
 				<section
 					aria-label="Previa de vitrine publica"
-					className="rounded-lg border border-[var(--line)] bg-[var(--surface-strong)] p-4 shadow-sm"
+					className="island-shell rounded-lg p-4"
 				>
-					<div className="rounded-md bg-[var(--sea-ink)] p-5 text-white">
-						<div className="size-16 rounded-full bg-white/20" />
-						<h2 className="mt-4 text-2xl font-bold">Lucas Reviews</h2>
-						<p className="mt-2 text-sm leading-6 text-white/80">
+					<div className="rounded-md bg-primary p-5 text-primary-foreground">
+						<div className="size-16 rounded-full bg-primary-foreground/20" />
+						<h2 className="mt-4 text-2xl font-extrabold">Lucas Reviews</h2>
+						<p className="mt-1 text-sm font-semibold text-primary-foreground/75">
+							@lucasreviews
+						</p>
+						<p className="mt-2 text-sm leading-6 text-primary-foreground/85">
 							Produtos e acessorios que uso e recomendo.
 						</p>
 					</div>
 					<div className="mt-4 space-y-3">
-						<div className="rounded-md border border-[var(--line)] bg-white/80 p-4">
-							<p className="text-xs font-bold text-[var(--palm)] uppercase">
+						<div className="rounded-md border bg-surface p-4">
+							<StatusBadge tone="success" icon="featured">
 								Produto em destaque
-							</p>
+							</StatusBadge>
 							<p className="mt-1 font-bold">Fone Bluetooth compacto</p>
-							<p className="mt-1 text-sm text-[var(--sea-ink-soft)]">
+							<p className="mt-1 text-sm text-muted-foreground">
 								Link externo cadastrado pelo criador.
 							</p>
 						</div>
 						<div className="grid grid-cols-2 gap-3">
-							<div className="h-24 rounded-md border border-[var(--line)] bg-white/70" />
-							<div className="h-24 rounded-md border border-[var(--line)] bg-white/70" />
+							<div className="h-24 rounded-md border bg-surface-muted" />
+							<div className="flex h-24 items-center justify-center rounded-md border border-dashed bg-surface text-muted-foreground">
+								<ImageOff className="size-5" aria-hidden="true" />
+							</div>
 						</div>
 					</div>
 				</section>
