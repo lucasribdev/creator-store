@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
@@ -7,18 +7,18 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #f7f8f6;
+  --background: #f8fafc;
   --surface: #ffffff;
-  --surface-muted: #eef2ee;
-  --border: #d9ded8;
-  --text: #15201c;
-  --text-muted: #5d6862;
-  --primary: #146c5c;
-  --primary-hover: #0f564a;
+  --surface-muted: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
   --primary-foreground: #ffffff;
-  --success: #1f7a4d;
-  --warning: #a15c00;
-  --danger: #b42318;
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
 
   --foreground: var(--text);
   --card: var(--surface);
@@ -34,13 +34,13 @@
   --destructive: var(--danger);
   --destructive-foreground: #ffffff;
   --input: var(--border);
-  --ring: color-mix(in oklab, var(--primary) 38%, transparent);
+  --ring: #93c5fd;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.5rem;
+  --radius: 0.625rem;
   --sidebar: var(--surface);
   --sidebar-foreground: var(--text);
   --sidebar-primary: var(--primary);
@@ -50,39 +50,41 @@
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
 
+  --header-bg: var(--surface);
+  --chip-bg: var(--surface-muted);
+  --chip-line: color-mix(in oklab, var(--primary) 20%, var(--border));
+  --link-bg-hover: var(--surface-muted);
+
+  /* Backward-compatible aliases used by the current prototype screens. */
   --sea-ink: var(--text);
   --sea-ink-soft: var(--text-muted);
   --lagoon: var(--primary);
   --lagoon-deep: var(--primary);
   --palm: var(--success);
-  --sand: var(--surface-muted);
+  --sand: var(--muted);
   --foam: var(--background);
   --surface-strong: var(--surface);
   --line: var(--border);
   --inset-glint: transparent;
   --kicker: var(--primary);
   --bg-base: var(--background);
-  --header-bg: var(--surface);
-  --chip-bg: var(--surface-muted);
-  --chip-line: color-mix(in oklab, var(--success) 28%, var(--border));
-  --link-bg-hover: var(--surface-muted);
   --hero-a: transparent;
   --hero-b: transparent;
 }
 
 .dark {
-  --background: #101614;
-  --surface: #171f1c;
-  --surface-muted: #202a26;
-  --border: #34413b;
-  --text: #f3f5f2;
-  --text-muted: #aab4ae;
-  --primary: #63c7aa;
-  --primary-hover: #85d6bf;
-  --primary-foreground: #0b1612;
-  --success: #73d39b;
-  --warning: #e4a64a;
-  --danger: #ff8a80;
+  --background: #0f172a;
+  --surface: #111827;
+  --surface-muted: #1e293b;
+  --border: #334155;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-foreground: #ffffff;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
 
   --foreground: var(--text);
   --card: var(--surface);
@@ -96,9 +98,9 @@
   --accent: var(--surface-muted);
   --accent-foreground: var(--text);
   --destructive: var(--danger);
-  --destructive-foreground: #0b1612;
+  --destructive-foreground: #ffffff;
   --input: var(--border);
-  --ring: color-mix(in oklab, var(--primary) 45%, transparent);
+  --ring: #60a5fa;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -113,22 +115,23 @@
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
 
+  --header-bg: var(--surface);
+  --chip-bg: var(--surface-muted);
+  --chip-line: color-mix(in oklab, var(--primary) 30%, var(--border));
+  --link-bg-hover: var(--surface-muted);
+
   --sea-ink: var(--text);
   --sea-ink-soft: var(--text-muted);
   --lagoon: var(--primary);
   --lagoon-deep: var(--primary);
   --palm: var(--success);
-  --sand: var(--surface-muted);
+  --sand: var(--muted);
   --foam: var(--background);
   --surface-strong: var(--surface);
   --line: var(--border);
   --inset-glint: transparent;
   --kicker: var(--primary);
   --bg-base: var(--background);
-  --header-bg: var(--surface);
-  --chip-bg: var(--surface-muted);
-  --chip-line: color-mix(in oklab, var(--success) 28%, var(--border));
-  --link-bg-hover: var(--surface-muted);
   --hero-a: transparent;
   --hero-b: transparent;
 }
@@ -192,9 +195,14 @@ body {
   color: var(--text);
   font-family: var(--font-sans);
   background: var(--background);
+  color-scheme: light;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.dark body {
+  color-scheme: dark;
 }
 
 a:not([data-slot="button"]) {
@@ -211,7 +219,7 @@ a:not([data-slot="button"]):hover {
 code {
   font-size: 0.9em;
   border: 1px solid var(--line);
-  background: color-mix(in oklab, var(--surface-strong) 82%, white 18%);
+  background: color-mix(in oklab, var(--surface-strong) 84%, var(--surface-muted) 16%);
   border-radius: 7px;
   padding: 2px 7px;
 }
@@ -228,18 +236,18 @@ pre code {
 .prose pre {
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: #1d2e45;
+  background: #0f172a;
   color: #e8efff;
 }
 
 .display-title {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--font-sans);
 }
 
 .island-shell {
   border: 1px solid var(--line);
   background: var(--surface);
-  box-shadow: 0 1px 2px rgba(15, 23, 18, 0.04);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
 }
 
 button,
