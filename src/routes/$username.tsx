@@ -1,13 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+	BadgeCheck,
 	ExternalLink,
-	Globe,
 	ImageOff,
 	Instagram,
-	Link2,
-	MessageCircle,
 	Music2,
 	Package,
+	Share2,
+	ShoppingBag,
 	Youtube,
 } from "lucide-react";
 
@@ -15,11 +15,10 @@ import {
 	AppShell,
 	EmptyState,
 	InlineAlert,
-	PublicHeader,
 	StatusBadge,
-	StatusPill,
 } from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
+import { cn } from "#/lib/utils.ts";
 
 export const Route = createFileRoute("/$username")({
 	validateSearch: (search: Record<string, unknown>) => ({
@@ -37,6 +36,9 @@ const creator = {
 	username: "lucasreviews",
 	displayName: "Lucas Reviews",
 	bio: "Produtos e acessorios que uso no dia a dia e recomendo para quem cria conteudo pelo celular.",
+	avatarUrl: "",
+	bannerUrl:
+		"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80",
 };
 
 const products = [
@@ -49,6 +51,8 @@ const products = [
 		featured: true,
 		active: true,
 		hasImage: true,
+		imageUrl:
+			"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
 	},
 	{
 		name: "Mini tripe para celular",
@@ -58,6 +62,8 @@ const products = [
 		featured: false,
 		active: true,
 		hasImage: true,
+		imageUrl:
+			"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
 	},
 	{
 		name: "Checklist impresso para gravar reviews",
@@ -68,6 +74,7 @@ const products = [
 		featured: false,
 		active: true,
 		hasImage: false,
+		imageUrl: "",
 	},
 	{
 		name: "Ring light de mesa",
@@ -77,6 +84,8 @@ const products = [
 		featured: false,
 		active: false,
 		hasImage: true,
+		imageUrl:
+			"https://images.unsplash.com/photo-1617957689233-207e3cd3c610?auto=format&fit=crop&w=900&q=80",
 	},
 ];
 
@@ -96,21 +105,6 @@ const socialLinks = [
 		url: "https://youtube.com/@lucasreviews",
 		icon: Youtube,
 	},
-	{
-		label: "WhatsApp",
-		url: "https://wa.me/5511999999999",
-		icon: MessageCircle,
-	},
-	{
-		label: "Site pessoal",
-		url: "https://lucasreviews.com",
-		icon: Globe,
-	},
-	{
-		label: "Kit de gravacao",
-		url: "https://example.com/kit-gravacao",
-		icon: Link2,
-	},
 ];
 
 function CreatorPage() {
@@ -124,7 +118,7 @@ function CreatorPage() {
 
 	if (username !== creator.username) {
 		return (
-			<AppShell header={<PublicHeader />} mainClassName="max-w-2xl">
+			<AppShell mainClassName="max-w-2xl">
 				<EmptyState
 					icon={<Package className="size-5" aria-hidden="true" />}
 					title="Pagina indisponivel"
@@ -141,7 +135,7 @@ function CreatorPage() {
 
 	if (!published) {
 		return (
-			<AppShell header={<PublicHeader />} mainClassName="max-w-2xl">
+			<AppShell mainClassName="max-w-2xl">
 				<InlineAlert tone="warning" title="Pagina despublicada">
 					Esta vitrine esta temporariamente fora do ar. Quando o criador
 					publicar novamente, as recomendacoes voltam a aparecer neste link.
@@ -151,111 +145,101 @@ function CreatorPage() {
 	}
 
 	return (
-		<AppShell header={<PublicHeader />} mainClassName="max-w-2xl">
-			<div className="space-y-5">
+		<AppShell mainClassName="max-w-none p-0">
+			<div className="pb-10">
 				<CreatorHeader />
 
-				{featuredProduct ? (
-					<section className="rounded-lg border bg-surface p-4 shadow-sm">
-						<div className="flex flex-wrap items-center justify-between gap-2">
+				<div className="mx-auto w-full max-w-3xl space-y-6 px-4 pt-6 sm:px-6">
+					{featuredProduct ? (
+						<section className="space-y-3">
 							<StatusBadge tone="success" icon="featured">
 								Produto em destaque
 							</StatusBadge>
-							<span className="text-xs font-bold text-muted-foreground">
-								Recomendacao do criador
-							</span>
-						</div>
-						<ProductImage
-							className="mt-3 aspect-[4/3] w-full"
-							hasImage={featuredProduct.hasImage}
-							name={featuredProduct.name}
-						/>
-						<h2 className="mt-4 break-words text-xl font-extrabold">
-							{featuredProduct.name}
-						</h2>
-						<p className="mt-2 break-words text-sm leading-6 text-muted-foreground">
-							{featuredProduct.description}
-						</p>
-						<ExternalProductButton
-							className="mt-4"
-							href={featuredProduct.url}
-							label={featuredProduct.buttonLabel}
-						/>
-					</section>
-				) : null}
+							<FeaturedProductCard product={featuredProduct} />
+						</section>
+					) : null}
 
-				<section className="space-y-3">
-					<div>
-						<h2 className="text-lg font-extrabold">Recomendacoes</h2>
-						<p className="mt-1 text-sm leading-6 text-muted-foreground">
-							Produtos selecionados por {creator.displayName}. Cada botao abre
-							um link externo.
-						</p>
-					</div>
-					{activeProducts.length === 0 ? (
-						<EmptyState
-							icon={<Package className="size-5" aria-hidden="true" />}
-							title="Esta vitrine ainda nao tem produtos ativos"
-							description={`Quando ${creator.displayName} publicar recomendacoes, elas aparecem aqui.`}
-						/>
-					) : (
-						regularProducts.map((product) => (
-							<article
-								key={product.name}
-								className="rounded-lg border bg-surface p-4 shadow-sm"
-							>
-								<div className="flex gap-3">
-									<ProductImage
-										className="size-20 shrink-0"
-										hasImage={product.hasImage}
-										name={product.name}
-									/>
-									<div className="min-w-0 flex-1">
-										<div className="flex flex-wrap items-center gap-2">
-											<h3 className="break-words font-extrabold">
-												{product.name}
-											</h3>
-											{product.hasImage ? null : (
-												<StatusBadge tone="warning" icon="image-missing">
-													Sem imagem
-												</StatusBadge>
-											)}
-										</div>
-										<p className="mt-1 break-words text-sm leading-5 text-muted-foreground">
-											{product.description}
-										</p>
-									</div>
-								</div>
-								<ExternalProductButton
-									className="mt-3"
-									href={product.url}
-									label={product.buttonLabel}
-									variant="outline"
-								/>
-							</article>
-						))
-					)}
-				</section>
+					<section className="space-y-3">
+						<div>
+							<h2 className="text-lg font-extrabold">Recomendacoes</h2>
+						</div>
+						{activeProducts.length === 0 ? (
+							<EmptyState
+								icon={<Package className="size-5" aria-hidden="true" />}
+								title="Esta vitrine ainda nao tem produtos ativos"
+								description={`Quando ${creator.displayName} publicar recomendacoes, elas aparecem aqui.`}
+							/>
+						) : (
+							<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+								{regularProducts.map((product) => (
+									<ProductCard key={product.name} product={product} />
+								))}
+							</div>
+						)}
+					</section>
+
+					<footer className="pb-2 pt-1 text-center text-[0.65rem] font-extrabold uppercase tracking-widest text-muted-foreground">
+						Creator Store
+					</footer>
+				</div>
 			</div>
 		</AppShell>
 	);
 }
 
 function CreatorHeader() {
+	const initials = creator.displayName
+		.split(" ")
+		.map((part) => part[0])
+		.join("")
+		.slice(0, 2)
+		.toUpperCase();
+
 	return (
-		<section className="overflow-hidden rounded-lg border bg-surface shadow-sm">
-			<div className="h-24 bg-primary sm:h-28" />
-			<div className="px-5 pb-5">
-				<div className="-mt-10 flex size-20 items-center justify-center rounded-full border-4 border-surface bg-secondary text-lg font-extrabold text-secondary-foreground">
-					LR
+		<section className="w-full">
+			<header className="relative h-40 w-full overflow-hidden sm:h-56">
+				<img
+					src={creator.bannerUrl}
+					alt=""
+					className="h-full w-full object-cover"
+				/>
+				<div className="absolute inset-0 bg-gradient-to-br from-blue-500/55 to-blue-800/60" />
+			</header>
+
+			<div className="mx-auto w-full max-w-3xl px-4 sm:px-6">
+				<div className="relative -mt-12 size-24">
+					<div className="flex size-24 items-center justify-center overflow-hidden rounded-full border-4 border-surface bg-secondary text-xl font-extrabold text-secondary-foreground shadow-lg">
+						{creator.avatarUrl ? (
+							<img
+								src={creator.avatarUrl}
+								alt={creator.displayName}
+								className="size-full object-cover"
+							/>
+						) : (
+							initials
+						)}
+					</div>
+					<Button
+						type="button"
+						size="icon-sm"
+						variant="outline"
+						className="absolute bottom-0 right-0 rounded-full bg-surface shadow-lg"
+						aria-label={`Compartilhar vitrine de ${creator.displayName}`}
+					>
+						<Share2 aria-hidden="true" />
+					</Button>
 				</div>
-				<div className="mt-4 flex flex-wrap items-center gap-2">
-					<h1 className="break-words text-3xl font-extrabold">
+
+				<div className="mt-4 flex flex-wrap items-center gap-1.5">
+					<h1 className="break-words text-2xl font-extrabold sm:text-3xl">
 						{creator.displayName}
 					</h1>
-					<StatusPill published />
+					<BadgeCheck
+						className="size-5 shrink-0 fill-blue-500 text-white"
+						aria-label="Perfil verificado"
+					/>
 				</div>
-				<p className="mt-1 break-words text-sm font-semibold text-muted-foreground">
+				<p className="mt-1 break-words text-sm font-extrabold text-blue-600">
 					@{creator.username}
 				</p>
 				<p className="mt-3 break-words text-sm leading-6 text-muted-foreground">
@@ -271,7 +255,8 @@ function CreatorHeader() {
 								asChild
 								key={socialLink.label}
 								variant="outline"
-								size="icon-sm"
+								size="sm"
+								className="rounded-full"
 							>
 								<a
 									href={socialLink.url}
@@ -280,6 +265,7 @@ function CreatorHeader() {
 									aria-label={`Abrir ${socialLink.label} de ${creator.displayName}`}
 								>
 									<Icon aria-hidden="true" />
+									{socialLink.label}
 								</a>
 							</Button>
 						);
@@ -290,13 +276,84 @@ function CreatorHeader() {
 	);
 }
 
+function FeaturedProductCard({
+	product,
+}: {
+	product: (typeof products)[number];
+}) {
+	return (
+		<article className="overflow-hidden rounded-lg border bg-surface shadow-sm">
+			<ProductImage
+				className="aspect-[16/10] w-full rounded-none border-0"
+				hasImage={product.hasImage}
+				imageUrl={product.imageUrl}
+				name={product.name}
+			/>
+			<div className="p-4">
+				<div className="flex items-start gap-3">
+					<div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-600">
+						<ShoppingBag className="size-5" aria-hidden="true" />
+					</div>
+					<div className="min-w-0 flex-1">
+						<h2 className="break-words text-xl font-extrabold">
+							{product.name}
+						</h2>
+						<p className="mt-2 break-words text-sm leading-6 text-muted-foreground">
+							{product.description}
+						</p>
+					</div>
+				</div>
+				<ExternalProductButton
+					className="mt-4"
+					href={product.url}
+					label={product.buttonLabel}
+				/>
+			</div>
+		</article>
+	);
+}
+
+function ProductCard({ product }: { product: (typeof products)[number] }) {
+	return (
+		<article className="flex min-h-full flex-col overflow-hidden rounded-lg border bg-surface shadow-sm">
+			<ProductImage
+				className="aspect-[4/3] w-full rounded-none border-0"
+				hasImage={product.hasImage}
+				imageUrl={product.imageUrl}
+				name={product.name}
+			/>
+			<div className="flex flex-1 flex-col p-4">
+				<div className="flex flex-wrap items-center gap-2">
+					<h3 className="break-words font-extrabold">{product.name}</h3>
+					{product.hasImage ? null : (
+						<StatusBadge tone="warning" icon="image-missing">
+							Sem imagem
+						</StatusBadge>
+					)}
+				</div>
+				<p className="mt-2 flex-1 break-words text-sm leading-5 text-muted-foreground">
+					{product.description}
+				</p>
+				<ExternalProductButton
+					className="mt-4"
+					href={product.url}
+					label={product.buttonLabel}
+					variant="outline"
+				/>
+			</div>
+		</article>
+	);
+}
+
 function ProductImage({
 	className,
 	hasImage,
+	imageUrl,
 	name,
 }: {
 	className: string;
 	hasImage: boolean;
+	imageUrl: string;
 	name: string;
 }) {
 	if (!hasImage) {
@@ -312,13 +369,11 @@ function ProductImage({
 	}
 
 	return (
-		<div
-			className={`flex items-center justify-center rounded-md bg-surface-muted text-muted-foreground ${className}`}
-			role="img"
-			aria-label={`Imagem do produto: ${name}`}
-		>
-			<Package className="size-6" aria-hidden="true" />
-		</div>
+		<img
+			src={imageUrl}
+			alt={`Imagem do produto: ${name}`}
+			className={cn("rounded-md bg-surface-muted object-cover", className)}
+		/>
 	);
 }
 

@@ -8,7 +8,7 @@ import { StatusBadge } from "./status-badge.tsx";
 
 type AppShellProps = {
 	children: ReactNode;
-	header: ReactNode;
+	header?: ReactNode;
 	className?: string;
 	mainClassName?: string;
 };
