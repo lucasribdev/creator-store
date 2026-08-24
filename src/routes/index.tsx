@@ -39,15 +39,17 @@ function Home() {
 	return (
 		<div className="min-h-screen bg-background text-foreground">
 			<header className="sticky top-0 z-20 border-b border-border bg-surface/90 backdrop-blur">
-				<div className="mx-auto flex min-h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+				<div className="mx-auto flex min-h-16 w-full max-w-7xl items-center justify-between gap-3 px-3 sm:px-6 lg:px-8">
 					<Link
 						to="/"
 						className="flex min-w-0 items-center gap-2.5 text-foreground no-underline"
 					>
-						<span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-xs">
+						<span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-xs">
 							<Store className="size-5" aria-hidden="true" />
 						</span>
-						<span className="truncate text-base font-black">Creator Store</span>
+						<span className="truncate text-base font-black max-[430px]:sr-only">
+							Creator Store
+						</span>
 					</Link>
 
 					<nav className="flex shrink-0 items-center gap-2">
@@ -64,36 +66,41 @@ function Home() {
 				</div>
 			</header>
 
-			<main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-				<Card className="overflow-hidden rounded-3xl border-border bg-card shadow-xs">
-					<div className="grid gap-8 p-5 sm:p-7 md:grid-cols-[minmax(0,1fr)_21rem] md:items-center lg:grid-cols-[minmax(0,1fr)_24rem] lg:p-10">
+			<main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+				<Card className="overflow-hidden rounded-3xl border-border/80 bg-card shadow-xs">
+					<div className="grid min-w-0 gap-8 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_28rem] lg:items-center lg:p-10 xl:p-12">
 						<section className="min-w-0">
 							<Badge
 								variant="secondary"
 								shape="pill"
-								className="border border-primary/20 bg-primary/10 text-primary"
+								className="max-w-full border border-primary/20 bg-primary/10 text-primary"
 							>
 								<Sparkles aria-hidden="true" />
-								<span className="uppercase tracking-wider">Link da bio</span>
+								<span className="uppercase tracking-normal">Link da bio</span>
 							</Badge>
 
-							<h1 className="mt-5 max-w-2xl text-4xl font-black leading-tight text-foreground sm:text-5xl">
+							<h1 className="mt-5 max-w-3xl text-balance break-words text-4xl font-black leading-tight text-foreground sm:text-5xl lg:text-6xl">
 								Sua vitrine de produtos recomendados em um unico link.
 							</h1>
-							<p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">
+							<p className="mt-4 max-w-2xl text-pretty break-words text-base leading-7 text-muted-foreground sm:text-lg">
 								Monte uma pagina publica para apresentar perfil, redes sociais e
 								produtos favoritos. A compra acontece sempre fora da Creator
 								Store.
 							</p>
 
-							<div className="mt-7 grid gap-3 sm:flex sm:items-center">
-								<Button asChild size="lg">
+							<div className="mt-7 grid max-w-full gap-3 sm:flex sm:flex-wrap sm:items-center">
+								<Button asChild size="lg" className="w-full min-w-0 sm:w-auto">
 									<Link to="/signup">
 										Criar minha vitrine
 										<ArrowRight aria-hidden="true" />
 									</Link>
 								</Button>
-								<Button asChild variant="outline" size="lg">
+								<Button
+									asChild
+									variant="outline"
+									size="lg"
+									className="w-full min-w-0 sm:w-auto"
+								>
 									<Link
 										to="/$username"
 										params={{ username: "lucasreviews" }}
@@ -106,13 +113,16 @@ function Home() {
 							</div>
 						</section>
 
-						<section aria-label="Preview da vitrine" className="mx-auto w-full">
-							<div className="mx-auto max-w-[21rem] rounded-[2rem] border border-border bg-foreground p-2 shadow-xs">
-								<div className="rounded-[1.55rem] bg-surface p-4">
+						<section
+							aria-label="Preview da vitrine"
+							className="mx-auto min-w-0 w-full"
+						>
+							<div className="mx-auto w-full max-w-full rounded-3xl border border-border bg-slate-950 p-2 shadow-xs sm:max-w-[22rem] lg:max-w-[26rem] dark:bg-slate-100">
+								<div className="aspect-[10/16] min-h-0 overflow-hidden rounded-[1.35rem] bg-surface p-4">
 									<div className="mx-auto mb-4 h-1.5 w-16 rounded-full bg-muted" />
-									<div className="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 p-4 text-white">
+									<div className="rounded-2xl bg-primary p-4 text-primary-foreground shadow-xs">
 										<div className="flex items-center gap-3">
-											<div className="flex size-14 items-center justify-center rounded-full bg-white/20 font-black">
+											<div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-white/20 font-black">
 												LR
 											</div>
 											<div className="min-w-0">
@@ -129,16 +139,16 @@ function Home() {
 										</p>
 									</div>
 
-									<div className="mt-4 flex gap-2">
-										<span className="rounded-full border border-border px-3 py-1 text-xs font-bold text-foreground">
+									<div className="mt-4 flex flex-wrap gap-2">
+										<span className="rounded-full border border-border px-3 py-1 text-xs font-bold text-foreground shadow-xs">
 											Instagram
 										</span>
-										<span className="rounded-full border border-border px-3 py-1 text-xs font-bold text-foreground">
+										<span className="rounded-full border border-border px-3 py-1 text-xs font-bold text-foreground shadow-xs">
 											YouTube
 										</span>
 									</div>
 
-									<div className="mt-4 space-y-3">
+									<div className="mt-4 space-y-3 overflow-hidden">
 										<ProductPreview
 											featured
 											title="Microfone sem fio compacto"
@@ -156,10 +166,10 @@ function Home() {
 				</Card>
 
 				<section className="mt-8">
-					<p className="text-xs font-black uppercase tracking-wider text-primary">
+					<p className="text-xs font-black uppercase tracking-normal text-primary">
 						Beneficios
 					</p>
-					<h2 className="mt-2 text-2xl font-black text-foreground">
+					<h2 className="mt-2 max-w-3xl text-pretty break-words text-2xl font-black text-foreground sm:text-3xl">
 						Feita para criadores que recomendam com contexto.
 					</h2>
 					<div className="mt-4 grid gap-3 md:grid-cols-3">
@@ -173,10 +183,10 @@ function Home() {
 										<benefit.icon className="size-5" aria-hidden="true" />
 									</span>
 									<div className="min-w-0">
-										<h3 className="text-sm font-black text-foreground">
+										<h3 className="break-words text-sm font-black text-foreground">
 											{benefit.title}
 										</h3>
-										<p className="mt-1 text-sm leading-6 text-muted-foreground">
+										<p className="mt-1 text-pretty break-words text-sm leading-6 text-muted-foreground">
 											{benefit.description}
 										</p>
 									</div>
@@ -192,11 +202,11 @@ function Home() {
 							className="mt-0.5 size-5 shrink-0 text-primary"
 							aria-hidden="true"
 						/>
-						<div>
-							<p className="text-sm font-black uppercase tracking-wider text-primary">
+						<div className="min-w-0">
+							<p className="break-words text-sm font-black uppercase tracking-normal text-primary">
 								Modelo simples
 							</p>
-							<p className="mt-1 text-sm leading-6">
+							<p className="mt-1 text-pretty break-words text-sm leading-6">
 								A Creator Store apresenta recomendacoes e redireciona o
 								visitante para links externos. Sem carrinho, checkout, estoque
 								ou pedidos.
@@ -221,16 +231,16 @@ function ProductPreview({
 	return (
 		<div className="rounded-2xl border border-border bg-card p-3 shadow-xs">
 			<div className="flex items-center gap-3">
-				<div className="flex size-14 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+				<div className="flex aspect-square w-14 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground">
 					<Package className="size-5" aria-hidden="true" />
 				</div>
 				<div className="min-w-0 flex-1">
-					<div className="flex items-center gap-2">
+					<div className="flex min-w-0 items-center gap-2">
 						<p className="truncate text-sm font-black text-foreground">
 							{title}
 						</p>
 						{featured ? (
-							<span className="rounded-full bg-primary/10 px-2 py-0.5 text-[0.625rem] font-black uppercase tracking-wider text-primary">
+							<span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[0.625rem] font-black uppercase tracking-normal text-primary">
 								Destaque
 							</span>
 						) : null}
