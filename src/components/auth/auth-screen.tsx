@@ -99,7 +99,7 @@ export function AuthInput({
 
 export function AuthError({ children }: { children: ReactNode }) {
 	return (
-		<div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold leading-6 text-red-900">
+		<div className="rounded-2xl border border-red-200/80 bg-red-50 px-4 py-3 text-sm font-semibold leading-6 text-red-900 shadow-xs">
 			{children}
 		</div>
 	);

@@ -36,7 +36,7 @@ function DashboardLayout() {
 				/>
 
 				<nav
-					className="mt-5 flex gap-2 overflow-x-auto rounded-lg border bg-surface p-1 shadow-sm"
+					className="mt-5 flex gap-2 overflow-x-auto rounded-2xl border border-border/80 bg-surface p-1 shadow-xs"
 					aria-label="Navegacao da area privada"
 				>
 					<DashboardNavLink
@@ -96,7 +96,7 @@ function DashboardNavLink({
 				className:
 					"text-muted-foreground hover:bg-accent hover:text-foreground",
 			}}
-			className="inline-flex h-10 min-w-28 shrink-0 items-center justify-center gap-2 rounded-md px-3 text-sm font-bold no-underline"
+			className="inline-flex h-10 min-w-28 shrink-0 items-center justify-center gap-2 rounded-xl px-3 text-sm font-bold no-underline"
 		>
 			<span className="[&_svg]:size-4">{icon}</span>
 			{label}
@@ -106,7 +106,7 @@ function DashboardNavLink({
 
 function PageStatusBadge({ published }: { published: boolean }) {
 	return (
-		<div className="w-fit rounded-lg border bg-surface px-4 py-3 shadow-sm">
+		<div className="w-fit rounded-2xl border border-border/80 bg-surface px-4 py-3 shadow-xs">
 			<p className="text-xs font-bold text-muted-foreground uppercase">
 				Status da pagina
 			</p>

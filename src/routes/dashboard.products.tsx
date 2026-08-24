@@ -78,7 +78,7 @@ function ProductsListPage() {
 	);
 
 	return (
-		<section className="mt-7 rounded-lg border bg-surface p-5 shadow-sm">
+		<section className="mt-7 rounded-3xl border border-border/80 bg-surface p-5 shadow-xs">
 			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<Button asChild variant="ghost" size="sm" className="w-fit px-0">
@@ -177,7 +177,7 @@ function ProductActions({ product }: { product: (typeof products)[number] }) {
 
 	return (
 		<div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] lg:min-w-80">
-			<div className="flex min-h-10 items-center justify-between gap-3 rounded-md border bg-muted/50 px-3 py-2">
+			<div className="flex min-h-10 items-center justify-between gap-3 rounded-2xl border border-border/80 bg-muted/50 px-3 py-2 shadow-xs">
 				<span className="min-w-0 text-sm font-bold">
 					{isActive ? "Ativo na vitrine" : "Inativo na vitrine"}
 				</span>

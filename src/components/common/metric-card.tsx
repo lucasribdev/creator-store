@@ -8,10 +8,10 @@ type MetricCardProps = {
 
 export function MetricCard({ icon, label, value }: MetricCardProps) {
 	return (
-		<article className="rounded-lg border bg-surface p-4 shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:shadow-md">
+		<article className="rounded-2xl border border-border/80 bg-surface p-4 shadow-xs transition-all duration-[180ms] ease-in-out hover:border-primary/30">
 			<div className="flex items-center justify-between gap-3">
 				{icon ? (
-					<div className="flex size-10 items-center justify-center rounded-md bg-primary text-primary-foreground">
+					<div className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-xs">
 						{icon}
 					</div>
 				) : null}

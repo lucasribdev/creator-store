@@ -35,7 +35,7 @@ export function ProductFormPrototype({
 	showError = false,
 }: ProductFormProps) {
 	return (
-		<section className="mt-6 rounded-lg border bg-surface p-4 shadow-sm sm:p-5">
+		<section className="mt-6 rounded-3xl border border-border/80 bg-surface p-4 shadow-xs sm:p-5">
 			<SectionHeader
 				icon={<Package className="size-5" aria-hidden="true" />}
 				title={mode === "new" ? "Adicionar produto" : "Editar produto"}
@@ -52,7 +52,7 @@ export function ProductFormPrototype({
 
 			<form className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
 				<div className="space-y-5">
-					<fieldset className="space-y-4 rounded-lg border p-4">
+					<fieldset className="space-y-4 rounded-2xl border border-border/80 p-4 shadow-xs">
 						<legend className="px-1 text-sm font-extrabold">
 							Dados obrigatorios
 						</legend>
@@ -113,7 +113,7 @@ export function ProductFormPrototype({
 						</div>
 					</fieldset>
 
-					<fieldset className="space-y-4 rounded-lg border p-4">
+					<fieldset className="space-y-4 rounded-2xl border border-border/80 p-4 shadow-xs">
 						<legend className="px-1 text-sm font-extrabold">
 							Detalhes opcionais
 						</legend>
@@ -158,7 +158,7 @@ export function ProductFormPrototype({
 
 					<fieldset className="grid gap-3 sm:grid-cols-2">
 						<legend className="sr-only">Publicacao</legend>
-						<div className="flex items-center justify-between gap-4 rounded-md border bg-muted/50 px-4 py-3">
+						<div className="flex items-center justify-between gap-4 rounded-2xl border border-border/80 bg-muted/50 px-4 py-3 shadow-xs">
 							<div>
 								<p className="text-sm font-bold">Produto ativo</p>
 								<p className="mt-1 text-xs text-muted-foreground">
@@ -170,7 +170,7 @@ export function ProductFormPrototype({
 								aria-label="Produto ativo"
 							/>
 						</div>
-						<div className="flex items-center justify-between gap-4 rounded-md border bg-muted/50 px-4 py-3">
+						<div className="flex items-center justify-between gap-4 rounded-2xl border border-border/80 bg-muted/50 px-4 py-3 shadow-xs">
 							<div>
 								<p className="text-sm font-bold">Produto em destaque</p>
 								<p className="mt-1 text-xs text-muted-foreground">
@@ -205,8 +205,8 @@ export function ProductFormPrototype({
 					</div>
 				</div>
 
-				<aside className="rounded-lg border border-dashed bg-surface p-4">
-					<div className="flex aspect-[4/3] items-center justify-center rounded-md bg-muted text-muted-foreground">
+				<aside className="rounded-2xl border border-dashed border-border/80 bg-surface p-4 shadow-xs">
+					<div className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-muted text-muted-foreground">
 						<ImageOff className="size-8" aria-hidden="true" />
 					</div>
 					<div className="mt-3 flex flex-wrap items-center gap-2">

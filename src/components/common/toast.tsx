@@ -16,7 +16,7 @@ export function Toast({ message, visible, className }: ToastProps) {
 	return (
 		<output
 			className={cn(
-				"fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full bg-slate-900 px-4 py-2.5 text-xs font-medium text-white shadow-2xl animate-in fade-in slide-in-from-bottom-3",
+				"fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full bg-slate-900 px-4 py-2.5 text-xs font-medium text-white shadow-xs animate-in fade-in slide-in-from-bottom-3",
 				className,
 			)}
 			aria-live="polite"

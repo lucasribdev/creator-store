@@ -27,7 +27,7 @@ export function FeaturedProductCard<TProduct extends ProductVisual>({
 	product,
 }: ProductCardProps<TProduct>) {
 	return (
-		<article className="group overflow-hidden rounded-2xl border border-blue-100 bg-blue-50/80 shadow-sm transition-all duration-[180ms] ease-in-out hover:border-blue-200 hover:shadow-md">
+		<article className="group overflow-hidden rounded-3xl border border-blue-100/80 bg-blue-50/80 shadow-xs transition-all duration-[180ms] ease-in-out hover:border-blue-200">
 			<ProductImage
 				aspectRatio="wide"
 				hasImage={product.hasImage}
@@ -75,7 +75,7 @@ export function ProductCard<TProduct extends ProductVisual>({
 	product,
 }: ProductCardProps<TProduct>) {
 	return (
-		<article className="group flex min-h-full flex-col overflow-hidden rounded-xl border bg-white shadow-xs transition-all duration-[180ms] ease-in-out hover:border-slate-300 hover:shadow-sm">
+		<article className="group flex min-h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs transition-all duration-[180ms] ease-in-out hover:border-slate-300">
 			<ProductImage
 				aspectRatio="standard"
 				hasImage={product.hasImage}
@@ -232,7 +232,7 @@ export function StatusPill({
 
 function StoreOverlay({ storeName }: { storeName: string }) {
 	return (
-		<span className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] truncate rounded-full bg-slate-900/80 px-2.5 py-1 text-[0.6875rem] font-extrabold text-white shadow-sm backdrop-blur-md">
+		<span className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] truncate rounded-full bg-slate-900/80 px-2.5 py-1 text-[0.6875rem] font-extrabold text-white shadow-xs backdrop-blur-md">
 			{storeName}
 		</span>
 	);

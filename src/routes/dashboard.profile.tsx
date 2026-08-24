@@ -16,7 +16,7 @@ function ProfileFormPage() {
 	const [saved, setSaved] = useState(false);
 
 	return (
-		<section className="mt-6 rounded-lg border bg-surface p-4 shadow-sm sm:p-5">
+		<section className="mt-6 rounded-3xl border border-border/80 bg-surface p-4 shadow-xs sm:p-5">
 			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<Button asChild variant="ghost" size="sm" className="w-fit px-0">
@@ -60,13 +60,13 @@ function ProfileFormPage() {
 					}}
 				>
 					<div className="space-y-5">
-						<fieldset className="space-y-4 rounded-lg border p-4">
+						<fieldset className="space-y-4 rounded-2xl border border-border/80 p-4 shadow-xs">
 							<legend className="px-1 text-sm font-extrabold">
 								Dados obrigatorios
 							</legend>
 							<div className="space-y-2">
 								<Label htmlFor="username">Username</Label>
-								<div className="flex overflow-hidden rounded-md border border-input bg-surface shadow-xs focus-within:ring-[3px] focus-within:ring-ring/50">
+								<div className="flex overflow-hidden rounded-2xl border border-input bg-surface shadow-xs focus-within:ring-[3px] focus-within:ring-ring/50">
 									<span className="flex shrink-0 items-center border-r border-input px-3 text-sm text-muted-foreground">
 										/
 									</span>
@@ -90,7 +90,7 @@ function ProfileFormPage() {
 							</div>
 						</fieldset>
 
-						<fieldset className="space-y-4 rounded-lg border p-4">
+						<fieldset className="space-y-4 rounded-2xl border border-border/80 p-4 shadow-xs">
 							<legend className="px-1 text-sm font-extrabold">
 								Dados opcionais
 							</legend>
@@ -150,12 +150,12 @@ function ImagePlaceholder({
 	description: string;
 }) {
 	return (
-		<div className="rounded-lg border border-dashed bg-surface p-4">
+		<div className="rounded-2xl border border-dashed border-border/80 bg-surface p-4 shadow-xs">
 			<div
 				className={
 					shape === "avatar"
 						? "flex aspect-square max-w-28 items-center justify-center rounded-full bg-muted text-muted-foreground"
-						: "flex aspect-[16/7] items-center justify-center rounded-md bg-muted text-muted-foreground"
+						: "flex aspect-[16/7] items-center justify-center rounded-2xl bg-muted text-muted-foreground"
 				}
 			>
 				<Image className="size-6" aria-hidden="true" />

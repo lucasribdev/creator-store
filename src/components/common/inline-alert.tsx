@@ -40,7 +40,7 @@ export function InlineAlert({
 
 	return (
 		<div
-			className={`flex items-start gap-3 rounded-md border px-4 py-3 text-sm ${toneClassName[tone]}`}
+			className={`flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm shadow-xs ${toneClassName[tone]}`}
 		>
 			<Icon className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
 			<div>

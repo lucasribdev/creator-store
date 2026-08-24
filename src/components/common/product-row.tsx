@@ -32,7 +32,7 @@ export function ProductRow({
 	actions,
 }: ProductRowProps) {
 	return (
-		<article className="rounded-xl border bg-white p-3 shadow-xs transition-all duration-[180ms] ease-in-out hover:border-slate-300 hover:shadow-sm sm:p-4">
+		<article className="rounded-2xl border border-slate-200/80 bg-white p-3 shadow-xs transition-all duration-[180ms] ease-in-out hover:border-slate-300 sm:p-4">
 			<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 				<div className="flex min-w-0 gap-3 sm:gap-4">
 					<ProductImage

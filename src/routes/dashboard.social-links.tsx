@@ -165,7 +165,7 @@ function SocialLinksPage() {
 	}
 
 	return (
-		<section className="mt-7 rounded-lg border bg-surface p-5 shadow-sm">
+		<section className="mt-7 rounded-3xl border border-border/80 bg-surface p-5 shadow-xs">
 			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<Button asChild variant="ghost" size="sm" className="w-fit px-0">
@@ -258,7 +258,7 @@ function SocialLinksPage() {
 
 					<form
 						key={editingLink?.id ?? `new-${selectedType}`}
-						className="h-fit rounded-lg border p-4"
+						className="h-fit rounded-2xl border border-border/80 p-4 shadow-xs"
 						onSubmit={(event) => {
 							event.preventDefault();
 							setSaved(true);
@@ -266,7 +266,7 @@ function SocialLinksPage() {
 						}}
 					>
 						<div className="flex items-center gap-3">
-							<div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
+							<div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-xs">
 								<SelectedIcon className="size-5" aria-hidden="true" />
 							</div>
 							<div className="min-w-0">
@@ -337,7 +337,7 @@ function SocialLinksPage() {
 								/>
 							</div>
 
-							<div className="flex min-h-11 items-center justify-between gap-3 rounded-md border bg-muted/50 px-3 py-2">
+							<div className="flex min-h-11 items-center justify-between gap-3 rounded-2xl border border-border/80 bg-muted/50 px-3 py-2 shadow-xs">
 								<div className="min-w-0">
 									<Label htmlFor="social-active">Ativo na pagina</Label>
 									<p className="text-xs leading-5 text-muted-foreground">
@@ -388,11 +388,11 @@ function SocialLinkRow({
 	const title = socialLink.label ?? socialType.name;
 
 	return (
-		<article className="rounded-lg border bg-surface p-4 shadow-sm">
+		<article className="rounded-2xl border border-border/80 bg-surface p-4 shadow-xs">
 			<div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-center">
 				<div className="min-w-0">
 					<div className="flex flex-wrap items-center gap-2">
-						<span className="flex size-9 items-center justify-center rounded-md bg-muted text-muted-foreground">
+						<span className="flex size-9 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
 							<Icon className="size-4" aria-hidden="true" />
 						</span>
 						<div className="min-w-0">
@@ -419,7 +419,7 @@ function SocialLinkRow({
 				</div>
 
 				<div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
-					<div className="flex min-h-10 items-center justify-between gap-3 rounded-md border bg-muted/50 px-3 py-2">
+					<div className="flex min-h-10 items-center justify-between gap-3 rounded-2xl border border-border/80 bg-muted/50 px-3 py-2 shadow-xs">
 						<span className="min-w-0 text-sm font-bold">
 							{socialLink.isActive ? "Visivel na pagina" : "Oculto da pagina"}
 						</span>

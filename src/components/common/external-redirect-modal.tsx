@@ -38,7 +38,7 @@ export function ExternalRedirectModal({
 			aria-modal="true"
 			aria-labelledby="external-redirect-title"
 		>
-			<div className="relative w-full max-w-sm rounded-2xl border bg-white p-5 text-slate-950 shadow-2xl dark:bg-slate-900 dark:text-slate-50">
+			<div className="relative w-full max-w-sm rounded-3xl border border-slate-200/80 bg-white p-5 text-slate-950 shadow-xs dark:border-slate-700/80 dark:bg-slate-900 dark:text-slate-50">
 				<Button
 					type="button"
 					variant="ghost"
@@ -65,7 +65,7 @@ export function ExternalRedirectModal({
 				<div className="mt-5 flex gap-3">
 					<div
 						className={cn(
-							"flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500",
+							"flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500",
 							hasImage ? "" : "border border-dashed",
 						)}
 					>
@@ -90,7 +90,7 @@ export function ExternalRedirectModal({
 					</div>
 				</div>
 
-				<div className="mt-4 break-all rounded-lg bg-slate-100 p-3 font-mono text-[11px] leading-4 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+				<div className="mt-4 break-all rounded-2xl bg-slate-100 p-3 font-mono text-[11px] leading-4 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
 					{product.url}
 				</div>
 

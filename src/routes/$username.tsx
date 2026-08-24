@@ -258,7 +258,7 @@ function CreatorHeader() {
 
 			<div className="mx-auto w-full max-w-3xl">
 				<div className="relative -mt-12 size-24">
-					<div className="flex size-24 items-center justify-center overflow-hidden rounded-full border-4 border-surface bg-secondary text-xl font-extrabold text-secondary-foreground shadow-lg">
+					<div className="flex size-24 items-center justify-center overflow-hidden rounded-full border-4 border-surface bg-secondary text-xl font-extrabold text-secondary-foreground shadow-xs">
 						{creator.avatarUrl ? (
 							<img
 								src={creator.avatarUrl}
@@ -273,7 +273,7 @@ function CreatorHeader() {
 						type="button"
 						size="icon-sm"
 						variant="outline"
-						className="absolute bottom-0 right-0 rounded-full bg-surface shadow-lg"
+						className="absolute bottom-0 right-0 rounded-full bg-surface shadow-xs"
 						aria-label={`Compartilhar vitrine de ${creator.displayName}`}
 					>
 						<Share2 aria-hidden="true" />

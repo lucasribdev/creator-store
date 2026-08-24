@@ -25,7 +25,7 @@ const publicUrl = "/lucasreviews";
 function DashboardHomePage() {
 	return (
 		<>
-			<section className="mt-6 rounded-lg border bg-surface p-4 shadow-sm sm:p-5">
+			<section className="mt-6 rounded-3xl border border-border/80 bg-surface p-4 shadow-xs sm:p-5">
 				<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 					<div className="min-w-0">
 						<p className="text-xs font-bold text-muted-foreground uppercase">
@@ -133,10 +133,10 @@ function QuickAction({
 	return (
 		<Link
 			to={to}
-			className="group rounded-lg border bg-surface p-5 text-foreground no-underline shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:bg-accent hover:shadow-md focus-visible:ring-[3px] focus-visible:ring-ring/50"
+			className="group rounded-2xl border border-border/80 bg-surface p-5 text-foreground no-underline shadow-xs transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50"
 		>
 			<div className="flex items-start justify-between gap-4">
-				<div className="flex size-11 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
+				<div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-xs">
 					{icon}
 				</div>
 				<ArrowRight
