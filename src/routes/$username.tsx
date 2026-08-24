@@ -282,7 +282,7 @@ function FeaturedProductCard({
 	product: (typeof products)[number];
 }) {
 	return (
-		<article className="overflow-hidden rounded-lg border bg-surface shadow-sm">
+		<article className="group overflow-hidden rounded-lg border bg-surface shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:shadow-md">
 			<ProductImage
 				className="aspect-[16/10] w-full rounded-none border-0"
 				hasImage={product.hasImage}
@@ -315,7 +315,7 @@ function FeaturedProductCard({
 
 function ProductCard({ product }: { product: (typeof products)[number] }) {
 	return (
-		<article className="flex min-h-full flex-col overflow-hidden rounded-lg border bg-surface shadow-sm">
+		<article className="group flex min-h-full flex-col overflow-hidden rounded-lg border bg-surface shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:shadow-md">
 			<ProductImage
 				className="aspect-[4/3] w-full rounded-none border-0"
 				hasImage={product.hasImage}
@@ -359,21 +359,28 @@ function ProductImage({
 	if (!hasImage) {
 		return (
 			<div
-				className={`flex items-center justify-center rounded-md border border-dashed bg-surface-muted text-muted-foreground ${className}`}
+				className={`flex items-center justify-center overflow-hidden rounded-md border border-dashed bg-surface-muted text-muted-foreground ${className}`}
 				role="img"
 				aria-label={`Produto sem imagem: ${name}`}
 			>
-				<ImageOff className="size-6" aria-hidden="true" />
+				<ImageOff
+					className="size-6 transition-transform duration-300 ease-in-out group-hover:scale-105"
+					aria-hidden="true"
+				/>
 			</div>
 		);
 	}
 
 	return (
-		<img
-			src={imageUrl}
-			alt={`Imagem do produto: ${name}`}
-			className={cn("rounded-md bg-surface-muted object-cover", className)}
-		/>
+		<div
+			className={cn("overflow-hidden rounded-md bg-surface-muted", className)}
+		>
+			<img
+				src={imageUrl}
+				alt={`Imagem do produto: ${name}`}
+				className="size-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+			/>
+		</div>
 	);
 }
 
@@ -398,10 +405,14 @@ function ExternalProductButton({
 				href={href}
 				target="_blank"
 				rel="noreferrer"
+				className="group/product"
 				aria-label={`Abrir link externo: ${label}`}
 			>
 				<span className="min-w-0 break-words text-center">{label}</span>
-				<ExternalLink aria-hidden="true" />
+				<ExternalLink
+					className="transition-transform duration-[180ms] ease-in-out group-hover/product:translate-x-1"
+					aria-hidden="true"
+				/>
 			</a>
 		</Button>
 	);

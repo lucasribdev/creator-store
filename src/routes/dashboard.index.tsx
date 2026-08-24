@@ -133,14 +133,14 @@ function QuickAction({
 	return (
 		<Link
 			to={to}
-			className="group rounded-lg border bg-surface p-5 text-foreground no-underline shadow-sm transition hover:bg-accent"
+			className="group rounded-lg border bg-surface p-5 text-foreground no-underline shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:bg-accent hover:shadow-md focus-visible:ring-[3px] focus-visible:ring-ring/50"
 		>
 			<div className="flex items-start justify-between gap-4">
 				<div className="flex size-11 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
 					{icon}
 				</div>
 				<ArrowRight
-					className="size-5 text-muted-foreground transition group-hover:translate-x-1"
+					className="size-5 text-muted-foreground transition-transform duration-[180ms] ease-in-out group-hover:translate-x-1"
 					aria-hidden="true"
 				/>
 			</div>

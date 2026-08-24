@@ -210,10 +210,16 @@ a:not([data-slot="button"]) {
   text-decoration-color: color-mix(in oklab, var(--primary) 42%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
+  outline: none;
 }
 
 a:not([data-slot="button"]):hover {
   color: var(--primary-hover);
+}
+
+a:not([data-slot="button"]):focus-visible {
+  border-radius: 8px;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
 }
 
 code {
@@ -254,7 +260,7 @@ button,
 .island-shell,
 a {
   transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease,
-    transform 180ms ease;
+    box-shadow 180ms ease, opacity 180ms ease, transform 180ms ease;
 }
 
 .island-kicker {

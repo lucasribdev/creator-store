@@ -23,7 +23,7 @@ export function ProductRow({
 	actions,
 }: ProductRowProps) {
 	return (
-		<article className="rounded-lg border bg-surface p-4 shadow-sm">
+		<article className="rounded-lg border bg-surface p-4 shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:shadow-md">
 			<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 				<div className="flex min-w-0 gap-4">
 					<div className="flex size-20 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
