@@ -10,12 +10,16 @@ import {
 	ShoppingBag,
 	Youtube,
 } from "lucide-react";
+import { useState } from "react";
 
 import {
 	AppShell,
 	EmptyState,
+	ExternalRedirectModal,
+	type ExternalRedirectProduct,
 	InlineAlert,
 	StatusBadge,
+	Toast,
 } from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
 import { cn } from "#/lib/utils.ts";
@@ -48,6 +52,8 @@ const products = [
 			"Modelo leve para editar videos, assistir aulas e gravar em movimento.",
 		buttonLabel: "Ver produto",
 		url: "https://example.com/fone-bluetooth",
+		storeName: "Loja parceira",
+		price: "R$ 189,90",
 		featured: true,
 		active: true,
 		hasImage: true,
@@ -59,6 +65,8 @@ const products = [
 		description: "Ajuda a gravar reviews e stories com enquadramento estavel.",
 		buttonLabel: "Ver produto",
 		url: "https://example.com/mini-tripe",
+		storeName: "Marketplace externo",
+		price: "R$ 79,90",
 		featured: false,
 		active: true,
 		hasImage: true,
@@ -71,6 +79,8 @@ const products = [
 			"Material simples para planejar conteudos antes de ligar a camera.",
 		buttonLabel: "Acessar recomendacao",
 		url: "https://example.com/checklist-reviews",
+		storeName: "Pagina do criador",
+		price: "Gratuito",
 		featured: false,
 		active: true,
 		hasImage: false,
@@ -81,6 +91,8 @@ const products = [
 		description: "Iluminacao compacta para gravacoes em mesa.",
 		buttonLabel: "Ver produto",
 		url: "https://example.com/ring-light",
+		storeName: "Loja parceira",
+		price: "R$ 139,90",
 		featured: false,
 		active: false,
 		hasImage: true,
@@ -110,11 +122,32 @@ const socialLinks = [
 function CreatorPage() {
 	const { username } = Route.useParams();
 	const { empty, published } = Route.useSearch();
+	const [redirectProduct, setRedirectProduct] =
+		useState<ExternalRedirectProduct | null>(null);
+	const [showRedirectToast, setShowRedirectToast] = useState(false);
 	const activeProducts = empty
 		? []
 		: products.filter((product) => product.active);
 	const featuredProduct = activeProducts.find((product) => product.featured);
 	const regularProducts = activeProducts.filter((product) => !product.featured);
+	const isRedirectModalOpen = Boolean(redirectProduct);
+
+	function openRedirectModal(product: (typeof products)[number]) {
+		setRedirectProduct({
+			name: product.name,
+			storeName: product.storeName,
+			price: product.price,
+			url: product.url,
+			imageUrl: product.imageUrl,
+			hasImage: product.hasImage,
+		});
+	}
+
+	function handleRedirectConfirm() {
+		setRedirectProduct(null);
+		setShowRedirectToast(true);
+		window.setTimeout(() => setShowRedirectToast(false), 2400);
+	}
 
 	if (username !== creator.username) {
 		return (
@@ -155,7 +188,10 @@ function CreatorPage() {
 							<StatusBadge tone="success" icon="featured">
 								Produto em destaque
 							</StatusBadge>
-							<FeaturedProductCard product={featuredProduct} />
+							<FeaturedProductCard
+								product={featuredProduct}
+								onOpenRedirect={openRedirectModal}
+							/>
 						</section>
 					) : null}
 
@@ -172,7 +208,11 @@ function CreatorPage() {
 						) : (
 							<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 								{regularProducts.map((product) => (
-									<ProductCard key={product.name} product={product} />
+									<ProductCard
+										key={product.name}
+										product={product}
+										onOpenRedirect={openRedirectModal}
+									/>
 								))}
 							</div>
 						)}
@@ -183,6 +223,13 @@ function CreatorPage() {
 					</footer>
 				</div>
 			</div>
+			<ExternalRedirectModal
+				open={isRedirectModalOpen}
+				product={redirectProduct}
+				onClose={() => setRedirectProduct(null)}
+				onConfirm={handleRedirectConfirm}
+			/>
+			<Toast message="Redirecionando para a loja" visible={showRedirectToast} />
 		</AppShell>
 	);
 }
@@ -277,8 +324,10 @@ function CreatorHeader() {
 }
 
 function FeaturedProductCard({
+	onOpenRedirect,
 	product,
 }: {
+	onOpenRedirect: (product: (typeof products)[number]) => void;
 	product: (typeof products)[number];
 }) {
 	return (
@@ -305,15 +354,21 @@ function FeaturedProductCard({
 				</div>
 				<ExternalProductButton
 					className="mt-4"
-					href={product.url}
 					label={product.buttonLabel}
+					onClick={() => onOpenRedirect(product)}
 				/>
 			</div>
 		</article>
 	);
 }
 
-function ProductCard({ product }: { product: (typeof products)[number] }) {
+function ProductCard({
+	onOpenRedirect,
+	product,
+}: {
+	onOpenRedirect: (product: (typeof products)[number]) => void;
+	product: (typeof products)[number];
+}) {
 	return (
 		<article className="group flex min-h-full flex-col overflow-hidden rounded-lg border bg-surface shadow-sm transition-all duration-[180ms] ease-in-out hover:border-primary/30 hover:shadow-md">
 			<ProductImage
@@ -336,8 +391,8 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
 				</p>
 				<ExternalProductButton
 					className="mt-4"
-					href={product.url}
 					label={product.buttonLabel}
+					onClick={() => onOpenRedirect(product)}
 					variant="outline"
 				/>
 			</div>
@@ -386,34 +441,28 @@ function ProductImage({
 
 function ExternalProductButton({
 	className,
-	href,
 	label,
+	onClick,
 	variant,
 }: {
 	className?: string;
-	href: string;
 	label: string;
+	onClick: () => void;
 	variant?: "outline";
 }) {
 	return (
 		<Button
-			asChild
-			className={`min-h-10 w-full ${className ?? ""}`}
+			className={cn("group/product min-h-10 w-full", className)}
+			onClick={onClick}
+			type="button"
 			variant={variant}
+			aria-label={`Abrir link externo: ${label}`}
 		>
-			<a
-				href={href}
-				target="_blank"
-				rel="noreferrer"
-				className="group/product"
-				aria-label={`Abrir link externo: ${label}`}
-			>
-				<span className="min-w-0 break-words text-center">{label}</span>
-				<ExternalLink
-					className="transition-transform duration-[180ms] ease-in-out group-hover/product:translate-x-1"
-					aria-hidden="true"
-				/>
-			</a>
+			<span className="min-w-0 break-words text-center">{label}</span>
+			<ExternalLink
+				className="transition-transform duration-[180ms] ease-in-out group-hover/product:translate-x-1"
+				aria-hidden="true"
+			/>
 		</Button>
 	);
 }
