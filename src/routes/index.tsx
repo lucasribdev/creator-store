@@ -19,18 +19,18 @@ export const Route = createFileRoute("/")({ component: Home });
 
 const benefits = [
 	{
-		title: "Vitrine publica",
-		description: "Uma pagina rapida para perfil, redes e produtos ativos.",
+		title: "Vitrine pública",
+		description: "Uma página rápida para perfil, redes e produtos ativos.",
 		icon: Store,
 	},
 	{
-		title: "Recomendacoes manuais",
+		title: "Recomendações manuais",
 		description: "Cadastre produtos com nome, imagem e link externo.",
 		icon: Package,
 	},
 	{
 		title: "Cliques rastreados",
-		description: "Entenda quais recomendacoes levam visitantes para a loja.",
+		description: "Entenda quais recomendações levam visitantes para a loja.",
 		icon: TrendingUp,
 	},
 ];
@@ -80,10 +80,10 @@ function Home() {
 							</Badge>
 
 							<h1 className="mt-5 max-w-3xl text-balance break-words text-4xl font-black leading-tight text-foreground sm:text-5xl lg:text-6xl">
-								Sua vitrine de produtos recomendados em um unico link.
+								Sua vitrine de produtos recomendados em um único link.
 							</h1>
 							<p className="mt-4 max-w-2xl text-pretty break-words text-base leading-7 text-muted-foreground sm:text-lg">
-								Monte uma pagina publica para apresentar perfil, redes sociais e
+								Monte uma página pública para apresentar perfil, redes sociais e
 								produtos favoritos. A compra acontece sempre fora da Creator
 								Store.
 							</p>
@@ -135,7 +135,7 @@ function Home() {
 											</div>
 										</div>
 										<p className="mt-3 text-sm leading-6 text-white/85">
-											Acessorios que uso para gravar, editar e viajar.
+											Acessórios que uso para gravar, editar e viajar.
 										</p>
 									</div>
 
@@ -152,11 +152,11 @@ function Home() {
 										<ProductPreview
 											featured
 											title="Microfone sem fio compacto"
-											priceLabel="Recomendado para videos curtos"
+											priceLabel="Recomendado para vídeos curtos"
 										/>
 										<ProductPreview
-											title="Luz LED portatil"
-											priceLabel="Setup leve para gravacao"
+											title="Luz LED portátil"
+											priceLabel="Setup leve para gravação"
 										/>
 									</div>
 								</div>
@@ -167,7 +167,7 @@ function Home() {
 
 				<section className="mt-8">
 					<p className="text-xs font-black uppercase tracking-normal text-primary">
-						Beneficios
+						Benefícios
 					</p>
 					<h2 className="mt-2 max-w-3xl text-pretty break-words text-2xl font-black text-foreground sm:text-3xl">
 						Feita para criadores que recomendam com contexto.
@@ -207,7 +207,7 @@ function Home() {
 								Modelo simples
 							</p>
 							<p className="mt-1 text-pretty break-words text-sm leading-6">
-								A Creator Store apresenta recomendacoes e redireciona o
+								A Creator Store apresenta recomendações e redireciona o
 								visitante para links externos. Sem carrinho, checkout, estoque
 								ou pedidos.
 							</p>

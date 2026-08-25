@@ -32,11 +32,11 @@ function EditProductPlaceholder() {
 				initialValues={{
 					name:
 						productId === "mini-tripe"
-							? "Mini tripe para celular"
+							? "Mini tripé para celular"
 							: "Fone Bluetooth compacto",
 					externalUrl: `https://example.com/${productId}`,
 					description:
-						"Recomendacao com link externo, exibida conforme status e destaque definidos pelo criador.",
+						"Recomendação com link externo, exibida conforme status e destaque definidos pelo criador.",
 					price: "R$ 149,90",
 					previousPrice: "R$ 199,90",
 					buttonLabel: "Ver produto",

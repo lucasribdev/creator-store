@@ -32,7 +32,7 @@ const products = [
 		id: "fone-bluetooth",
 		name: "Fone Bluetooth compacto",
 		description:
-			"Modelo leve para editar videos, assistir aulas e gravar em movimento.",
+			"Modelo leve para editar vídeos, assistir aulas e gravar em movimento.",
 		status: "active",
 		featured: true,
 		price: "R$ 149,90",
@@ -44,8 +44,8 @@ const products = [
 	},
 	{
 		id: "mini-tripe",
-		name: "Mini tripe para celular",
-		description: "Ajuda a gravar reviews e stories com enquadramento estavel.",
+		name: "Mini tripé para celular",
+		description: "Ajuda a gravar reviews e stories com enquadramento estável.",
 		status: "active",
 		featured: false,
 		price: "R$ 59,90",
@@ -58,7 +58,7 @@ const products = [
 		id: "ring-light",
 		name: "Ring light de mesa",
 		description:
-			"Produto inativo: continua no painel, mas nao aparece publicamente.",
+			"Produto inativo: continua no painel, mas não aparece publicamente.",
 		status: "inactive",
 		featured: false,
 		price: "R$ 89,90",
@@ -100,7 +100,7 @@ function ProductsListPage() {
 					<SectionHeader
 						icon={<Package className="size-5" aria-hidden="true" />}
 						title="Produtos"
-						description="Acompanhe o que esta publicado, o que esta oculto e qual produto esta em destaque."
+						description="Acompanhe o que está publicado, o que está oculto e qual produto está em destaque."
 					/>
 				</div>
 
@@ -130,8 +130,8 @@ function ProductsListPage() {
 				{visibleProducts.length > 0 ? (
 					<div className="mt-6 space-y-3">
 						<InlineAlert tone="info" title="Dica para remover da vitrine">
-							Desative um produto quando ele nao deve aparecer publicamente, mas
-							voce ainda quer manter os dados no painel.
+							Desative um produto quando ele não deve aparecer publicamente, mas
+							você ainda quer manter os dados no painel.
 						</InlineAlert>
 						{visibleProducts.map((product) => (
 							<ProductRow

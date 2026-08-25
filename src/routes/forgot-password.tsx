@@ -27,7 +27,7 @@ function ForgotPasswordPage() {
 	const [sent, setSent] = useState(false);
 	const [error, setError] = useState(
 		search.error === 1
-			? "Nao foi possivel enviar as instrucoes agora. Tente novamente."
+			? "Não foi possível enviar as instruções agora. Tente novamente."
 			: "",
 	);
 
@@ -42,7 +42,7 @@ function ForgotPasswordPage() {
 
 			if (email.toLowerCase().includes("erro")) {
 				setError(
-					"Nao foi possivel enviar as instrucoes agora. Tente novamente.",
+					"Não foi possível enviar as instruções agora. Tente novamente.",
 				);
 				return;
 			}
@@ -56,7 +56,7 @@ function ForgotPasswordPage() {
 			backTo="/login"
 			backLabel="Voltar para login"
 			title="Recuperar senha"
-			description="Informe o email usado na Creator Store para receber instrucoes de recuperacao."
+			description="Informe o email usado na Creator Store para receber instruções de recuperação."
 			footer={
 				<p>
 					Lembrou a senha?{" "}
@@ -91,7 +91,7 @@ function ForgotPasswordPage() {
 							aria-hidden="true"
 						/>
 						<p>
-							Se esse email estiver cadastrado, as instrucoes serao enviadas.
+							Se esse email estiver cadastrado, as instruções serão enviadas.
 						</p>
 					</div>
 				) : null}
@@ -103,8 +103,8 @@ function ForgotPasswordPage() {
 					{loading
 						? "Enviando..."
 						: sent
-							? "Reenviar instrucoes"
-							: "Enviar instrucoes"}
+							? "Reenviar instruções"
+							: "Enviar instruções"}
 				</Button>
 			</form>
 		</AuthScreen>

@@ -28,7 +28,7 @@ function LoginPage() {
 
 			if (email.toLowerCase().includes("erro")) {
 				setError(
-					"Email ou senha invalidos. Revise os dados e tente novamente.",
+					"Email ou senha inválidos. Revise os dados e tente novamente.",
 				);
 				return;
 			}
@@ -44,7 +44,7 @@ function LoginPage() {
 			description="Acesse seu painel para atualizar perfil, redes sociais e produtos recomendados."
 			footer={
 				<p>
-					Ainda nao tem conta?{" "}
+					Ainda não tem conta?{" "}
 					<Link
 						to="/signup"
 						className="font-bold text-primary underline-offset-4 hover:underline"

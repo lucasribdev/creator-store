@@ -32,7 +32,7 @@ function ProfileFormPage() {
 							params={{ username: "lucasreviews" }}
 							search={{ empty: false, published: true }}
 						>
-							Visualizar pagina
+							Visualizar página
 							<ExternalLink aria-hidden="true" />
 						</Link>
 					</Button>
@@ -42,7 +42,7 @@ function ProfileFormPage() {
 					<SectionHeader
 						icon={<UserRound className="size-5" aria-hidden="true" />}
 						title="Editar perfil"
-						description="Mantenha os dados publicos essenciais completos antes de compartilhar a vitrine."
+						description="Mantenha os dados públicos essenciais completos antes de compartilhar a vitrine."
 					/>
 				</div>
 
@@ -62,7 +62,7 @@ function ProfileFormPage() {
 					<div className="space-y-5">
 						<fieldset className="space-y-4 rounded-2xl border border-border/80 p-4 shadow-xs">
 							<legend className="px-1 text-sm font-extrabold">
-								Dados obrigatorios
+								Dados obrigatórios
 							</legend>
 							<div className="space-y-2">
 								<Label htmlFor="username">Username</Label>
@@ -77,15 +77,15 @@ function ProfileFormPage() {
 									/>
 								</div>
 								<p className="text-xs leading-5 text-muted-foreground">
-									Usado no link publico da vitrine: /lucasreviews.
+									Usado no link público da vitrine: /lucasreviews.
 								</p>
 							</div>
 
 							<div className="space-y-2">
-								<Label htmlFor="display-name">Nome de exibicao</Label>
+								<Label htmlFor="display-name">Nome de exibição</Label>
 								<Input id="display-name" defaultValue="Lucas Reviews" />
 								<p className="text-xs leading-5 text-muted-foreground">
-									Esse nome aparece no topo da pagina publica.
+									Esse nome aparece no topo da página pública.
 								</p>
 							</div>
 						</fieldset>
@@ -98,7 +98,7 @@ function ProfileFormPage() {
 								<Label htmlFor="bio">Bio</Label>
 								<Textarea
 									id="bio"
-									defaultValue="Produtos e acessorios que uso no dia a dia e recomendo para quem cria conteudo pelo celular."
+									defaultValue="Produtos e acessórios que uso no dia a dia e recomendo para quem cria conteúdo pelo celular."
 									className="min-h-28"
 								/>
 								<p className="text-xs leading-5 text-muted-foreground">
@@ -108,14 +108,14 @@ function ProfileFormPage() {
 						</fieldset>
 
 						<div className="flex flex-col gap-3 sm:flex-row">
-							<Button type="submit">Salvar alteracoes</Button>
+							<Button type="submit">Salvar alterações</Button>
 							<Button asChild type="button" variant="outline">
 								<Link
 									to="/$username"
 									params={{ username: "lucasreviews" }}
 									search={{ empty: false, published: true }}
 								>
-									Visualizar pagina
+									Visualizar página
 									<ExternalLink aria-hidden="true" />
 								</Link>
 							</Button>
@@ -126,12 +126,12 @@ function ProfileFormPage() {
 						<ImagePlaceholder
 							label="Avatar"
 							shape="avatar"
-							description="Quando vazio, a pagina usa um marcador com a inicial do nome."
+							description="Quando vazio, a página usa um marcador com a inicial do nome."
 						/>
 						<ImagePlaceholder
 							label="Banner"
 							shape="banner"
-							description="Opcional. Use quando quiser reforcar a identidade visual da vitrine."
+							description="Opcional. Use quando quiser reforçar a identidade visual da vitrine."
 						/>
 					</aside>
 				</form>

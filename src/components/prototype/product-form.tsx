@@ -39,13 +39,13 @@ export function ProductFormPrototype({
 			<SectionHeader
 				icon={<Package className="size-5" aria-hidden="true" />}
 				title={mode === "new" ? "Adicionar produto" : "Editar produto"}
-				description="Cadastre a recomendacao e o destino externo que o visitante deve abrir."
+				description="Cadastre a recomendação e o destino externo que o visitante deve abrir."
 			/>
 
 			{showError ? (
 				<div className="mt-5">
-					<InlineAlert tone="danger" title="Nao foi possivel salvar o produto.">
-						Confira os campos obrigatorios e tente novamente.
+					<InlineAlert tone="danger" title="Não foi possível salvar o produto.">
+						Confira os campos obrigatórios e tente novamente.
 					</InlineAlert>
 				</div>
 			) : null}
@@ -54,7 +54,7 @@ export function ProductFormPrototype({
 				<div className="space-y-5">
 					<fieldset className="space-y-4 rounded-2xl border border-border/80 p-4 shadow-xs">
 						<legend className="px-1 text-sm font-extrabold">
-							Dados obrigatorios
+							Dados obrigatórios
 						</legend>
 						<div className="space-y-2">
 							<Label htmlFor="product-name">Nome do produto</Label>
@@ -107,8 +107,8 @@ export function ProductFormPrototype({
 								className="flex items-start gap-2 text-xs leading-5 text-muted-foreground"
 							>
 								<Info className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-								A Creator Store apresenta a recomendacao e envia o visitante
-								para este endereco.
+								A Creator Store apresenta a recomendação e envia o visitante
+								para este endereço.
 							</p>
 						</div>
 					</fieldset>
@@ -118,18 +118,18 @@ export function ProductFormPrototype({
 							Detalhes opcionais
 						</legend>
 						<div className="space-y-2">
-							<Label htmlFor="description">Descricao curta</Label>
+							<Label htmlFor="description">Descrição curta</Label>
 							<Textarea
 								id="description"
 								defaultValue={initialValues.description}
-								placeholder="Resumo simples do motivo da recomendacao."
+								placeholder="Resumo simples do motivo da recomendação."
 								className="min-h-24"
 							/>
 						</div>
 
 						<div className="grid gap-4 sm:grid-cols-2">
 							<div className="space-y-2">
-								<Label htmlFor="price">Preco</Label>
+								<Label htmlFor="price">Preço</Label>
 								<Input
 									id="price"
 									defaultValue={initialValues.price}
@@ -137,7 +137,7 @@ export function ProductFormPrototype({
 								/>
 							</div>
 							<div className="space-y-2">
-								<Label htmlFor="previous-price">Preco antigo</Label>
+								<Label htmlFor="previous-price">Preço antigo</Label>
 								<Input
 									id="previous-price"
 									defaultValue={initialValues.previousPrice}
@@ -147,7 +147,7 @@ export function ProductFormPrototype({
 						</div>
 
 						<div className="space-y-2">
-							<Label htmlFor="button-label">Texto do botao</Label>
+							<Label htmlFor="button-label">Texto do botão</Label>
 							<Input
 								id="button-label"
 								defaultValue={initialValues.buttonLabel}
@@ -157,12 +157,12 @@ export function ProductFormPrototype({
 					</fieldset>
 
 					<fieldset className="grid gap-3 sm:grid-cols-2">
-						<legend className="sr-only">Publicacao</legend>
+						<legend className="sr-only">Publicação</legend>
 						<div className="flex items-center justify-between gap-4 rounded-2xl border border-border/80 bg-muted/50 px-4 py-3 shadow-xs">
 							<div>
 								<p className="text-sm font-bold">Produto ativo</p>
 								<p className="mt-1 text-xs text-muted-foreground">
-									Aparece na pagina publica.
+									Aparece na página pública.
 								</p>
 							</div>
 							<Switch
@@ -216,7 +216,7 @@ export function ProductFormPrototype({
 						</StatusBadge>
 					</div>
 					<p className="mt-1 text-xs leading-5 text-muted-foreground">
-						O produto continua publicavel sem imagem, com marcador visual na
+						O produto continua publicável sem imagem, com marcador visual na
 						vitrine.
 					</p>
 					<Button
@@ -233,8 +233,8 @@ export function ProductFormPrototype({
 						id="product-image-help"
 						className="mt-2 text-xs leading-5 text-muted-foreground"
 					>
-						Adicione uma imagem para facilitar o reconhecimento na pagina
-						publica.
+						Adicione uma imagem para facilitar o reconhecimento na página
+						pública.
 					</p>
 				</aside>
 			</form>

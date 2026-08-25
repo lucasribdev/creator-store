@@ -27,7 +27,7 @@ function SignupPage() {
 			setLoading(false);
 
 			if (email.toLowerCase().includes("erro")) {
-				setError("Nao foi possivel criar a conta. Tente outro email.");
+				setError("Não foi possível criar a conta. Tente outro email.");
 				return;
 			}
 
@@ -39,10 +39,10 @@ function SignupPage() {
 		<AuthScreen
 			backTo="/"
 			title="Criar conta"
-			description="Monte sua area de criador e prepare a primeira versao da sua vitrine."
+			description="Monte sua área de criador e prepare a primeira versão da sua vitrine."
 			footer={
 				<p>
-					Ja tem conta?{" "}
+					Já tem conta?{" "}
 					<Link
 						to="/login"
 						className="font-bold text-primary underline-offset-4 hover:underline"

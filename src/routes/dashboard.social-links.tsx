@@ -141,7 +141,7 @@ const socialLinks: SocialLinkItem[] = [
 	{
 		id: "kit-links",
 		type: "other",
-		label: "Kit de gravacao",
+		label: "Kit de gravação",
 		url: "https://example.com/kit-gravacao",
 		position: 6,
 		isActive: false,
@@ -181,7 +181,7 @@ function SocialLinksPage() {
 							params={{ username: "lucasreviews" }}
 							search={{ empty: false, published: true }}
 						>
-							Visualizar pagina
+							Visualizar página
 							<ExternalLink aria-hidden="true" />
 						</Link>
 					</Button>
@@ -191,7 +191,7 @@ function SocialLinksPage() {
 					<SectionHeader
 						icon={<Link2 className="size-5" aria-hidden="true" />}
 						title="Redes sociais"
-						description="Escolha quais redes e links externos aparecem no topo da sua pagina publica."
+						description="Escolha quais redes e links externos aparecem no topo da sua página pública."
 					/>
 				</div>
 
@@ -201,7 +201,7 @@ function SocialLinksPage() {
 						value={String(visibleLinks.length)}
 					/>
 					<MetricCard
-						label="Ativos na pagina"
+						label="Ativos na página"
 						value={String(activeLinks.length)}
 					/>
 					<MetricCard
@@ -212,7 +212,7 @@ function SocialLinksPage() {
 
 				{error ? (
 					<div className="mt-5">
-						<InlineAlert tone="danger" title="Nao foi possivel salvar">
+						<InlineAlert tone="danger" title="Não foi possível salvar">
 							Confira a URL informada e tente novamente.
 						</InlineAlert>
 					</div>
@@ -274,7 +274,7 @@ function SocialLinksPage() {
 									{editingLink ? "Editar link" : "Adicionar link"}
 								</h3>
 								<p className="text-xs leading-5 text-muted-foreground">
-									{selectedTypeMeta.name} na pagina publica.
+									{selectedTypeMeta.name} na página pública.
 								</p>
 							</div>
 						</div>
@@ -339,7 +339,7 @@ function SocialLinksPage() {
 
 							<div className="flex min-h-11 items-center justify-between gap-3 rounded-2xl border border-border/80 bg-muted/50 px-3 py-2 shadow-xs">
 								<div className="min-w-0">
-									<Label htmlFor="social-active">Ativo na pagina</Label>
+									<Label htmlFor="social-active">Ativo na página</Label>
 									<p className="text-xs leading-5 text-muted-foreground">
 										Links inativos ficam ocultos para visitantes.
 									</p>
@@ -353,7 +353,7 @@ function SocialLinksPage() {
 
 						<div className="mt-5 flex flex-col gap-2 sm:flex-row lg:flex-col">
 							<Button type="submit">
-								{editingLink ? "Salvar alteracoes" : "Salvar link"}
+								{editingLink ? "Salvar alterações" : "Salvar link"}
 							</Button>
 							{editingLink ? (
 								<Button
@@ -398,7 +398,7 @@ function SocialLinkRow({
 						<div className="min-w-0">
 							<h3 className="break-words font-extrabold">{title}</h3>
 							<p className="text-xs font-bold text-muted-foreground uppercase">
-								{socialType.name} - posicao {socialLink.position}
+								{socialType.name} - posição {socialLink.position}
 							</p>
 						</div>
 						<StatusBadge
@@ -421,7 +421,7 @@ function SocialLinkRow({
 				<div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
 					<div className="flex min-h-10 items-center justify-between gap-3 rounded-2xl border border-border/80 bg-muted/50 px-3 py-2 shadow-xs">
 						<span className="min-w-0 text-sm font-bold">
-							{socialLink.isActive ? "Visivel na pagina" : "Oculto da pagina"}
+							{socialLink.isActive ? "Visível na página" : "Oculto da página"}
 						</span>
 						<Switch
 							checked={socialLink.isActive}

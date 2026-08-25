@@ -29,7 +29,7 @@ function DashboardHomePage() {
 				<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 					<div className="min-w-0">
 						<p className="text-xs font-bold text-muted-foreground uppercase">
-							Link publico da vitrine
+							Link público da vitrine
 						</p>
 						<p className="mt-2 break-all text-xl font-extrabold text-foreground sm:text-2xl">
 							{publicUrl}
@@ -43,7 +43,7 @@ function DashboardHomePage() {
 								params={{ username: "lucasreviews" }}
 								search={{ empty: false, published: true }}
 							>
-								Ver pagina
+								Ver página
 								<ExternalLink aria-hidden="true" />
 							</Link>
 						</Button>
@@ -68,7 +68,7 @@ function DashboardHomePage() {
 				/>
 				<MetricCard
 					icon={<Eye className="size-5" aria-hidden="true" />}
-					label="Visualizacoes"
+					label="Visualizações"
 					value="184"
 				/>
 				<MetricCard
@@ -82,19 +82,19 @@ function DashboardHomePage() {
 				<QuickAction
 					icon={<UserRound className="size-5" aria-hidden="true" />}
 					title="Editar perfil"
-					description="Username, nome publico, bio, avatar e banner."
+					description="Username, nome público, bio, avatar e banner."
 					to="/dashboard/profile"
 				/>
 				<QuickAction
 					icon={<Link2 className="size-5" aria-hidden="true" />}
 					title="Redes sociais"
-					description="Atualizar os links exibidos na pagina publica."
+					description="Atualizar os links exibidos na página pública."
 					to="/dashboard/social-links"
 				/>
 				<QuickAction
 					icon={<Plus className="size-5" aria-hidden="true" />}
 					title="Adicionar produto"
-					description="Cadastrar uma nova recomendacao com link externo."
+					description="Cadastrar uma nova recomendação com link externo."
 					to="/dashboard/products/new"
 				/>
 				<QuickAction
@@ -106,8 +106,8 @@ function DashboardHomePage() {
 			</section>
 
 			<div className="mt-6">
-				<InlineAlert tone="info" title="Metricas basicas">
-					Acompanhe visualizacoes e cliques para entender quais recomendacoes
+				<InlineAlert tone="info" title="Métricas básicas">
+					Acompanhe visualizações e cliques para entender quais recomendações
 					geram mais interesse.
 				</InlineAlert>
 			</div>

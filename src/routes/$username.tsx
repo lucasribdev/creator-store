@@ -36,7 +36,7 @@ export const Route = createFileRoute("/$username")({
 const creator = {
 	username: "lucasreviews",
 	displayName: "Lucas Reviews",
-	bio: "Produtos e acessorios que uso no dia a dia e recomendo para quem cria conteudo pelo celular.",
+	bio: "Produtos e acessórios que uso no dia a dia e recomendo para quem cria conteúdo pelo celular.",
 	avatarUrl: "",
 	bannerUrl:
 		"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80",
@@ -46,8 +46,8 @@ const products = [
 	{
 		name: "Fone Bluetooth compacto",
 		description:
-			"Modelo leve para editar videos, assistir aulas e gravar em movimento.",
-		buttonLabel: "Abrir recomendacao",
+			"Modelo leve para editar vídeos, assistir aulas e gravar em movimento.",
+		buttonLabel: "Abrir recomendação",
 		url: "https://example.com/fone-bluetooth",
 		storeName: "Loja parceira",
 		price: "R$ 189,90",
@@ -59,9 +59,9 @@ const products = [
 			"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
 	},
 	{
-		name: "Mini tripe para celular",
-		description: "Ajuda a gravar reviews e stories com enquadramento estavel.",
-		buttonLabel: "Abrir recomendacao",
+		name: "Mini tripé para celular",
+		description: "Ajuda a gravar reviews e stories com enquadramento estável.",
+		buttonLabel: "Abrir recomendação",
 		url: "https://example.com/mini-tripe",
 		storeName: "Marketplace externo",
 		price: "R$ 79,90",
@@ -75,10 +75,10 @@ const products = [
 	{
 		name: "Checklist impresso para gravar reviews",
 		description:
-			"Material simples para planejar conteudos antes de ligar a camera.",
-		buttonLabel: "Acessar recomendacao",
+			"Material simples para planejar conteúdos antes de ligar a câmera.",
+		buttonLabel: "Acessar recomendação",
 		url: "https://example.com/checklist-reviews",
-		storeName: "Pagina do criador",
+		storeName: "Página do criador",
 		price: "Gratuito",
 		previousPrice: "",
 		featured: false,
@@ -88,8 +88,8 @@ const products = [
 	},
 	{
 		name: "Ring light de mesa",
-		description: "Iluminacao compacta para gravacoes em mesa.",
-		buttonLabel: "Abrir recomendacao",
+		description: "Iluminação compacta para gravações em mesa.",
+		buttonLabel: "Abrir recomendação",
 		url: "https://example.com/ring-light",
 		storeName: "Loja parceira",
 		price: "R$ 139,90",
@@ -155,8 +155,8 @@ function CreatorPage() {
 			<AppShell mainClassName="max-w-2xl">
 				<EmptyState
 					icon={<Package className="size-5" aria-hidden="true" />}
-					title="Pagina indisponivel"
-					description="Nao encontramos uma vitrine publicada para este endereco. Confira o link ou peca ao criador uma nova URL."
+					title="Página indisponível"
+					description="Não encontramos uma vitrine publicada para este endereço. Confira o link ou peça ao criador uma nova URL."
 					action={
 						<Button asChild variant="outline">
 							<Link to="/">Voltar para Creator Store</Link>
@@ -170,9 +170,9 @@ function CreatorPage() {
 	if (!published) {
 		return (
 			<AppShell mainClassName="max-w-2xl">
-				<InlineAlert tone="warning" title="Pagina despublicada">
-					Esta vitrine esta temporariamente fora do ar. Quando o criador
-					publicar novamente, as recomendacoes voltam a aparecer neste link.
+				<InlineAlert tone="warning" title="Página despublicada">
+					Esta vitrine está temporariamente fora do ar. Quando o criador
+					publicar novamente, as recomendações voltam a aparecer neste link.
 				</InlineAlert>
 			</AppShell>
 		);
@@ -195,18 +195,18 @@ function CreatorPage() {
 
 					{activeProducts.length === 0 ? (
 						<section className="space-y-3">
-							<h2 className="text-lg font-extrabold">Recomendacoes</h2>
+							<h2 className="text-lg font-extrabold">Recomendações</h2>
 							<EmptyState
 								icon={<Package className="size-5" aria-hidden="true" />}
-								title="Esta vitrine ainda nao tem produtos ativos"
-								description={`Quando ${creator.displayName} publicar recomendacoes, elas aparecem aqui.`}
+								title="Esta vitrine ainda não tem produtos ativos"
+								description={`Quando ${creator.displayName} publicar recomendações, elas aparecem aqui.`}
 								variant="products"
 							/>
 						</section>
 					) : regularProducts.length > 0 ? (
 						<section className="space-y-3">
 							<h2 className="text-lg font-extrabold">
-								{featuredProduct ? "Mais recomendacoes" : "Recomendacoes"}
+								{featuredProduct ? "Mais recomendações" : "Recomendações"}
 							</h2>
 							<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 								{regularProducts.map((product) => (
@@ -232,7 +232,7 @@ function CreatorPage() {
 				onConfirm={handleRedirectConfirm}
 			/>
 			<Toast
-				message="Abrindo recomendacao externa"
+				message="Abrindo recomendação externa"
 				visible={showRedirectToast}
 			/>
 		</AppShell>

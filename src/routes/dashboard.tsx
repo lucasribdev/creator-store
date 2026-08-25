@@ -31,13 +31,13 @@ function DashboardLayout() {
 				<PageHeader
 					kicker="Painel"
 					title="Boas-vindas, Lucas Reviews"
-					description="Gerencie o status da pagina, o perfil publico e os produtos recomendados."
+					description="Gerencie o status da página, o perfil público e os produtos recomendados."
 					status={<PageStatusBadge published={isPublished} />}
 				/>
 
 				<nav
 					className="mt-5 grid grid-cols-4 gap-1 rounded-2xl border border-border/80 bg-surface p-1 shadow-xs sm:flex sm:gap-2"
-					aria-label="Navegacao da area privada"
+					aria-label="Navegação da área privada"
 				>
 					<DashboardNavLink
 						to="/dashboard"
@@ -108,7 +108,7 @@ function PageStatusBadge({ published }: { published: boolean }) {
 	return (
 		<div className="w-fit rounded-2xl border border-border/80 bg-surface px-4 py-3 shadow-xs">
 			<p className="text-xs font-bold text-muted-foreground uppercase">
-				Status da pagina
+				Status da página
 			</p>
 			<div className="mt-2 flex items-center gap-2">
 				<StatusPill published={published} />

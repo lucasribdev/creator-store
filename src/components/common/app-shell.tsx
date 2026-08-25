@@ -93,7 +93,7 @@ export function DashboardHeader({
 						rel="noreferrer"
 						className="hidden items-center gap-1 text-sm font-bold no-underline sm:inline-flex"
 					>
-						Ver pagina
+						Ver página
 						<ExternalLink className="size-3.5" aria-hidden="true" />
 					</a>
 					<div

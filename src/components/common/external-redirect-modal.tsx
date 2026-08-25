@@ -58,7 +58,7 @@ export function ExternalRedirectModal({
 						id="external-redirect-title"
 						className="mt-1 text-lg font-extrabold"
 					>
-						Abrir pagina externa
+						Abrir página externa
 					</h2>
 				</div>
 
