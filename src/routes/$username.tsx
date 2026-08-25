@@ -17,7 +17,6 @@ import {
 	FeaturedProductCard,
 	InlineAlert,
 	ProductCard,
-	StatusBadge,
 	Toast,
 } from "#/components/common/index.ts";
 import { Button } from "#/components/ui/button.tsx";
@@ -186,10 +185,7 @@ function CreatorPage() {
 
 				<div className="mx-auto mt-6 w-full max-w-3xl space-y-6 px-4 sm:px-6 lg:px-0">
 					{featuredProduct ? (
-						<section className="space-y-3">
-							<StatusBadge tone="warning" icon="featured">
-								Produto em destaque
-							</StatusBadge>
+						<section>
 							<FeaturedProductCard
 								product={featuredProduct}
 								onOpenRedirect={openRedirectModal}
@@ -197,18 +193,21 @@ function CreatorPage() {
 						</section>
 					) : null}
 
-					<section className="space-y-3">
-						<div>
+					{activeProducts.length === 0 ? (
+						<section className="space-y-3">
 							<h2 className="text-lg font-extrabold">Recomendacoes</h2>
-						</div>
-						{activeProducts.length === 0 ? (
 							<EmptyState
 								icon={<Package className="size-5" aria-hidden="true" />}
 								title="Esta vitrine ainda nao tem produtos ativos"
 								description={`Quando ${creator.displayName} publicar recomendacoes, elas aparecem aqui.`}
 								variant="products"
 							/>
-						) : (
+						</section>
+					) : regularProducts.length > 0 ? (
+						<section className="space-y-3">
+							<h2 className="text-lg font-extrabold">
+								{featuredProduct ? "Mais recomendacoes" : "Recomendacoes"}
+							</h2>
 							<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 								{regularProducts.map((product) => (
 									<ProductCard
@@ -218,8 +217,8 @@ function CreatorPage() {
 									/>
 								))}
 							</div>
-						)}
-					</section>
+						</section>
+					) : null}
 
 					<footer className="pb-2 pt-1 text-center text-[0.65rem] font-extrabold uppercase tracking-widest text-muted-foreground">
 						Creator Store

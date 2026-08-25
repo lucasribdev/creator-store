@@ -30,7 +30,7 @@ export function FeaturedProductCard<TProduct extends ProductVisual>({
 		<article className="group overflow-hidden rounded-2xl border border-primary/35 bg-card shadow-xs ring-1 ring-primary/10 transition-all duration-[180ms] ease-in-out hover:border-primary/50 hover:shadow-sm active:scale-[0.998] dark:border-primary/45 dark:ring-primary/20">
 			<div className="flex items-center gap-2 border-b border-primary/15 bg-[color-mix(in_oklab,var(--primary)_8%,var(--surface))] px-4 py-2 text-xs font-extrabold text-primary dark:bg-[color-mix(in_oklab,var(--primary)_14%,var(--surface))]">
 				<Star className="size-3.5" aria-hidden="true" />
-				Recomendacao principal
+				Produto em destaque
 			</div>
 			<ProductImage
 				aspectRatio="wide"
@@ -45,12 +45,9 @@ export function FeaturedProductCard<TProduct extends ProductVisual>({
 						<ShoppingBag className="size-5" aria-hidden="true" />
 					</div>
 					<div className="min-w-0 flex-1">
-						<div className="flex flex-wrap items-center gap-2">
-							<h2 className="break-words text-xl font-extrabold text-foreground">
-								{product.name}
-							</h2>
-							<StatusPill status="featured" />
-						</div>
+						<h2 className="break-words text-xl font-extrabold text-foreground">
+							{product.name}
+						</h2>
 						{product.description ? (
 							<p className="mt-2 break-words text-sm leading-6 text-muted-foreground">
 								{product.description}
