@@ -48,12 +48,14 @@ Um usuário possui uma página pública representada pelo perfil.
 
 O perfil pode possuir várias redes sociais e vários itens de página.
 
-`PageItem` representa qualquer conteúdo clicável da área principal da página pública. No MVP, os tipos permitidos são:
+`PageItem` é a entidade principal da área clicável da página pública. No MVP, os tipos permitidos são:
 
 - `product`;
 - `link`.
 
-Produtos e links manuais são tipos equivalentes de conteúdo clicável para fins de publicação, ordenação, redirecionamento e métricas.
+Produtos e links manuais são tipos equivalentes de conteúdo clicável para fins de publicação, ativação, destaque, ordenação, redirecionamento e métricas.
+
+O modelo não deve tratar produto como entidade raiz. Produto é apenas uma variação de `PageItem`, identificada por `type = product`, com alguns campos opcionais específicos para exibição.
 
 Um perfil pode publicar:
 
@@ -247,12 +249,12 @@ Essa modelagem permite ordenar produtos e links em uma lista única, registrar c
 | `type`           | Enum ou String |         Sim | Tipo do item: `product` ou `link`              |
 | `title`          | String         |         Sim | Nome do produto ou título do link              |
 | `description`    | String         |         Não | Descrição curta                                |
-| `image_url`      | String         |         Não | Imagem do produto no MVP                       |
+| `image_url`      | String         |         Não | Imagem opcional, usada inicialmente em produto |
 | `external_url`   | String         |         Sim | Destino externo                                |
 | `button_label`   | String         |         Não | Texto exibido no botão                         |
-| `price`          | Decimal        |         Não | Preço informado manualmente para produtos      |
-| `previous_price` | Decimal        |         Não | Preço anterior opcional para produtos          |
-| `currency`       | String         |         Não | Moeda utilizada no preço                       |
+| `price`          | Decimal        |         Não | Preço informativo, apenas para produto         |
+| `previous_price` | Decimal        |         Não | Preço anterior opcional, apenas para produto   |
+| `currency`       | String         |         Não | Moeda utilizada no preço do produto            |
 | `is_active`      | Boolean        |         Sim | Define se o item aparece publicamente          |
 | `is_featured`    | Boolean        |         Sim | Define se o item está em destaque              |
 | `position`       | Integer        |         Sim | Ordem de exibição                              |
@@ -274,9 +276,47 @@ link
 - o destino externo é obrigatório;
 - somente itens ativos aparecem na página pública;
 - itens inativos continuam disponíveis no painel;
-- a posição será utilizada para definir a ordem dos itens;
+- a posição será utilizada para definir a ordem dos itens ativos e inativos no painel;
+- produtos e links devem compartilhar a mesma lista e a mesma regra de ordenação;
+- produtos e links devem compartilhar o mesmo fluxo de clique e redirecionamento;
 - a compra, inscrição, leitura, download ou qualquer outra ação final sempre acontecerá fora da plataforma;
 - a plataforma não deve criar carrinho, checkout, pagamentos, pedidos, estoque, entrega, comentários ou feed social.
+
+### Campos específicos por tipo
+
+Os campos comuns a qualquer `PageItem` são:
+
+- `id`;
+- `profile_id`;
+- `type`;
+- `title`;
+- `description`;
+- `external_url`;
+- `button_label`;
+- `is_active`;
+- `is_featured`;
+- `position`;
+- `created_at`;
+- `updated_at`.
+
+Campos usados por produtos:
+
+- `image_url`;
+- `price`;
+- `previous_price`;
+- `currency`.
+
+Campos usados por links:
+
+- `title`;
+- `description`;
+- `external_url`;
+- `button_label`;
+- `position`;
+- `is_active`;
+- `is_featured`.
+
+No MVP, links manuais não devem depender de imagem, preço ou moeda. Um link deve ser suficiente com título, URL externa, posição e status ativo/inativo.
 
 ### Regras para `type = product`
 
@@ -296,6 +336,7 @@ link
 - pode possuir descrição curta e texto de botão;
 - deve possuir posição para ordenação junto aos demais itens;
 - pode ser ativado ou desativado sem ser excluído;
+- pode ser marcado como destaque;
 - não deve usar preço, preço anterior ou moeda;
 - não deve exigir imagem no MVP;
 - não deve ser usado para redes sociais que pertencem ao topo do perfil;
@@ -320,11 +361,56 @@ Se imagem de link ou vídeo forem adicionados futuramente, devem ser tratados co
 
 No MVP, cada perfil poderá possuir no máximo um item em destaque.
 
-O destaque pode ser aplicado a qualquer `PageItem` ativo quando fizer sentido para o criador. A interface deve deixar claro o tipo do item destacado.
+O destaque pode ser aplicado a qualquer `PageItem` ativo, seja produto ou link, quando fizer sentido para o criador. A interface deve deixar claro o tipo do item destacado.
 
 Ao marcar um novo item como destaque, a plataforma deve remover o destaque do item anterior.
 
 Alternativamente, essa regra pode ser garantida pela aplicação no primeiro momento e reforçada no banco posteriormente.
+
+Um item inativo não deve aparecer como destaque na página pública. Ao desativar um item destacado, a aplicação deve remover seu destaque ou ignorá-lo nas consultas públicas.
+
+### Publicação, ativação e visibilidade
+
+A visibilidade pública depende de duas regras independentes:
+
+- o perfil precisa estar publicado;
+- o item precisa estar ativo.
+
+Um `PageItem` só aparece para visitantes quando:
+
+```text
+Profile.is_published = true
+PageItem.is_active = true
+```
+
+Itens inativos:
+
+- não aparecem publicamente;
+- continuam visíveis e editáveis no painel privado;
+- continuam podendo manter histórico de cliques anteriores;
+- não devem ser contabilizados como itens públicos ativos;
+- não devem ser retornados em consultas públicas, exceto em rotas internas autorizadas.
+
+Perfis despublicados:
+
+- não exibem itens, mesmo que eles estejam ativos;
+- devem mostrar uma página indisponível ou estado equivalente para visitantes;
+- continuam disponíveis para edição pelo proprietário.
+
+### Ordenação
+
+`position` define a ordem da lista principal de `PageItem`.
+
+Regras:
+
+- a ordenação deve ser aplicada dentro do mesmo `profile_id`;
+- produtos e links participam da mesma sequência;
+- a consulta pública deve ordenar por `position` de forma crescente;
+- empates de posição devem ter desempate estável, por exemplo `created_at` ou `id`;
+- o item em destaque pode ser exibido visualmente antes da lista, mas continua sendo um `PageItem` comum;
+- se o destaque for renderizado separado da lista, a interface deve evitar duplicar o mesmo item.
+
+No painel privado, itens ativos e inativos podem compartilhar a mesma ordenação para simplificar reordenação.
 
 ### Texto padrão do botão
 
@@ -453,6 +539,22 @@ Representa um clique realizado por um visitante em um item da página pública.
 - a falha no registro não deve impedir o redirecionamento;
 - o visitante não precisa estar autenticado;
 - não armazenar dados pessoais desnecessários.
+
+### Analytics por item
+
+`ItemClick` é a fonte primária para analytics de qualquer `PageItem`.
+
+As métricas por item devem funcionar da mesma forma para produtos e links:
+
+- total de cliques por `item_id`;
+- total de cliques por `item_id` em um período;
+- total de cliques por `item_type`;
+- ranking de itens mais clicados;
+- taxa estimada de clique do item em relação às visualizações do perfil.
+
+O campo `item_type` registra o tipo do item no momento do clique. Isso evita depender apenas do estado atual do item caso ele seja alterado depois.
+
+No MVP, não é necessário armazenar impressões individuais por item. `PageView` mede visualizações da página como um todo.
 
 ### Exemplo
 
@@ -622,6 +724,15 @@ Devem ser únicos:
 - `Profile.user_id`;
 - `Profile.username`.
 
+Também deve existir uma garantia para permitir no máximo um destaque por perfil:
+
+- no banco, preferencialmente índice único parcial para `PageItem.profile_id` quando `is_featured = true`;
+- na aplicação, ao marcar um item como destaque, remover o destaque anterior do mesmo perfil na mesma operação lógica.
+
+Para validar cliques com consistência, pode existir uma restrição única composta em `PageItem`:
+
+- `PageItem.profile_id + PageItem.id`.
+
 ## Chaves estrangeiras
 
 Devem existir referências entre:
@@ -640,21 +751,39 @@ Devem existir referências entre:
 Criar índices para:
 
 - `Profile.username`;
+- `Profile.is_published`;
 - `SocialLink.profile_id`;
-- `SocialLink.profile_id + position`;
+- `SocialLink.profile_id + is_active + position`;
 - `PageItem.profile_id`;
 - `PageItem.profile_id + type`;
 - `PageItem.profile_id + is_active`;
 - `PageItem.profile_id + is_active + position`;
+- `PageItem.profile_id + is_active + is_featured`;
 - `PageItem.profile_id + is_featured`;
 - `PageView.profile_id`;
 - `PageView.profile_id + created_at`;
 - `ItemClick.profile_id`;
 - `ItemClick.item_id`;
 - `ItemClick.item_id + created_at`;
+- `ItemClick.profile_id + item_id`;
 - `ItemClick.profile_id + item_type`.
 
-Esses índices ajudam a carregar páginas públicas e calcular métricas básicas.
+Esses índices ajudam a carregar páginas públicas, ordenar a lista principal, localizar o item em destaque e calcular métricas básicas por item, tipo e período.
+
+Consultas públicas esperadas:
+
+- buscar `Profile` por `username` quando `is_published = true`;
+- buscar `SocialLink` por `profile_id`, `is_active = true`, ordenado por `position`;
+- buscar `PageItem` por `profile_id`, `is_active = true`, ordenado por `position`;
+- buscar o `PageItem` destacado ativo por `profile_id`.
+
+Consultas privadas esperadas:
+
+- listar todos os `PageItem` de um perfil, ativos e inativos;
+- filtrar itens por `type`;
+- alternar `is_active`;
+- alterar `position`;
+- consultar cliques por `item_id`.
 
 ---
 
@@ -759,7 +888,8 @@ A autorização deve ser garantida no servidor ou no banco de dados.
 - `display_name` não vazio;
 - biografia limitada a um tamanho razoável;
 - URLs de imagens válidas;
-- publicação permitida somente com dados mínimos.
+- publicação permitida somente com dados mínimos;
+- `published_at` deve ser preenchido ou atualizado quando a página for publicada, conforme a regra escolhida para auditoria.
 
 ## SocialLink
 
@@ -773,13 +903,19 @@ A autorização deve ser garantida no servidor ou no banco de dados.
 - tipo válido: `product` ou `link`;
 - título não vazio;
 - link externo válido;
+- `external_url` deve usar protocolo permitido, como `https://` ou `http://`;
 - posição maior ou igual a zero;
 - no máximo um item em destaque por perfil;
+- destaque permitido para produtos e links;
+- item destacado deve pertencer ao mesmo perfil;
+- item destacado exibido publicamente deve estar ativo;
 - itens do tipo `link` não devem usar preço, preço anterior ou moeda;
 - itens do tipo `link` não devem exigir imagem ou vídeo no MVP;
 - itens do tipo `product` podem usar preço, preço anterior, moeda, imagem e descrição;
 - preço e preço anterior devem ser valores não negativos;
-- moeda deve usar código ISO 4217 quando informada, com `BRL` como padrão inicial para produtos com preço.
+- se `previous_price` e `price` forem informados para produto, `previous_price` deve ser maior que `price`;
+- moeda deve usar código ISO 4217 quando informada, com `BRL` como padrão inicial para produtos com preço;
+- campos específicos de produto devem ser nulos ou ignorados quando `type = link`.
 
 ---
 
@@ -830,13 +966,38 @@ Pode ser calculado pela quantidade de registros em `ItemClick`.
 
 Pode ser calculado agrupando os cliques por `item_id`.
 
+Essa é a métrica principal para performance individual de qualquer `PageItem`, independentemente de ser produto ou link.
+
 ## Total de cliques por tipo
 
 Pode ser calculado agrupando os cliques por `item_type`.
 
+Essa métrica permite comparar desempenho agregado entre:
+
+- produtos;
+- links manuais.
+
+## Taxa de clique por item
+
+Pode ser calculada combinando:
+
+```text
+cliques do item / visualizações do perfil
+```
+
+No MVP, essa taxa deve ser tratada como estimativa simples, porque `PageView` mede visualizações do perfil inteiro, não impressões individuais de cada item.
+
+## Ranking de itens
+
+Pode ser calculado ordenando `PageItem` por total de cliques em `ItemClick`.
+
+Esse ranking deve incluir produtos e links de forma equivalente.
+
 No MVP, essas consultas são suficientes.
 
 Caso o volume cresça, poderão ser criados contadores agregados ou tabelas de métricas.
+
+Contadores derivados, se adicionados futuramente, devem ser tratados como cache de analytics e não como fonte primária do clique. A fonte primária continua sendo `ItemClick`.
 
 ---
 
@@ -854,7 +1015,7 @@ Produtos recomendados e links manuais comuns serão representados por `PageItem`
 
 A lista principal da página pública será ordenada por `position` e exibirá apenas itens ativos.
 
-## Produtos e links são formatos válidos
+## Produtos e links são formatos equivalentes
 
 Produtos recomendados e links manuais comuns são formatos válidos de `PageItem`.
 
@@ -868,7 +1029,7 @@ Produtos podem ter campos específicos, como preço e imagem. Links manuais deve
 
 Redes sociais pertencem ao topo do perfil e ajudam a apresentar a identidade do criador.
 
-## Produtos sem categorias
+## Itens sem categorias
 
 Os itens serão exibidos em uma lista única.
 
