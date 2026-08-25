@@ -276,11 +276,11 @@ A rede social removida não é mais exibida.
 
 ---
 
-## 9. Cadastrar produto
+## 9. Cadastrar produto como item publicável
 
 ### Objetivo
 
-Permitir que o criador adicione um produto à sua vitrine.
+Permitir que o criador adicione um produto recomendado à sua vitrine como um item publicável do tipo `product`.
 
 ### Fluxo principal
 
@@ -295,7 +295,7 @@ Permitir que o criador adicione um produto à sua vitrine.
 9. Escolhe se o produto ficará ativo.
 10. Escolhe se o produto será destaque.
 11. Salva o produto.
-12. A plataforma adiciona o produto à página pública como um item do tipo `product`.
+12. A plataforma adiciona o produto à lista principal da página como um item do tipo `product`.
 
 ### Dados obrigatórios
 
@@ -313,7 +313,7 @@ Permitir que o criador adicione um produto à sua vitrine.
 
 ### Resultado esperado
 
-O produto aparece na vitrine quando estiver ativo.
+O produto aparece na vitrine quando estiver ativo e a página estiver publicada.
 
 ### Possíveis erros
 
@@ -329,7 +329,7 @@ O produto aparece na vitrine quando estiver ativo.
 
 ### Objetivo
 
-Permitir que o criador atualize um produto existente.
+Permitir que o criador atualize um item publicável do tipo `product`.
 
 ### Fluxo principal
 
@@ -338,7 +338,8 @@ Permitir que o criador atualize um produto existente.
 3. Clica em `Editar`.
 4. Altera as informações desejadas.
 5. Salva as alterações.
-6. A página pública é atualizada.
+6. A plataforma atualiza o item do tipo `product`.
+7. A página pública passa a exibir as novas informações quando o produto estiver ativo.
 
 ### Resultado esperado
 
@@ -350,7 +351,7 @@ O produto passa a exibir as novas informações.
 
 ### Objetivo
 
-Permitir que o criador oculte temporariamente um produto sem excluí-lo.
+Permitir que o criador oculte temporariamente um item do tipo `product` sem excluí-lo.
 
 ### Fluxo principal
 
@@ -364,13 +365,17 @@ Permitir que o criador oculte temporariamente um produto sem excluí-lo.
 - produto ativo: aparece na página pública;
 - produto inativo: não aparece na página pública.
 
+### Observação
+
+Ativar ou desativar altera apenas a exibição pública do item. O produto continua salvo no painel.
+
 ---
 
 ## 12. Destacar produto
 
 ### Objetivo
 
-Permitir que o criador dê mais visibilidade a um produto.
+Permitir que o criador dê mais visibilidade a um item do tipo `product`.
 
 ### Fluxo principal
 
@@ -378,7 +383,7 @@ Permitir que o criador dê mais visibilidade a um produto.
 2. Seleciona um produto.
 3. Marca a opção `Produto em destaque`.
 4. Salva a alteração.
-5. O produto passa a aparecer em uma posição de maior destaque na página pública.
+5. O produto passa a aparecer em uma posição de maior destaque na página pública quando estiver ativo.
 
 ### Regra inicial
 
@@ -394,7 +399,7 @@ O visitante visualiza o produto destacado antes da lista principal.
 
 ### Objetivo
 
-Permitir que o criador exclua um produto da plataforma.
+Permitir que o criador exclua um item publicável do tipo `product`.
 
 ### Fluxo principal
 
@@ -402,7 +407,7 @@ Permitir que o criador exclua um produto da plataforma.
 2. Seleciona o produto.
 3. Clica em `Excluir`.
 4. Confirma a ação.
-5. A plataforma remove o produto.
+5. A plataforma remove o item.
 6. O produto deixa de aparecer na página pública.
 
 ### Resultado esperado
@@ -415,35 +420,11 @@ Antes da exclusão definitiva, a interface deve sugerir a opção de desativar o
 
 ---
 
-## 14. Ordenar produtos
+## 14. Cadastrar link manual
 
 ### Objetivo
 
-Permitir que o criador defina a ordem dos produtos na página.
-
-### Fluxo principal
-
-1. O usuário acessa a lista de produtos.
-2. Move um produto para cima ou para baixo.
-3. A plataforma salva a nova ordem.
-4. A página pública passa a utilizar essa ordenação.
-
-### Implementação inicial recomendada
-
-Na primeira versão, utilizar botões de:
-
-- mover para cima;
-- mover para baixo.
-
-Arrastar e soltar não é necessário no primeiro corte.
-
----
-
-## 15. Cadastrar link manual
-
-### Objetivo
-
-Permitir que o criador adicione à página um link comum que não seja produto nem rede social.
+Permitir que o criador adicione à página um link comum que não seja produto nem rede social, como item publicável do tipo `link`.
 
 ### Fluxo principal
 
@@ -455,7 +436,7 @@ Permitir que o criador adicione à página um link comum que não seja produto n
 6. Define o texto do botão, opcionalmente.
 7. Escolhe se o link ficará ativo.
 8. Salva o link.
-9. A plataforma adiciona o link à página pública como um item do tipo `link`.
+9. A plataforma adiciona o link à lista principal da página como um item do tipo `link`.
 
 ### Dados obrigatórios
 
@@ -469,7 +450,7 @@ Permitir que o criador adicione à página um link comum que não seja produto n
 
 ### Resultado esperado
 
-O link manual aparece na página pública quando estiver ativo.
+O link manual aparece na página pública quando estiver ativo e a página estiver publicada.
 
 ### Possíveis erros
 
@@ -479,7 +460,7 @@ O link manual aparece na página pública quando estiver ativo.
 
 ---
 
-## 16. Editar link manual
+## 15. Editar link manual
 
 ### Objetivo
 
@@ -500,7 +481,7 @@ O link manual passa a exibir as novas informações.
 
 ---
 
-## 17. Ativar ou desativar link manual
+## 16. Ativar ou desativar link manual
 
 ### Objetivo
 
@@ -518,9 +499,13 @@ Permitir que o criador oculte temporariamente um link manual sem excluí-lo.
 - link ativo: aparece na página pública;
 - link inativo: não aparece na página pública.
 
+### Observação
+
+Ativar ou desativar altera apenas a exibição pública do item. O link manual continua salvo no painel.
+
 ---
 
-## 18. Remover link manual
+## 17. Remover link manual
 
 ### Objetivo
 
@@ -545,7 +530,7 @@ Antes da exclusão definitiva, a interface deve sugerir a opção de desativar o
 
 ---
 
-## 19. Ordenar itens da página
+## 18. Ordenar itens da página
 
 ### Objetivo
 
@@ -567,9 +552,13 @@ Na primeira versão, utilizar botões de:
 
 Arrastar e soltar não é necessário no primeiro corte.
 
+### Observação
+
+Produtos são itens do tipo `product`. Links manuais são itens do tipo `link`. A ordenação usa uma lista única de itens publicáveis.
+
 ---
 
-## 20. Publicar página
+## 19. Publicar página
 
 ### Objetivo
 
@@ -603,7 +592,7 @@ Qualquer visitante com o endereço pode acessar a página.
 
 ---
 
-## 21. Despublicar página
+## 20. Despublicar página
 
 ### Objetivo
 
@@ -623,7 +612,7 @@ A página não aparece para visitantes, mas os dados permanecem salvos.
 
 ---
 
-## 22. Visualizar prévia
+## 21. Visualizar prévia
 
 ### Objetivo
 
@@ -643,7 +632,7 @@ O criador consegue revisar a página antes ou depois da publicação.
 
 ---
 
-## 23. Compartilhar página
+## 22. Compartilhar página
 
 ### Objetivo
 
@@ -665,7 +654,7 @@ O criador consegue usar o endereço na bio, em stories, vídeos, mensagens ou pu
 
 # Fluxos do visitante
 
-## 24. Acessar página pública
+## 23. Acessar página pública
 
 ### Objetivo
 
@@ -692,7 +681,7 @@ O visitante consegue visualizar a vitrine sem criar uma conta.
 
 ---
 
-## 25. Acessar rede social
+## 24. Acessar rede social
 
 ### Objetivo
 
@@ -710,16 +699,16 @@ O visitante é direcionado para o serviço externo.
 
 ---
 
-## 26. Visualizar produto
+## 25. Visualizar produto
 
 ### Objetivo
 
-Permitir que o visitante conheça um produto recomendado.
+Permitir que o visitante conheça um item recomendado do tipo `product`.
 
 ### Fluxo principal
 
 1. O visitante acessa a página pública.
-2. Visualiza os produtos ativos.
+2. Visualiza os itens ativos da página.
 3. Localiza um produto de interesse.
 4. Consulta nome, imagem, descrição e preço, quando disponíveis.
 
@@ -729,11 +718,11 @@ O visitante entende o que está sendo recomendado antes de sair da plataforma.
 
 ---
 
-## 27. Clicar em produto
+## 26. Clicar em produto
 
 ### Objetivo
 
-Direcionar o visitante para a loja ou página externa associada ao produto.
+Direcionar o visitante para a loja ou página externa associada ao item do tipo `product`.
 
 ### Fluxo principal
 
@@ -760,7 +749,7 @@ A disponibilidade do produto e o funcionamento da loja externa não são respons
 
 ---
 
-## 28. Visualizar link manual
+## 27. Visualizar link manual
 
 ### Objetivo
 
@@ -779,11 +768,11 @@ O visitante entende o destino antes de sair da plataforma.
 
 ---
 
-## 29. Clicar em link manual
+## 28. Clicar em link manual
 
 ### Objetivo
 
-Direcionar o visitante para o destino externo associado ao link manual.
+Direcionar o visitante para o destino externo associado ao item do tipo `link`.
 
 ### Fluxo principal
 
@@ -807,6 +796,38 @@ O visitante chega ao destino externo correto.
 ### Observação
 
 O funcionamento do destino externo não é responsabilidade da plataforma.
+
+---
+
+## 29. Registrar clique em item
+
+### Objetivo
+
+Registrar o interesse do visitante em um item publicável antes do redirecionamento externo.
+
+### Fluxo principal
+
+1. O visitante clica em um produto ou link manual ativo.
+2. A plataforma identifica o perfil, o item e o tipo do item.
+3. A plataforma cria um registro de clique.
+4. A plataforma redireciona o visitante para a URL externa cadastrada.
+
+### Dados mínimos
+
+- perfil;
+- item clicado;
+- tipo do item no momento do clique;
+- data e hora;
+- identificador anônimo do visitante, quando disponível;
+- origem informada pelo navegador, quando disponível.
+
+### Resultado esperado
+
+O clique é contabilizado para métricas básicas, sem exigir cadastro ou login do visitante.
+
+### Regra importante
+
+Se o registro do clique falhar, o visitante ainda deve ser redirecionado para o destino externo.
 
 ---
 
