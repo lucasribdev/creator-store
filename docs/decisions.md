@@ -453,6 +453,55 @@ Permite remover temporariamente um produto da página pública sem perder seus d
 
 ---
 
+## Upload de imagem de produto em issue separada
+
+**Status:** MVP
+
+### Decisão
+
+O upload de imagem de produto será tratado como uma issue separada dentro da fase/milestone de produtos como `PageItem.type = product`.
+
+A issue principal de produto deve implementar criação, edição, validação e persistência dos dados textuais e informativos do item, sem bloquear o primeiro corte pelo upload.
+
+Produtos devem poder ser criados e editados sem imagem.
+
+`PageItem.image_url` deve ser opcional.
+
+A issue separada de upload de imagem de produto deve cuidar de:
+
+- Supabase Storage;
+- validação de arquivo;
+- tamanho permitido;
+- formato permitido;
+- URL ou path salvo em `PageItem.image_url`;
+- estado de produto sem imagem.
+
+Links manuais (`PageItem.type = link`) não devem receber upload de imagem no MVP.
+
+Upload de avatar e banner de perfil continua sendo um fluxo separado do upload de imagem de produto.
+
+Não deve ser criada uma milestone própria de Supabase Storage apenas para imagem de produto, salvo se houver outras demandas de storage agrupadas.
+
+### Motivo
+
+O upload adiciona dependências de storage, validação de arquivo e tratamento de mídia que não são necessárias para validar o primeiro corte de produto como item publicável.
+
+Separar essa entrega permite implementar mais cedo a criação e edição de produtos reais com dados persistidos, preservando o estado válido de produto sem imagem.
+
+### Consequências
+
+O primeiro corte de produto deve aceitar `image_url = null`.
+
+A interface e a página pública devem exibir um estado adequado para produto sem imagem.
+
+O planejamento de issues deve separar persistência textual de produto e upload de imagem.
+
+Links manuais continuam simples no MVP, sem imagem, preço ou moeda.
+
+Essa decisão não altera os limites permanentes do produto: a Creator Store continua apresentando destinos externos e não implementa e-commerce, marketplace, checkout, pagamentos, pedidos, estoque, frete, avaliações, comentários ou feed social.
+
+---
+
 # Métricas
 
 ## Apenas métricas básicas no MVP

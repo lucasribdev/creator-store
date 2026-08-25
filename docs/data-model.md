@@ -313,6 +313,8 @@ Campos usados por produtos:
 - `previous_price`;
 - `currency`.
 
+`PageItem.image_url` é opcional. No primeiro corte de produto, a criação e edição de `PageItem.type = product` devem funcionar sem imagem, persistindo os dados textuais e informativos do item mesmo quando `image_url = null`.
+
 Campos usados por links:
 
 - `title`;
@@ -323,12 +325,13 @@ Campos usados por links:
 - `is_active`;
 - `is_featured`.
 
-No MVP, links manuais não devem depender de imagem, preço ou moeda. Um link deve ser suficiente com título, URL externa, posição e status ativo/inativo.
+No MVP, links manuais não devem depender de imagem, preço ou moeda e não devem receber upload de imagem. Um link deve ser suficiente com título, URL externa, posição e status ativo/inativo.
 
 ### Regras para `type = product`
 
 - representa um produto recomendado pelo criador;
 - pode possuir imagem, descrição, preço, preço anterior e moeda;
+- pode ser criado e editado sem imagem;
 - deve usar `external_url` para o link afiliado, loja externa ou página externa do produto;
 - o preço é apenas informativo;
 - o preço não será atualizado automaticamente no MVP;
@@ -899,6 +902,12 @@ Tipos de imagem:
 - banner do perfil;
 - imagem de item, principalmente produto no MVP.
 
+No MVP, upload de imagem de produto é separado do fluxo de upload de avatar e banner de perfil.
+
+O primeiro corte de criação e edição de produto deve permitir salvar `PageItem.type = product` sem imagem. A issue separada de upload de imagem de produto deve cuidar de Supabase Storage, validação de arquivo, tamanho, formato e persistência da URL ou path em `PageItem.image_url`.
+
+Links manuais (`PageItem.type = link`) não devem receber upload de imagem no MVP.
+
 A aplicação deve validar:
 
 - formato;
@@ -979,8 +988,9 @@ A autorização deve ser garantida no servidor ou no banco de dados.
 - item destacado deve pertencer ao mesmo perfil;
 - item destacado exibido publicamente deve estar ativo;
 - itens do tipo `link` não devem usar preço, preço anterior ou moeda;
-- itens do tipo `link` não devem exigir imagem ou vídeo no MVP;
+- itens do tipo `link` não devem exigir imagem, receber upload de imagem ou vídeo no MVP;
 - itens do tipo `product` podem usar preço, preço anterior, moeda, imagem e descrição;
+- itens do tipo `product` podem ser salvos sem imagem;
 - preço e preço anterior devem ser valores não negativos;
 - se `previous_price` e `price` forem informados para produto, `previous_price` deve ser maior que `price`;
 - moeda deve usar código ISO 4217 quando informada, com `BRL` como padrão inicial para produtos com preço;

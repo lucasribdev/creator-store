@@ -86,6 +86,7 @@ As principais rotas e telas visuais ja existem para validar fluxo e interface, m
 - Registro real de visualizacoes e cliques por item.
 - Dashboard com contagens reais de itens, produtos, links, visualizacoes e cliques.
 - Analytics basico por item.
+- Upload real de imagem de produto como issue separada da criacao e edicao textual de produto.
 - Deploy validado do MVP completo.
 
 ## Mudanca planejada de modelo
@@ -493,7 +494,9 @@ pnpm exec tsc --noEmit
 
 ## Objetivo
 
-Implementar produtos recomendados como `PageItem.type = product`.
+Implementar produtos recomendados como `PageItem.type = product`, separando o primeiro corte textual e persistente do upload de imagem.
+
+A criacao e edicao de produto nao devem ficar bloqueadas pelo upload de imagem no primeiro corte. Produto sem imagem e valido, e `PageItem.image_url` deve permanecer opcional.
 
 ## Estado
 
@@ -504,11 +507,15 @@ Prototipo visual existente, implementacao real pendente.
 - Formulario real de produto conectado a `PageItem`.
 - Criacao de produto como `PageItem.type = product`.
 - Edicao de campos comuns e campos de produto.
-- Upload de imagem de produto.
+- Persistencia dos dados textuais e informativos do produto.
+- Produto podendo ser salvo sem imagem.
+- Upload de imagem de produto tratado como issue separada dentro desta fase.
 - Validacoes especificas de produto.
 - Estados de produto sem imagem e produto inativo.
 
 ## Pendencias para issues
+
+### Produto como `PageItem.type = product`
 
 - Adaptar telas visuais de produtos para carregar `PageItem` com `type = product`, mantendo `/dashboard/products` apenas como rota temporaria de prototipo ou transicao quando existir.
 - Converter formulario de produto para TanStack Form.
@@ -516,7 +523,9 @@ Prototipo visual existente, implementacao real pendente.
 - Implementar mutation de criacao de produto como `PageItem.type = product`.
 - Implementar mutation de edicao de produto.
 - Reutilizar mutations comuns para ativar, desativar, destacar, ordenar e remover.
-- Implementar upload de imagem de produto no Supabase Storage.
+- Persistir dados textuais e informativos do produto: titulo, descricao, URL externa, texto de botao, preco, preco anterior, moeda, status ativo/inativo, destaque e posicao.
+- Permitir criar e editar produto sem imagem.
+- Manter `PageItem.image_url` opcional.
 - Validar titulo obrigatorio.
 - Validar URL externa obrigatoria.
 - Validar preco nao negativo quando informado.
@@ -524,14 +533,32 @@ Prototipo visual existente, implementacao real pendente.
 - Aplicar moeda padrao `BRL` quando houver preco sem moeda.
 - Exibir estado de produto sem imagem.
 - Exibir estado de produto inativo.
+- Garantir que links manuais continuam sem upload de imagem no MVP.
+
+### Upload de imagem de produto
+
+- Criar issue separada para upload de imagem de produto dentro da fase/milestone de produtos como `PageItem.type = product`.
+- Implementar upload de imagem de produto no Supabase Storage.
+- Validar arquivo de imagem antes de salvar.
+- Validar tamanho maximo permitido.
+- Validar formatos permitidos.
+- Salvar URL ou path do arquivo em `PageItem.image_url`.
+- Permitir remover ou substituir a imagem sem bloquear a edicao dos demais campos do produto.
+- Exibir estado de produto sem imagem quando `PageItem.image_url` estiver vazio.
+- Garantir que falha de upload nao impeça salvar dados textuais quando o fluxo estiver no primeiro corte sem imagem.
+- Manter upload de avatar e banner de perfil como fluxo separado da imagem de produto.
+- Nao criar milestone propria de Supabase Storage apenas para imagem de produto, salvo se houver outras demandas de storage agrupadas.
 
 ## Criterios de conclusao
 
 - O criador consegue cadastrar e editar produtos reais.
 - Produtos sao persistidos como `PageItem.type = product`.
+- Produtos podem ser criados e editados sem imagem.
 - Produtos usam a gestao unificada de itens para ativacao, destaque, ordenacao e remocao.
 - Produtos ativos aparecem na previa ou pagina publica inicial.
 - Produtos inativos nao aparecem publicamente.
+- Links manuais continuam sem upload de imagem no MVP.
+- Upload de avatar e banner de perfil continua separado do upload de imagem de produto.
 
 ## Comandos de verificacao
 
@@ -956,7 +983,8 @@ Possiveis issues futuras:
 7. Implementar perfil real com validacao Zod.
 8. Implementar gestao unificada de `PageItem`.
 9. Implementar produto como `PageItem.type = product`.
-10. Implementar link manual como `PageItem.type = link`.
-11. Implementar pagina publica real por username com itens ativos.
-12. Implementar publicacao, despublicacao e dashboard com contagens.
-13. Implementar metricas basicas com `PageView` e `ItemClick`.
+10. Implementar upload de imagem de produto como issue separada dentro da fase de produtos.
+11. Implementar link manual como `PageItem.type = link`.
+12. Implementar pagina publica real por username com itens ativos.
+13. Implementar publicacao, despublicacao e dashboard com contagens.
+14. Implementar metricas basicas com `PageView` e `ItemClick`.
