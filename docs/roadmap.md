@@ -2,348 +2,303 @@
 
 ## Objetivo
 
-Este documento define a ordem recomendada para construção e validação do produto.
+Este documento define a ordem recomendada para construcao e validacao da Creator Store.
 
-Como o projeto será desenvolvido por uma única pessoa, o roadmap prioriza:
+Como o projeto sera desenvolvido por uma unica pessoa, o roadmap prioriza:
 
 - escopo reduzido;
 - entregas pequenas;
-- validação antecipada;
-- baixo custo de manutenção;
-- evolução baseada em uso real;
+- validacao antecipada;
+- baixo custo de manutencao;
+- evolucao baseada em uso real;
 - evitar funcionalidades prematuras.
 
-O roadmap não representa datas fixas. Cada fase deve ser concluída antes do início da próxima.
+O roadmap nao representa datas fixas. Cada fase deve ser concluida antes do inicio da proxima.
 
 ---
 
-# Princípios
+# Principios
 
-## Sequência incremental
+## Construir sobre PageItem desde o inicio
 
-A implementação deve evoluir nesta ordem:
+`PageItem` deve ser a base dos conteudos clicaveis da pagina publica.
 
-1. atualizar documentação e registrar decisões;
+Produtos sao um tipo importante de `PageItem`, mas nao sao foco obrigatorio da Creator Store nem entidade publica isolada.
+
+Links manuais sao outro tipo importante de `PageItem` e devem usar a mesma base de ordenacao, ativacao, destaque, redirecionamento e metricas.
+
+A pagina publica deve funcionar com:
+
+- apenas produtos;
+- apenas links;
+- produtos e links juntos.
+
+## Sequencia incremental
+
+A implementacao deve evoluir nesta ordem:
+
+1. alinhar documentacao e registrar decisoes;
 2. criar schema `PageItem` e `ItemClick`;
-3. implementar produtos como um tipo de `PageItem`;
-4. implementar links manuais como outro tipo de `PageItem`;
-5. unificar a página pública em torno da lista de itens;
-6. adicionar analytics básico por item;
-7. avaliar imagens para links no futuro;
-8. avaliar vídeo no futuro;
-9. avaliar analytics avançado no futuro.
+3. criar gestao unificada de itens;
+4. implementar produtos como `PageItem.type = product`;
+5. implementar links manuais como `PageItem.type = link`;
+6. publicar pagina publica com itens ativos;
+7. exibir dashboard com contagem de itens, produtos, links, visualizacoes e cliques;
+8. adicionar analytics basico por item;
+9. avaliar imagens para links no futuro;
+10. avaliar video no futuro;
+11. avaliar analytics avancado no futuro.
 
-Essa ordem evita implementar um CRUD real de `Product` isolado para depois migrar imediatamente para um modelo unificado.
+Essa ordem evita implementar um CRUD definitivo de `Product` isolado para depois migrar imediatamente para um modelo unificado.
 
-## Construir sobre PageItem desde o início
+## Fluxo principal
 
-`PageItem` deve ser a base dos conteúdos clicáveis da página pública.
-
-Produtos são um tipo importante de `PageItem`, mas não são foco obrigatório da Creator Store nem uma entidade pública isolada.
-
-Links manuais são outro tipo importante de `PageItem` e devem usar a mesma base de ordenação, ativação, redirecionamento e métricas.
-
-A página pública deve funcionar com apenas produtos, apenas links ou produtos e links juntos.
-
-## Construir o fluxo principal primeiro
-
-A prioridade é permitir que:
+A prioridade e permitir que:
 
 1. o criador crie sua conta;
-2. configure sua página;
+2. configure sua pagina;
 3. cadastre produtos e links manuais;
-4. publique sua página;
+4. publique sua pagina;
 5. compartilhe o link;
-6. o visitante acesse a página;
+6. o visitante acesse a pagina;
 7. o visitante clique em um item;
-8. seja redirecionado para uma página externa.
+8. seja redirecionado para uma pagina externa.
 
-Funcionalidades que não contribuam diretamente para esse fluxo devem ser adiadas.
+Funcionalidades que nao contribuam diretamente para esse fluxo devem ser adiadas.
 
-## Entregar versões utilizáveis
+## Entregar versoes utilizaveis
 
-Cada etapa deve terminar com uma versão funcional do produto.
+Cada etapa deve terminar com uma versao funcional do produto.
 
-Mesmo que ainda incompleta, a aplicação deve continuar utilizável e testável.
+Mesmo que ainda incompleta, a aplicacao deve continuar utilizavel e testavel.
 
 ## Validar antes de expandir
 
 Novas funcionalidades devem ser adicionadas apenas quando:
 
 - corrigirem um problema observado;
-- forem solicitadas por usuários;
-- ajudarem a validar uma hipótese importante;
-- aumentarem o uso ou a retenção;
+- forem solicitadas por usuarios;
+- ajudarem a validar uma hipotese importante;
+- aumentarem o uso ou a retencao;
 - reduzirem uma dificuldade recorrente.
 
 ## Evitar complexidade antecipada
 
-Não devem ser construídos antecipadamente:
+Nao devem ser construidos antecipadamente:
 
 - categorias;
-- temas avançados;
-- integrações externas;
+- temas avancados;
+- integracoes externas;
 - planos pagos;
-- domínios próprios;
-- analytics avançado;
-- automações;
+- dominios proprios;
+- imagens para links;
+- video;
+- analytics avancado;
+- automacoes;
 - recursos sociais.
 
 ---
 
-# Fase 0 — Preparação
+# Fase 0 - Documentacao e decisao PageItem
 
 ## Objetivo
 
-Preparar o projeto para o início da implementação.
+Preparar o projeto para iniciar a implementacao real com a decisao de que produtos e links sao tipos de `PageItem`.
 
 ## Entregas
 
-- repositório criado;
-- documentação inicial;
-- visão do produto;
+- documentacao inicial;
+- visao do produto;
 - escopo do MVP;
-- fluxos do usuário;
+- fluxos do usuario;
 - modelo de dados;
-- decisões iniciais registradas;
-- estrutura básica do projeto;
-- ambiente local funcionando.
+- decisoes iniciais registradas;
+- roadmap alinhado com `PageItem`;
+- plano de implementacao alinhado com milestones e issues.
 
-## Documentos esperados
+## Decisao esperada
 
-```text
-docs/
-├── vision.md
-├── mvp.md
-├── user-flows.md
-├── data-model.md
-├── tech-stack.md
-├── roadmap.md
-└── decisions.md
-```
+Antes de implementar CRUD real de produto, a documentacao deve deixar claro que:
 
-## Critério de conclusão
+- produtos sao `PageItem.type = product`;
+- links manuais sao `PageItem.type = link`;
+- a pagina publica renderiza uma lista unificada de itens ativos;
+- cliques de produtos e links usam `ItemClick`;
+- a pagina publica funciona mesmo sem produtos, se houver links ativos;
+- funcionalidades futuras, como imagens para links e video, devem evoluir a partir de `PageItem`.
 
-A fase será concluída quando for possível responder claramente:
+## Criterio de conclusao
+
+A fase sera concluida quando for possivel responder claramente:
 
 - qual problema o produto resolve;
-- quem é o público inicial;
+- quem e o publico inicial;
 - o que entra no MVP;
-- o que não será construído;
-- quais são os fluxos principais;
-- quais dados serão necessários;
-- qual será a primeira entrega funcional.
+- o que nao sera construido;
+- quais sao os fluxos principais;
+- por que `PageItem` e a entidade base;
+- qual sera a primeira entrega funcional.
 
 ---
 
-# Fase 1 — Protótipo navegável
+# Fase 1 - Prototipo navegavel com itens
 
 ## Objetivo
 
-Validar a estrutura das páginas e o fluxo do produto antes de implementar todas as regras reais.
+Validar a estrutura das paginas e o fluxo do produto antes de implementar todas as regras reais.
 
 ## Escopo
 
-Criar uma versão navegável utilizando dados fictícios.
+Criar uma versao navegavel utilizando dados ficticios.
 
-## Páginas
+## Paginas
 
-### Públicas
+### Publicas
 
-- página inicial;
+- pagina inicial;
 - login;
 - cadastro;
-- página pública do criador;
-- página não encontrada.
+- pagina publica do criador;
+- pagina nao encontrada.
 
-### Área privada
+### Area privada
 
 - dashboard;
-- edição de perfil;
-- lista de produtos;
+- edicao de perfil;
+- lista de itens;
 - cadastro de produto;
-- edição de produto.
+- cadastro de link manual;
+- edicao de item.
 
 ## Dados simulados
 
-O protótipo deverá exibir:
+O prototipo devera exibir:
 
-- perfil de um criador fictício;
+- perfil de um criador ficticio;
 - redes sociais;
 - produtos;
 - links manuais;
-- produto em destaque;
-- página publicada;
-- métricas básicas fictícias.
+- item em destaque;
+- pagina publicada;
+- metricas basicas ficticias.
 
 ## O que validar
 
 - clareza da proposta;
-- organização da página pública;
-- experiência em celular;
+- organizacao da pagina publica;
+- experiencia em celular;
 - facilidade para encontrar itens;
-- clareza dos botões;
-- fluxo entre dashboard e página pública;
-- quantidade de informações solicitadas no cadastro de produto.
+- clareza dos botoes;
+- fluxo entre dashboard e pagina publica;
+- quantidade de informacoes solicitadas para produto e link;
+- comportamento com apenas produtos, apenas links e ambos.
 
 ## Fora desta fase
 
-- autenticação real;
+- autenticacao real;
 - banco de dados;
 - upload real de imagens;
-- persistência;
-- métricas reais;
+- persistencia;
+- metricas reais;
 - redirecionamento com registro de clique.
 
-## Critério de conclusão
+## Criterio de conclusao
 
-O protótipo deve permitir simular o fluxo:
+O prototipo deve permitir simular o fluxo:
 
 ```text
 Criar conta
-    ↓
+    ->
 Configurar perfil
-    ↓
+    ->
 Adicionar produto ou link
-    ↓
-Visualizar página pública
-    ↓
+    ->
+Visualizar pagina publica
+    ->
 Clicar no item
 ```
 
 ---
 
-# Fase 2 — Fundação da aplicação e decisão PageItem
+# Fase 2 - Fundacao da aplicacao
 
 ## Objetivo
 
-Criar a base funcional da aplicação e registrar a decisão de modelar conteúdos clicáveis como `PageItem` desde o início.
+Criar a base funcional da aplicacao.
 
 ## Escopo
 
-- configuração do projeto;
-- estrutura de páginas;
-- navegação;
-- autenticação;
+- configuracao do projeto;
+- estrutura de paginas;
+- navegacao;
+- autenticacao;
 - banco de dados;
 - controle de acesso;
-- tratamento básico de erros;
-- alinhamento da documentação com `PageItem` e `ItemClick`.
+- tratamento basico de erros.
 
 ## Funcionalidades
 
-### Autenticação
+### Autenticacao
 
 - criar conta;
 - fazer login;
 - sair;
 - recuperar senha;
-- proteger páginas privadas.
+- proteger paginas privadas.
 
 ### Conta
 
-- relacionar usuário autenticado ao perfil;
-- impedir acesso aos dados de outros usuários;
-- manter sessão ativa.
+- relacionar usuario autenticado ao perfil;
+- impedir acesso aos dados de outros usuarios;
+- manter sessao ativa.
 
 ### Estrutura inicial de dados
 
 Implementar:
 
-- usuário;
+- usuario;
 - perfil;
-- base para item da página.
+- base para loaders e mutations;
+- validacao de ambiente.
 
-Produtos, links manuais, redes sociais e métricas podem ser adicionados nas fases seguintes.
+Produtos, links manuais, redes sociais e metricas devem ser adicionados nas fases seguintes.
 
-## Decisão de produto e arquitetura
+## Criterio de conclusao
 
-Antes de implementar CRUD real de produto, a documentação deve deixar claro que:
-
-- produtos são um tipo de `PageItem`;
-- links manuais são outro tipo de `PageItem`;
-- a página pública renderiza uma lista unificada de itens ativos;
-- cliques de produtos e links manuais usam a mesma base de métricas por item;
-- a página pública funciona mesmo sem produtos, se houver links ativos;
-- funcionalidades futuras, como imagens para links e vídeo, devem evoluir a partir de `PageItem`.
-
-## Critério de conclusão
-
-Um usuário deve conseguir:
+Um usuario deve conseguir:
 
 1. criar uma conta;
 2. fazer login;
 3. acessar o dashboard;
 4. sair;
-5. retornar e acessar novamente seus próprios dados.
-
-A documentação também deve estar consistente com a decisão de não criar um CRUD real de `Product` isolado antes de introduzir `PageItem`.
+5. retornar e acessar novamente seus proprios dados.
 
 ---
 
-# Fase 3 — Perfil do criador
+# Fase 3 - Schema PageItem e ItemClick
 
 ## Objetivo
 
-Permitir que o usuário configure sua identidade pública.
-
-## Funcionalidades
-
-- escolher username;
-- definir nome de exibição;
-- escrever biografia;
-- adicionar foto de perfil;
-- adicionar banner, caso seja mantido no MVP;
-- editar as informações;
-- visualizar prévia da página.
-
-## Regras
-
-- username único;
-- username válido;
-- nomes reservados bloqueados;
-- tamanho máximo para biografia;
-- validação de imagens;
-- cada usuário pode editar apenas o próprio perfil.
-
-## Estados da página
-
-- perfil incompleto;
-- perfil configurado;
-- página publicada;
-- página despublicada.
-
-## Critério de conclusão
-
-O usuário deve conseguir configurar o perfil e visualizar uma página pública, mesmo que ainda não tenha produtos.
-
----
-
-# Fase 4 — Schema PageItem e ItemClick
-
-## Objetivo
-
-Implementar a base de dados para os conteúdos clicáveis da página pública.
+Implementar a base de dados para os conteudos clicaveis da pagina publica.
 
 ## Entidades
 
 ### PageItem
 
-Representa um item clicável da página pública.
+Representa um item clicavel da pagina publica.
 
 Campos iniciais:
 
 - perfil;
 - tipo (`product` ou `link`);
-- título;
+- titulo;
 - URL externa;
-- descrição opcional;
-- texto de botão opcional;
-- posição;
+- descricao opcional;
+- texto de botao opcional;
+- posicao;
 - ativo;
 - destaque;
-- campos opcionais de produto, como preço e preço anterior;
-- campos de imagem de produto, quando aplicável.
+- campos opcionais de produto, como imagem, preco e preco anterior.
 
 ### ItemClick
 
@@ -356,203 +311,188 @@ Campos iniciais:
 - tipo do item no momento do clique;
 - data;
 - origem opcional;
-- identificador anônimo opcional.
+- identificador anonimo opcional.
 
 ## Regras
 
 - `PageItem` pertence a um perfil;
 - `PageItem.type` define o comportamento e os campos usados;
 - apenas itens ativos aparecem publicamente;
-- todos os itens clicáveis da lista principal devem ser ordenados juntos;
+- todos os itens clicaveis da lista principal devem ser ordenados juntos;
+- no maximo um item pode estar em destaque por perfil;
 - `ItemClick` deve apontar para o item clicado;
-- falhas futuras no registro de clique não devem impedir redirecionamento.
+- falhas futuras no registro de clique nao devem impedir redirecionamento.
 
 ## Fora desta fase
 
 - telas completas de CRUD;
 - upload real de imagens;
-- analytics visível no dashboard;
-- página pública final.
+- analytics visivel no dashboard;
+- pagina publica final.
 
-## Critério de conclusão
+## Criterio de conclusao
 
-O banco deve permitir salvar itens de página e cliques por item sem exigir uma migração imediata de `Product` isolado.
+O banco deve permitir salvar produtos e links manuais como `PageItem` e registrar cliques por item sem exigir uma entidade `Product` isolada.
 
 ---
 
-# Fase 5 — Produtos como PageItem
+# Fase 4 - Perfil do criador
 
 ## Objetivo
 
-Implementar produtos recomendados usando `PageItem` com `type = product`.
+Permitir que o usuario configure sua identidade publica.
 
 ## Funcionalidades
 
-- listar itens do tipo produto;
+- escolher username;
+- definir nome de exibicao;
+- escrever biografia;
+- adicionar foto de perfil;
+- adicionar banner, caso seja mantido no MVP;
+- editar as informacoes;
+- visualizar previa da pagina.
+
+## Regras
+
+- username unico;
+- username valido;
+- nomes reservados bloqueados;
+- tamanho maximo para biografia;
+- validacao de imagens;
+- cada usuario pode editar apenas o proprio perfil.
+
+## Estados da pagina
+
+- perfil incompleto;
+- perfil configurado;
+- pagina publicada;
+- pagina despublicada.
+
+## Criterio de conclusao
+
+O usuario deve conseguir configurar o perfil e visualizar uma pagina publica, mesmo que ainda nao tenha itens.
+
+---
+
+# Fase 5 - Gestao unificada de PageItem
+
+## Objetivo
+
+Implementar a base comum para gerenciar itens da pagina sem tratar produtos como fundacao exclusiva.
+
+## Funcionalidades
+
+- listar itens;
+- criar item com tipo;
+- editar campos comuns;
+- ativar item;
+- desativar item;
+- remover item;
+- ordenar itens;
+- marcar item como destaque.
+
+## Regras
+
+- produtos e links usam a mesma lista de `PageItem`;
+- ordenacao e destaque sao unificados;
+- apenas um item pode estar em destaque;
+- itens inativos continuam editaveis no painel;
+- validacoes especificas ficam nos tipos `product` e `link`.
+
+## Criterio de conclusao
+
+O painel deve permitir gerenciar a lista de itens como uma colecao unica, mesmo antes de completar todos os campos especificos de produto e link.
+
+---
+
+# Fase 6 - Produtos como tipo product de PageItem
+
+## Objetivo
+
+Implementar produtos recomendados usando `PageItem.type = product`.
+
+## Funcionalidades
+
 - cadastrar produto;
 - editar produto;
-- excluir produto;
-- ativar produto;
-- desativar produto;
-- marcar produto como destaque;
-- ordenar produtos dentro da lista de itens;
 - adicionar link externo;
 - adicionar imagem;
-- adicionar preço opcional;
-- adicionar descrição opcional.
+- adicionar preco opcional;
+- adicionar descricao opcional;
+- adicionar texto de botao opcional;
+- usar ativacao, ordenacao e destaque da gestao unificada.
 
-## Dados mínimos do produto
+## Dados minimos do produto
 
-- nome;
+- titulo;
 - link externo.
 
 ## Dados opcionais
 
 - imagem;
-- descrição;
-- preço;
-- preço anterior;
-- texto do botão;
+- descricao;
+- preco;
+- preco anterior;
+- moeda;
+- texto do botao;
 - destaque.
 
 ## Regras
 
-- produto é um `PageItem` com `type = product`;
+- produto e um `PageItem` com `type = product`;
 - produto pertence a um perfil;
-- apenas itens ativos do tipo `product` aparecem publicamente como produtos;
-- no máximo um item em destaque por página;
-- link externo deve ser válido;
-- a plataforma não garante preços ou disponibilidade;
-- produto desativado permanece salvo no painel.
+- preco e apenas informativo;
+- a plataforma nao garante precos ou disponibilidade;
+- produto desativado permanece salvo no painel;
+- produto ativo aparece publicamente quando o perfil esta publicado.
 
-## Critério de conclusão
+## Criterio de conclusao
 
-O criador deve conseguir cadastrar um produto como `PageItem` e visualizá-lo em uma prévia ou página pública inicial.
+O criador deve conseguir cadastrar um produto como `PageItem` e visualiza-lo em uma previa ou pagina publica inicial.
 
 ---
 
-# Fase 6 — Links manuais como PageItem
+# Fase 7 - Links manuais como tipo link de PageItem
 
 ## Objetivo
 
-Permitir que o criador adicione links comuns usando `PageItem` com `type = link`.
+Permitir que o criador adicione links comuns usando `PageItem.type = link`.
 
 ## Funcionalidades
 
-- listar links manuais;
 - cadastrar link manual;
 - editar link manual;
-- excluir link manual;
-- ativar link manual;
-- desativar link manual;
 - adicionar URL externa;
-- adicionar descrição opcional;
-- adicionar texto de botão opcional.
+- adicionar descricao opcional;
+- adicionar texto de botao opcional;
+- usar ativacao, ordenacao e destaque da gestao unificada.
 
-## Dados mínimos do link manual
+## Dados minimos do link manual
 
-- título;
+- titulo;
 - URL externa.
 
 ## Regras
 
-- link manual é um `PageItem` com `type = link`;
+- link manual e um `PageItem` com `type = link`;
 - link manual pertence a um perfil;
 - apenas links ativos aparecem publicamente;
-- links manuais não substituem redes sociais;
-- links manuais não devem usar campos de preço;
-- links manuais não precisam de imagem no MVP;
-- o destino externo deve ser válido.
+- links manuais nao substituem redes sociais;
+- links manuais nao devem usar campos de preco;
+- links manuais nao precisam de imagem no MVP;
+- o destino externo deve ser valido.
 
-## Critério de conclusão
+## Criterio de conclusao
 
-O criador deve conseguir cadastrar um link manual como `PageItem` e ordená-lo junto aos demais itens.
-
----
-
-# Fase 7 — Página pública unificada
-
-## Objetivo
-
-Disponibilizar a página pública para visitantes usando uma lista unificada de `PageItem`.
-
-## Conteúdo da página
-
-- foto de perfil;
-- banner, caso utilizado;
-- nome;
-- biografia;
-- redes sociais, caso já implementadas;
-- item em destaque;
-- lista unificada de itens ativos, incluindo produtos e links manuais;
-- botões de acesso externo.
-
-## Requisitos
-
-- acesso sem login;
-- URL baseada no username;
-- prioridade para dispositivos móveis;
-- carregamento rápido;
-- somente conteúdo ativo;
-- ordenação única para produtos e links manuais;
-- tratamento para página inexistente;
-- tratamento para página despublicada;
-- SEO básico;
-- metadados de compartilhamento.
-
-## Fluxo do visitante
-
-```text
-Acessa a URL
-    ↓
-Visualiza o criador
-    ↓
-Encontra um item
-    ↓
-Clica no botão
-    ↓
-É direcionado para o destino externo
-```
-
-## Critério de conclusão
-
-Um visitante deve conseguir acessar uma página publicada e abrir corretamente o destino externo de um item.
+O criador deve conseguir cadastrar um link manual como `PageItem` e ordena-lo junto aos demais itens.
 
 ---
 
-# Fase 8 — Publicação e compartilhamento
+# Fase 8 - Redes sociais
 
 ## Objetivo
 
-Dar controle ao criador sobre a disponibilidade da página.
-
-## Funcionalidades
-
-- publicar página;
-- despublicar página;
-- visualizar status;
-- abrir página pública;
-- copiar link;
-- usar compartilhamento nativo quando disponível.
-
-## Regras de publicação
-
-A publicação poderá exigir:
-
-- username válido;
-- nome de exibição.
-
-## Critério de conclusão
-
-O criador deve conseguir publicar, compartilhar e despublicar sua página sem perder os dados cadastrados.
-
----
-
-# Fase 9 — Redes sociais
-
-## Objetivo
-
-Permitir que o criador reúna sua presença digital no topo da página.
+Permitir que o criador reuna sua presenca digital no topo da pagina.
 
 ## Tipos iniciais
 
@@ -570,34 +510,139 @@ Permitir que o criador reúna sua presença digital no topo da página.
 - remover link;
 - ativar ou desativar;
 - ordenar links;
-- abrir links na página pública.
+- abrir links na pagina publica.
 
-## Critério de conclusão
+## Criterio de conclusao
 
-O criador deve conseguir cadastrar suas redes e o visitante deve conseguir acessá-las pela página pública.
+O criador deve conseguir cadastrar suas redes e o visitante deve conseguir acessa-las pela pagina publica.
 
-Links manuais comuns não devem ser cadastrados como `SocialLink`; eles pertencem à lista de `PageItem`.
+Links manuais comuns nao devem ser cadastrados como `SocialLink`; eles pertencem a lista de `PageItem`.
 
 ---
 
-# Fase 10 — Analytics básico por item
+# Fase 9 - Pagina publica com itens ativos
 
 ## Objetivo
 
-Medir se as páginas são acessadas e quais itens geram interesse.
+Disponibilizar a pagina publica para visitantes usando uma lista unificada de `PageItem`.
+
+## Conteudo da pagina
+
+- foto de perfil;
+- banner, caso utilizado;
+- nome;
+- biografia;
+- redes sociais, caso ja implementadas;
+- item em destaque;
+- lista unificada de itens ativos, incluindo produtos e links manuais;
+- botoes de acesso externo.
+
+## Requisitos
+
+- acesso sem login;
+- URL baseada no username;
+- prioridade para dispositivos moveis;
+- carregamento rapido;
+- somente conteudo ativo;
+- ordenacao unica para produtos e links manuais;
+- tratamento para pagina inexistente;
+- tratamento para pagina despublicada;
+- SEO basico;
+- metadados de compartilhamento.
+
+## Fluxo do visitante
+
+```text
+Acessa a URL
+    ->
+Visualiza o criador
+    ->
+Encontra um item
+    ->
+Clica no botao
+    ->
+E direcionado para o destino externo
+```
+
+## Criterio de conclusao
+
+Um visitante deve conseguir acessar uma pagina publicada e abrir corretamente o destino externo de qualquer item ativo.
+
+---
+
+# Fase 10 - Publicacao e dashboard minimo
+
+## Objetivo
+
+Dar controle ao criador sobre a disponibilidade da pagina e oferecer acesso rapido as principais informacoes.
+
+## Funcionalidades
+
+- publicar pagina;
+- despublicar pagina;
+- visualizar status;
+- abrir pagina publica;
+- copiar link;
+- usar compartilhamento nativo quando disponivel.
+
+## Conteudo do dashboard
+
+- status da pagina;
+- link publico;
+- quantidade de itens ativos;
+- quantidade total de itens;
+- quantidade de produtos ativos;
+- quantidade de links manuais ativos;
+- total de visualizacoes;
+- total de cliques;
+- botao para editar perfil;
+- botao para adicionar produto;
+- botao para adicionar link manual;
+- botao para gerenciar itens;
+- botao para visualizar pagina;
+- botao para copiar link.
+
+## Regras de publicacao
+
+A publicacao podera exigir:
+
+- username valido;
+- nome de exibicao.
+
+## Fora desta fase
+
+- graficos;
+- filtros por periodo;
+- taxa de conversao;
+- origem detalhada;
+- localizacao;
+- dispositivos;
+- exportacao de dados.
+
+## Criterio de conclusao
+
+O criador deve conseguir publicar, compartilhar e despublicar sua pagina sem perder os dados cadastrados, e entender rapidamente quantos itens, produtos, links, visualizacoes e cliques possui.
+
+---
+
+# Fase 11 - Analytics basico por item
+
+## Objetivo
+
+Medir se as paginas sao acessadas e quais itens geram interesse.
 
 ## Eventos iniciais
 
-- visualização de página;
+- visualizacao de pagina;
 - clique em item.
 
-## Dados necessários
+## Dados necessarios
 
-### Visualização
+### Visualizacao
 
 - perfil;
 - data;
-- identificador anônimo opcional;
+- identificador anonimo opcional;
 - origem opcional.
 
 ### Clique
@@ -606,71 +651,34 @@ Medir se as páginas são acessadas e quais itens geram interesse.
 - item;
 - tipo do item;
 - data;
-- identificador anônimo opcional;
+- identificador anonimo opcional;
 - origem opcional.
 
 ## Regras
 
 - o clique deve ser registrado antes do redirecionamento;
-- falhas no registro não devem impedir o visitante de abrir o link;
-- não coletar informações pessoais desnecessárias;
-- não implementar rastreamento avançado no MVP.
+- falhas no registro nao devem impedir o visitante de abrir o link;
+- nao coletar informacoes pessoais desnecessarias;
+- nao implementar rastreamento avancado no MVP.
 
-## Critério de conclusão
+## Criterio de conclusao
 
 A plataforma deve conseguir informar:
 
-- número total de visualizações;
-- número total de cliques;
+- numero total de visualizacoes;
+- numero total de cliques;
 - cliques por item;
 - cliques por tipo de item.
 
 ---
 
-# Fase 11 — Dashboard mínimo
+# Fase 12 - Testes internos
 
 ## Objetivo
 
-Oferecer ao criador acesso rápido às principais informações e ações.
+Garantir que o fluxo principal funcione do inicio ao fim.
 
-## Conteúdo
-
-- status da página;
-- link público;
-- quantidade de produtos ativos;
-- quantidade de links manuais ativos;
-- total de visualizações;
-- total de cliques;
-- botão para editar perfil;
-- botão para adicionar produto;
-- botão para adicionar link manual;
-- botão para gerenciar produtos;
-- botão para visualizar página;
-- botão para copiar link.
-
-## Fora desta fase
-
-- gráficos;
-- filtros por período;
-- taxa de conversão;
-- origem detalhada;
-- localização;
-- dispositivos;
-- exportação de dados.
-
-## Critério de conclusão
-
-O criador deve conseguir entender rapidamente o estado da página e acessar as ações principais.
-
----
-
-# Fase 12 — Testes internos
-
-## Objetivo
-
-Garantir que o fluxo principal funcione do início ao fim.
-
-## Cenários obrigatórios
+## Cenarios obrigatorios
 
 ### Conta
 
@@ -678,51 +686,43 @@ Garantir que o fluxo principal funcione do início ao fim.
 - fazer login;
 - recuperar senha;
 - sair;
-- acessar rota privada sem autenticação.
+- acessar rota privada sem autenticacao.
 
 ### Perfil
 
 - escolher username;
-- tentar usar username já existente;
+- tentar usar username ja existente;
 - editar perfil;
-- publicar página incompleta;
-- publicar página válida.
+- publicar pagina incompleta;
+- publicar pagina valida.
 
-### Produtos
+### Itens
 
 - adicionar produto;
-- editar produto;
-- desativar produto;
-- excluir produto;
-- cadastrar link inválido;
-- trocar produto em destaque;
-- reordenar produtos.
-
-### Links manuais
-
 - adicionar link manual;
+- editar produto;
 - editar link manual;
-- desativar link manual;
-- excluir link manual;
-- cadastrar URL inválida;
-- reordenar links junto aos produtos.
+- desativar item;
+- excluir item;
+- cadastrar URL invalida;
+- trocar item em destaque;
+- reordenar produtos e links juntos.
 
-### Página pública
+### Pagina publica
 
-- acessar página publicada;
-- acessar página despublicada;
-- acessar página inexistente;
+- acessar pagina publicada;
+- acessar pagina despublicada;
+- acessar pagina inexistente;
 - visualizar somente itens ativos;
 - clicar em produto;
 - clicar em link manual;
 - abrir rede social.
 
-### Permissões
+### Permissoes
 
-- usuário não pode editar perfil de outro;
-- usuário não pode editar produto de outro;
-- usuário não pode editar link manual de outro;
-- visitante não pode acessar dados privados.
+- usuario nao pode editar perfil de outro;
+- usuario nao pode editar item de outro;
+- visitante nao pode acessar dados privados.
 
 ## Dispositivos
 
@@ -731,295 +731,284 @@ Testar pelo menos em:
 - celular;
 - computador;
 - tela pequena;
-- conexão móvel simulada.
+- conexao movel simulada.
 
-## Critério de conclusão
+## Criterio de conclusao
 
 O fluxo principal deve funcionar sem erros bloqueadores.
 
 ---
 
-# Fase 13 — Validação com primeiros usuários
+# Fase 13 - Validacao com primeiros usuarios
 
 ## Objetivo
 
 Descobrir se o produto resolve um problema real.
 
-## Público inicial
+## Publico inicial
 
 Buscar entre 5 e 10 criadores ou afiliados.
 
-Não é necessário abrir o produto para muitas pessoas no início.
+Nao e necessario abrir o produto para muitas pessoas no inicio.
 
 ## Atividades
 
-- ajudar os primeiros usuários a criar suas páginas;
-- observar onde eles têm dificuldade;
-- analisar quais campos não entendem;
+- ajudar os primeiros usuarios a criar suas paginas;
+- observar onde eles tem dificuldade;
+- analisar quais campos nao entendem;
 - verificar quantos produtos cadastram;
 - verificar quantos links manuais cadastram;
 - verificar se usam apenas produtos, apenas links ou produtos e links juntos;
-- verificar se compartilham a página;
+- verificar se compartilham a pagina;
 - coletar feedback;
-- corrigir problemas críticos.
+- corrigir problemas criticos.
 
-## Perguntas para os usuários
+## Perguntas para os usuarios
 
-- Como você organiza seus links atualmente?
-- Foi fácil criar a página?
-- Foi fácil cadastrar um produto?
-- Foi fácil cadastrar um link manual?
-- Você usaria essa página no link da bio?
-- O que faltou para você publicar?
-- O que pareceu desnecessário?
-- Você conseguiu encontrar os itens facilmente?
-- Você voltaria para atualizar sua página?
+- Como voce organiza seus links atualmente?
+- Foi facil criar a pagina?
+- Foi facil cadastrar um produto?
+- Foi facil cadastrar um link manual?
+- Voce usaria essa pagina no link da bio?
+- O que faltou para voce publicar?
+- O que pareceu desnecessario?
+- Voce conseguiu encontrar os itens facilmente?
+- Voce voltaria para atualizar sua pagina?
 
-## Métricas iniciais
+## Metricas iniciais
 
 - contas criadas;
-- perfis concluídos;
+- perfis concluidos;
+- itens cadastrados;
 - produtos cadastrados;
 - links manuais cadastrados;
-- páginas publicadas;
-- páginas compartilhadas;
-- visualizações;
+- paginas publicadas;
+- paginas compartilhadas;
+- visualizacoes;
 - cliques;
 - retorno dos criadores.
 
-## Critério de conclusão
+## Criterio de conclusao
 
-A fase será concluída quando houver feedback suficiente para decidir entre:
+A fase sera concluida quando houver feedback suficiente para decidir entre:
 
 - continuar com o produto;
 - ajustar o fluxo;
 - alterar o posicionamento;
 - reduzir ainda mais o escopo;
-- adicionar uma funcionalidade necessária.
+- adicionar uma funcionalidade necessaria.
 
 ---
 
-# Fase 14 — Lançamento inicial
+# Fase 14 - Lancamento inicial
 
 ## Objetivo
 
-Disponibilizar a primeira versão pública para um grupo maior.
+Disponibilizar a primeira versao publica para um grupo maior.
 
-## Requisitos mínimos
+## Requisitos minimos
 
-- fluxo principal estável;
-- páginas públicas funcionando;
-- autenticação funcionando;
-- permissões revisadas;
+- fluxo principal estavel;
+- paginas publicas funcionando;
+- autenticacao funcionando;
+- permissoes revisadas;
 - erros principais tratados;
-- experiência mobile adequada;
-- política de privacidade;
+- experiencia mobile adequada;
+- politica de privacidade;
 - termos de uso;
 - aviso sobre links externos;
 - canal de suporte ou contato;
-- monitoramento básico de erros.
+- monitoramento basico de erros.
 
-## Critério de conclusão
+## Criterio de conclusao
 
-Usuários devem conseguir utilizar o produto sem acompanhamento direto do desenvolvedor.
+Usuarios devem conseguir utilizar o produto sem acompanhamento direto do desenvolvedor.
 
 ---
 
-# Evoluções após validação
+# Evolucoes apos validacao
 
-As próximas funcionalidades não possuem ordem fixa.
+As proximas funcionalidades nao possuem ordem fixa.
 
 Elas devem ser priorizadas de acordo com dados e feedback.
 
-## Organização de itens
+## Organizacao de itens
 
-Possíveis funcionalidades:
+Possiveis funcionalidades:
 
 - categorias;
-- coleções;
+- colecoes;
 - busca;
 - filtros;
-- múltiplos itens em destaque;
+- multiplos itens em destaque;
 - itens relacionados;
-- seções personalizadas.
+- secoes personalizadas.
 
-Adicionar somente quando os usuários tiverem dificuldade para organizar muitos itens.
+Adicionar somente quando os usuarios tiverem dificuldade para organizar muitos itens.
 
-## Personalização
+## Personalizacao
 
-Possíveis funcionalidades:
+Possiveis funcionalidades:
 
 - cores;
 - fontes;
 - temas;
 - layouts;
 - imagem de fundo;
-- domínio próprio.
+- dominio proprio.
 
-Adicionar caso a personalização seja importante para adoção ou monetização.
+Adicionar caso a personalizacao seja importante para adocao ou monetizacao.
 
-## Integrações
+## Integracoes
 
-Possíveis funcionalidades:
+Possiveis funcionalidades:
 
-- importação por URL;
-- integração com marketplaces;
-- atualização automática de informações;
-- verificação de links;
-- atualização de disponibilidade;
-- importação em lote.
+- importacao por URL;
+- integracao com marketplaces;
+- atualizacao automatica de informacoes;
+- verificacao de links;
+- atualizacao de disponibilidade;
+- importacao em lote.
 
 Adicionar apenas quando o cadastro manual se tornar uma barreira relevante.
 
-## Analytics
-
-Possíveis funcionalidades:
-
-- cliques por período;
-- visualizações por período;
-- itens mais acessados;
-- origem de tráfego;
-- taxa de cliques;
-- exportação;
-- comparação de desempenho.
-
-Adicionar caso os criadores utilizem as métricas para tomar decisões.
-
 ## Imagens para links
 
-Possíveis funcionalidades:
+Possiveis funcionalidades:
 
 - imagem opcional para links manuais;
 - thumbnails geradas a partir da URL;
 - imagem importada de metadados externos;
 - fallback visual por tipo de link.
 
-Adicionar somente se links manuais se tornarem relevantes o suficiente para justificar tratamento visual próprio.
+Adicionar somente se links manuais se tornarem relevantes o suficiente para justificar tratamento visual proprio.
 
-## Vídeo
+## Video
 
-Possíveis funcionalidades:
+Possiveis funcionalidades:
 
-- item de vídeo incorporado;
-- link para vídeo externo;
-- thumbnail de vídeo;
-- destaque para conteúdo em vídeo.
+- item de video incorporado;
+- link para video externo;
+- thumbnail de video;
+- destaque para conteudo em video.
 
-Adicionar somente após validar que vídeos melhoram a conversão ou a clareza da página pública.
+Adicionar somente apos validar que videos melhoram a conversao ou a clareza da pagina publica.
 
-## Analytics avançado
+## Analytics avancado
 
-Possíveis funcionalidades:
+Possiveis funcionalidades:
 
+- cliques por periodo;
+- visualizacoes por periodo;
+- itens mais acessados;
+- origem de trafego;
+- taxa de cliques;
 - funil por item;
-- origem detalhada;
 - dispositivo;
 - geografia aproximada;
-- comparação entre períodos;
-- desempenho por posição na página;
-- relatórios exportáveis.
+- comparacao entre periodos;
+- desempenho por posicao na pagina;
+- exportacao;
+- relatorios exportaveis.
 
-Adicionar apenas quando os criadores já estiverem usando métricas básicas para tomar decisões.
+Adicionar caso os criadores utilizem as metricas basicas para tomar decisoes.
 
-## Monetização
+## Monetizacao
 
-Possíveis funcionalidades:
+Possiveis funcionalidades:
 
 - plano gratuito;
 - plano pago;
-- limites de produtos;
+- limites de itens;
 - temas premium;
-- domínio próprio;
-- analytics avançado;
-- remoção de marca;
+- dominio proprio;
+- analytics avancado;
+- remocao de marca;
 - recursos para equipes.
 
-A monetização deve ser planejada somente após observar uso recorrente.
+A monetizacao deve ser planejada somente apos observar uso recorrente.
 
 ---
 
 # Funcionalidades que permanecem fora do produto
 
-O produto continuará sendo uma página pública de links externos.
+O produto continuara sendo uma pagina publica de links externos.
 
-Não serão adicionados:
+Nao serao adicionados:
 
 - carrinho;
 - checkout;
 - pagamentos;
 - pedidos;
 - controle de estoque;
-- cálculo de frete;
+- calculo de frete;
 - entrega;
-- emissão de notas;
-- devoluções;
-- marketplace próprio.
+- emissao de notas;
+- devolucoes;
+- marketplace proprio;
 - rede social.
 
-A compra sempre acontecerá fora da plataforma.
+A compra, inscricao, cadastro, contato, download, contratacao ou qualquer outra acao final sempre acontecera fora da plataforma.
 
 ---
 
 # Ordem resumida
 
 ```text
-0. Preparação e documentação
-1. Protótipo navegável
-2. Autenticação, fundação e decisão PageItem
-3. Perfil do criador
-4. Schema PageItem e ItemClick
-5. Produtos como PageItem
-6. Links manuais como PageItem
-7. Página pública unificada
-8. Publicação e compartilhamento
-9. Redes sociais
-10. Analytics básico por item
-11. Dashboard mínimo
+0. Documentacao e decisao PageItem
+1. Prototipo navegavel com itens
+2. Fundacao da aplicacao
+3. Schema PageItem e ItemClick
+4. Perfil do criador
+5. Gestao unificada de PageItem
+6. Produtos como tipo product de PageItem
+7. Links manuais como tipo link de PageItem
+8. Redes sociais
+9. Pagina publica com itens ativos
+10. Publicacao e dashboard minimo
+11. Analytics basico por item
 12. Testes internos
-13. Validação com usuários
-14. Lançamento inicial
+13. Validacao com usuarios
+14. Lancamento inicial
 ```
 
 ---
 
 # Primeira entrega funcional
 
-A primeira entrega que realmente valida a base técnica deve permitir:
+A primeira entrega que realmente valida a base tecnica deve permitir:
 
 1. criar uma conta;
 2. fazer login;
 3. configurar nome e username;
-4. cadastrar um produto ou link manual;
-5. cadastrar outro item, caso necessário;
-6. acessar a página pública;
+4. cadastrar um produto ou link manual como `PageItem`;
+5. cadastrar outro item de qualquer tipo permitido;
+6. acessar a pagina publica;
 7. clicar em um item;
 8. ser direcionado para o link externo.
 
-Nesta primeira entrega ainda não são obrigatórios:
+Nesta primeira entrega ainda nao sao obrigatorios:
 
 - banner;
 - redes sociais;
-- ordenação;
-- item em destaque;
-- métricas visíveis;
-- recuperação de senha;
-- compartilhamento nativo.
+- ordenacao avancada;
+- metricas visiveis;
+- recuperacao de senha;
+- compartilhamento nativo;
+- imagens para links;
+- video.
 
 ---
 
-# Próximo passo imediato
+# Proximo passo imediato
 
-Com a documentação inicial pronta, o próximo passo é construir o protótipo navegável com dados fictícios.
+Com a documentacao alinhada, o proximo passo e implementar a migracao do modelo atual para `PageItem` e `ItemClick`.
 
-A primeira página a ser desenhada deve ser a página pública do criador, pois ela representa o principal valor entregue pelo produto.
+A primeira frente tecnica deve ser:
 
-Depois, devem ser desenhadas:
-
-1. lista de itens com produtos e links;
-2. cadastro de produto como `PageItem`;
-3. cadastro de link manual como `PageItem`;
-4. edição de perfil;
-5. dashboard;
-6. login e cadastro.
-
-Somente depois da validação desses fluxos deve começar a integração com autenticação, banco de dados, `PageItem`, `ItemClick` e armazenamento de imagens de produto.
+1. atualizar schema Drizzle de `products` para `page_items`;
+2. atualizar schema Drizzle de `product_clicks` para `item_clicks`;
+3. preservar `PageView`;
+4. manter `SocialLink` separado;
+5. criar validacoes de tipo `product` e `link`;
+6. preparar a lista unificada de itens para as proximas telas.

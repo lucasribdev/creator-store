@@ -16,9 +16,17 @@ O plano acompanha o escopo definido em:
 - `docs/roadmap.md`;
 - `docs/decisions.md`.
 
-## Regras de escopo
+## Regra principal de produto
 
-A Creator Store e uma pagina publica pessoal para recomendacoes, produtos, links importantes e destinos externos, nao um e-commerce, marketplace ou rede social.
+A Creator Store e uma pagina publica pessoal para recomendacoes, produtos, links importantes e destinos externos.
+
+Produtos e links manuais comuns devem ser tratados como tipos de `PageItem`, nao como bases separadas da aplicacao.
+
+O MVP deve suportar:
+
+- pagina com apenas produtos;
+- pagina com apenas links;
+- pagina com produtos e links juntos.
 
 Nao implementar no MVP:
 
@@ -71,10 +79,13 @@ As principais rotas e telas visuais ja existem para validar fluxo e interface, m
 - Upload real de avatar, banner e imagens.
 - CRUD real de redes sociais.
 - CRUD real de itens da pagina.
+- Criacao real de produto como `PageItem.type = product`.
+- Criacao real de link manual como `PageItem.type = link`.
 - Publicacao e despublicacao reais.
 - Pagina publica carregando dados reais.
-- Registro real de visualizacoes e cliques.
-- Dashboard com metricas reais.
+- Registro real de visualizacoes e cliques por item.
+- Dashboard com contagens reais de itens, produtos, links, visualizacoes e cliques.
+- Analytics basico por item.
 - Deploy validado do MVP completo.
 
 ## Mudanca planejada de modelo
@@ -111,14 +122,17 @@ ItemClick
 - Manter `social_links` separado de `page_items`.
 - Tratar produtos como um tipo de item da UX, sem criar um CRUD definitivo de `Product` isolado.
 - Tratar links manuais como outro tipo de item, sem transformar a plataforma em rede social, e-commerce ou marketplace.
+- Usar `PageItem` como base de ordenacao, ativacao, destaque, redirecionamento e metricas.
 
 ### Consequencias para milestones
 
 - A proxima implementacao de schema deve partir de `PageItem` e `ItemClick`.
-- As telas atuais de produtos devem ser reaproveitadas, mas conectadas a `PageItem` com `type = product`.
+- As telas atuais de produtos podem ser reaproveitadas, mas conectadas a `PageItem` com `type = product`.
 - Links manuais devem usar a mesma base de dados, ordenacao, ativacao e metricas dos produtos.
 - A pagina publica deve renderizar uma lista unificada de itens ativos.
-- A pagina publica deve funcionar com apenas produtos, apenas links ou produtos e links juntos.
+- O dashboard deve mostrar contagens de itens, produtos, links, visualizacoes e cliques.
+- O analytics basico deve ser por item e funcionar para qualquer tipo de `PageItem`.
+- Imagens para links, video e analytics avancado ficam para evolucoes futuras.
 
 ## Verificacao padrao
 
@@ -141,11 +155,11 @@ Os comandos de Drizzle podem variar conforme os scripts reais do projeto. Se os 
 
 ---
 
-# Fase 0 - Preparacao e alinhamento
+# Fase 0 - Documentacao e decisao PageItem
 
 ## Objetivo
 
-Garantir que documentacao, ambiente local e configuracao tecnica estejam prontos para iniciar funcionalidades reais.
+Garantir que a documentacao, as decisoes e o plano de trabalho estejam alinhados com produtos e links como tipos de `PageItem`.
 
 ## Estado
 
@@ -153,16 +167,17 @@ Parcialmente concluida.
 
 ## Entregas
 
-- Documentacao principal do produto criada.
-- Escopo do MVP definido.
-- Stack tecnica definida.
-- Estrutura inicial do projeto criada.
-- Scripts principais no `package.json` configurados.
-- Schema inicial Drizzle criado.
-- Validacao minima de conexao com Supabase Postgres em Cloudflare Workers registrada.
+- Documentacao principal revisada para suportar produtos e links.
+- Decisao `PageItem` registrada em `docs/decisions.md`.
+- Escopo do MVP alinhado com itens clicaveis unificados.
+- Roadmap e plano de implementacao organizados em torno de `PageItem`.
+- Limites permanentes de nao e-commerce preservados.
 
 ## Pendencias para issues
 
+- Revisar `docs/mvp.md` para garantir que o MVP fale em itens, produtos e links.
+- Revisar `docs/user-flows.md` para incluir paginas com apenas produtos, apenas links e ambos.
+- Revisar `docs/data-model.md` antes de alterar migrations.
 - Atualizar README com instalacao, execucao local, variaveis de ambiente, comandos de verificacao e fluxo de deploy.
 - Revisar `.env.example` para garantir que todas as variaveis esperadas estejam documentadas.
 - Confirmar que `wrangler.jsonc` esta alinhado com `nodejs_compat`, Drizzle e Supabase Postgres.
@@ -170,9 +185,10 @@ Parcialmente concluida.
 
 ## Criterios de conclusao
 
+- A documentacao nao trata produto como entidade central obrigatoria.
+- `PageItem` e `ItemClick` estao documentados como base do MVP.
 - Uma pessoa nova no projeto consegue instalar dependencias e rodar o app localmente seguindo o README.
 - Variaveis obrigatorias estao documentadas sem segredos reais.
-- A decisao de runtime Cloudflare Workers + Supabase Postgres esta documentada.
 - Nao ha decisao tecnica bloqueadora para iniciar autenticacao e persistencia.
 
 ## Comandos de verificacao
@@ -185,7 +201,7 @@ pnpm exec tsc --noEmit
 
 ---
 
-# Fase 1 - Prototipo navegavel
+# Fase 1 - Prototipo navegavel com itens
 
 ## Objetivo
 
@@ -201,7 +217,9 @@ Concluida como prototipo inicial, com revisoes visuais pendentes.
 - Login, cadastro e recuperacao de senha simulados.
 - Dashboard simulado.
 - Edicao de perfil simulada.
-- Lista, cadastro e edicao de produtos simulados.
+- Lista simulada de itens.
+- Cadastro e edicao simulados de produto.
+- Cadastro e edicao simulados de link manual.
 - Pagina publica por username com dados ficticios.
 - Estados visuais de pagina publicada, despublicada, inexistente e sem itens ativos.
 
@@ -209,7 +227,8 @@ Concluida como prototipo inicial, com revisoes visuais pendentes.
 
 - Revisar o prototipo em celular e desktop.
 - Confirmar que a pagina publica parece uma pagina pessoal de recomendacoes, nao uma loja.
-- Atualizar textos visuais que ainda falem apenas em produtos quando o fluxo precisar incluir links manuais.
+- Atualizar textos visuais que ainda falem apenas em produtos.
+- Representar produto e link manual como itens da mesma pagina.
 - Registrar ajustes visuais necessarios antes da integracao real.
 - Incluir no prototipo o estado "sem itens ativos", considerando produtos e links manuais.
 
@@ -217,6 +236,7 @@ Concluida como prototipo inicial, com revisoes visuais pendentes.
 
 - O fluxo principal pode ser simulado com dados ficticios.
 - A navegacao entre dashboard, perfil, itens e pagina publica esta clara.
+- O prototipo permite simular uma pagina com apenas produtos, apenas links ou ambos.
 - Os estados vazios, de erro visual e de pagina indisponivel estao representados.
 
 ## Comandos de verificacao
@@ -244,6 +264,8 @@ Parcialmente iniciada.
 - Integracao base com TanStack Query criada.
 - Configuracao inicial de Drizzle criada.
 - Endpoint tecnico de saude do banco criado.
+- Base para usar loaders em rotas publicas e privadas.
+- Base para mutations tipadas com validacao Zod.
 
 ## Pendencias para issues
 
@@ -382,7 +404,59 @@ pnpm exec tsc --noEmit
 
 ---
 
-# Fase 5 - Produtos como PageItem
+# Fase 5 - Gestao unificada de PageItem
+
+## Objetivo
+
+Criar a base compartilhada para listar, ordenar, ativar, desativar, destacar e remover itens da pagina, independentemente do tipo.
+
+## Estado
+
+Pendente.
+
+## Entregas
+
+- Listagem real de `PageItem` do criador.
+- Estado vazio de itens.
+- Criacao tecnica de item com tipo.
+- Edicao tecnica de campos comuns.
+- Ativacao e desativacao de item.
+- Remocao controlada de item.
+- Ordenacao unificada.
+- Marcacao de destaque para no maximo um item por perfil.
+- Invalidacao de queries apos mutations de item.
+
+## Pendencias para issues
+
+- Criar consulta privada para listar `PageItem` por `profile_id`.
+- Criar componentes ou helpers compartilhados para cards de item no dashboard.
+- Implementar mutation comum de ativar e desativar item.
+- Implementar mutation comum de remover item.
+- Implementar mutation comum de ordenar itens.
+- Implementar mutation comum de destacar item removendo destaque anterior.
+- Garantir que ordenacao misture produtos e links na mesma sequencia.
+- Garantir que item inativo continue editavel no painel.
+- Exibir estado vazio quando nao houver nenhum item.
+- Exibir contagem de itens ativos e inativos quando simples.
+- Invalidar TanStack Query apos criar, editar, ativar, desativar, destacar, ordenar ou remover.
+
+## Criterios de conclusao
+
+- O painel possui uma base real para gerenciar itens sem depender de produto como entidade central.
+- Produtos e links podem compartilhar a mesma lista, ordenacao, ativacao, destaque e remocao.
+- A regra de no maximo um destaque por perfil esta aplicada.
+
+## Comandos de verificacao
+
+```bash
+pnpm check
+pnpm build
+pnpm exec tsc --noEmit
+```
+
+---
+
+# Fase 6 - Produtos como tipo product de PageItem
 
 ## Objetivo
 
@@ -390,31 +464,25 @@ Implementar produtos recomendados como `PageItem.type = product`.
 
 ## Estado
 
-Prototipo visual existente, CRUD real pendente.
+Prototipo visual existente, implementacao real pendente.
 
 ## Entregas
 
-- Listagem real de produtos do criador.
+- Formulario real de produto conectado a `PageItem`.
 - Criacao de produto como `PageItem.type = product`.
-- Edicao de produto.
-- Ativacao e desativacao de produto.
-- Exclusao ou remocao controlada de produto.
-- Ordenacao de produtos.
-- Marcacao de destaque.
+- Edicao de campos comuns e campos de produto.
 - Upload de imagem de produto.
-- Validacoes de campos de produto.
+- Validacoes especificas de produto.
+- Estados de produto sem imagem e produto inativo.
 
 ## Pendencias para issues
 
 - Adaptar lista visual de produtos para carregar `PageItem` com `type = product`.
 - Converter formulario de produto para TanStack Form.
 - Criar schema Zod para produto.
-- Implementar mutation de criacao de produto.
+- Implementar mutation de criacao de produto como `PageItem.type = product`.
 - Implementar mutation de edicao de produto.
-- Implementar mutation de ativar e desativar produto.
-- Implementar mutation de exclusao ou remocao controlada.
-- Implementar mover produto para cima e para baixo.
-- Implementar destaque removendo destaque anterior do perfil.
+- Reutilizar mutations comuns para ativar, desativar, destacar, ordenar e remover.
 - Implementar upload de imagem de produto no Supabase Storage.
 - Validar titulo obrigatorio.
 - Validar URL externa obrigatoria.
@@ -423,12 +491,12 @@ Prototipo visual existente, CRUD real pendente.
 - Aplicar moeda padrao `BRL` quando houver preco sem moeda.
 - Exibir estado de produto sem imagem.
 - Exibir estado de produto inativo.
-- Invalidar TanStack Query apos criar, editar, ativar, desativar, destacar, ordenar ou excluir.
 
 ## Criterios de conclusao
 
-- O criador consegue cadastrar, editar, ativar, desativar, destacar, ordenar e remover produtos reais.
+- O criador consegue cadastrar e editar produtos reais.
 - Produtos sao persistidos como `PageItem.type = product`.
+- Produtos usam a gestao unificada de itens para ativacao, destaque, ordenacao e remocao.
 - Produtos ativos aparecem na previa ou pagina publica inicial.
 - Produtos inativos nao aparecem publicamente.
 
@@ -442,7 +510,7 @@ pnpm exec tsc --noEmit
 
 ---
 
-# Fase 6 - Links manuais como PageItem
+# Fase 7 - Links manuais como tipo link de PageItem
 
 ## Objetivo
 
@@ -454,37 +522,33 @@ Pendente.
 
 ## Entregas
 
-- Listagem real de links manuais.
-- Criacao de link manual.
+- Interface real para criar link manual.
 - Edicao de link manual.
-- Ativacao e desativacao de link manual.
-- Exclusao ou remocao controlada de link manual.
+- Validacoes especificas de link manual.
+- Estados de link manual vazio, inativo e sem descricao.
 - Ordenacao unificada junto aos demais itens.
-- Validacoes de campos de link manual.
 
 ## Pendencias para issues
 
-- Criar interface para listar links manuais.
+- Criar interface para listar ou filtrar links manuais.
 - Criar formulario de link manual com TanStack Form.
 - Criar schema Zod para link manual.
-- Implementar mutation de criacao de link manual.
+- Implementar mutation de criacao de link manual como `PageItem.type = link`.
 - Implementar mutation de edicao de link manual.
-- Implementar mutation de ativar e desativar link manual.
-- Implementar mutation de exclusao ou remocao controlada.
-- Implementar ordenacao de links manuais na lista unica de `PageItem`.
+- Reutilizar mutations comuns para ativar, desativar, destacar, ordenar e remover.
 - Validar titulo obrigatorio.
 - Validar URL externa obrigatoria.
 - Validar descricao opcional.
 - Validar texto de botao opcional.
 - Garantir que link manual nao usa preco, preco anterior ou moeda.
 - Garantir que link manual nao substitui `SocialLink`.
-- Exibir estado vazio de links manuais.
-- Invalidar TanStack Query apos criar, editar, ativar, desativar, ordenar ou excluir.
+- Exibir estado vazio de links manuais quando houver filtro por tipo.
 
 ## Criterios de conclusao
 
-- O criador consegue cadastrar, editar, ativar, desativar, ordenar e remover links manuais.
+- O criador consegue cadastrar e editar links manuais.
 - Links manuais sao persistidos como `PageItem.type = link`.
+- Links manuais usam a gestao unificada de itens para ativacao, destaque, ordenacao e remocao.
 - Links manuais ativos aparecem na lista publica unificada, com ou sem produtos ativos.
 - Links manuais inativos nao aparecem publicamente.
 
@@ -498,7 +562,7 @@ pnpm exec tsc --noEmit
 
 ---
 
-# Fase 7 - Redes sociais
+# Fase 8 - Redes sociais
 
 ## Objetivo
 
@@ -552,7 +616,7 @@ pnpm exec tsc --noEmit
 
 ---
 
-# Fase 8 - Pagina publica unificada
+# Fase 9 - Pagina publica com itens ativos
 
 ## Objetivo
 
@@ -585,9 +649,9 @@ Prototipo visual existente, dados reais pendentes.
 - Exibir redes sociais ativas.
 - Exibir item em destaque quando existir.
 - Exibir produtos e links manuais ativos ordenados por `position`.
+- Evitar duplicar o item em destaque se ele tambem aparecer separado da lista.
 - Garantir que visitante nao precise de conta.
-- Abrir destino externo de produto.
-- Abrir destino externo de link manual.
+- Abrir destino externo de qualquer `PageItem`.
 - Adicionar SEO basico.
 - Adicionar metadados de compartilhamento.
 - Revisar layout mobile first com dados reais.
@@ -609,11 +673,11 @@ pnpm exec tsc --noEmit
 
 ---
 
-# Fase 9 - Publicacao e dashboard real
+# Fase 10 - Publicacao e dashboard real
 
 ## Objetivo
 
-Permitir que o criador controle a visibilidade da pagina e veja um resumo simples dos proprios itens.
+Permitir que o criador controle a visibilidade da pagina e veja um resumo simples dos proprios itens e metricas.
 
 ## Estado
 
@@ -628,7 +692,9 @@ Dashboard simulado existente, implementacao real pendente.
 - Resumo real de itens.
 - Resumo real de produtos.
 - Resumo real de links manuais.
-- Atalhos para editar perfil, adicionar produto e adicionar link manual.
+- Resumo real de visualizacoes.
+- Resumo real de cliques.
+- Atalhos para editar perfil, adicionar item, adicionar produto e adicionar link manual.
 
 ## Pendencias para issues
 
@@ -645,12 +711,13 @@ Dashboard simulado existente, implementacao real pendente.
 - Exibir quantidade real de cliques quando metricas estiverem disponiveis.
 - Criar estado de dashboard para perfil incompleto.
 - Criar estado de dashboard para pagina despublicada.
+- Criar atalhos para adicionar produto e adicionar link manual sem sugerir que produto e obrigatorio.
 
 ## Criterios de conclusao
 
 - O criador consegue publicar e despublicar a pagina.
 - O dashboard mostra o link publico correto.
-- O dashboard mostra resumo real dos itens cadastrados.
+- O dashboard mostra contagens reais de itens, produtos, links, visualizacoes e cliques.
 - Uma pagina despublicada nao fica acessivel para visitantes.
 
 ## Comandos de verificacao
@@ -663,7 +730,7 @@ pnpm exec tsc --noEmit
 
 ---
 
-# Fase 10 - Metricas basicas
+# Fase 11 - Analytics basico por item
 
 ## Objetivo
 
@@ -680,7 +747,8 @@ Planejada. O schema inicial usa `product_clicks`, mas deve evoluir para `item_cl
 - Redirecionamento externo apos clique.
 - Dashboard com total de visualizacoes.
 - Dashboard com total de cliques.
-- Consultas basicas por item ou tipo quando simples.
+- Contagem de cliques por item.
+- Contagem de cliques por tipo de item.
 
 ## Pendencias para issues
 
@@ -694,8 +762,8 @@ Planejada. O schema inicial usa `product_clicks`, mas deve evoluir para `item_cl
 - Armazenar `item_type` no momento do clique.
 - Exibir total real de visualizacoes no dashboard.
 - Exibir total real de cliques no dashboard.
-- Exibir cliques por item se a consulta continuar simples.
-- Exibir cliques por tipo de item se a consulta continuar simples.
+- Exibir cliques por item.
+- Exibir cliques por tipo de item quando simples.
 - Evitar filtros por periodo, origem detalhada e analytics avancado nesta fase.
 
 ## Criterios de conclusao
@@ -704,6 +772,7 @@ Planejada. O schema inicial usa `product_clicks`, mas deve evoluir para `item_cl
 - Cliques em produtos e links manuais sao registrados como `ItemClick`.
 - O visitante sempre e redirecionado ao destino externo, mesmo se a metrica falhar.
 - O dashboard exibe totais basicos reais.
+- O criador consegue ver analytics basico por item.
 
 ## Comandos de verificacao
 
@@ -715,7 +784,7 @@ pnpm exec tsc --noEmit
 
 ---
 
-# Fase 11 - Deploy e validacao do MVP
+# Fase 12 - Deploy e validacao do MVP
 
 ## Objetivo
 
@@ -749,6 +818,8 @@ Deploy alvo definido e conexao minima validada; MVP completo ainda pendente.
 - Rodar teste completo de publicacao e despublicacao.
 - Rodar teste completo da pagina publica por username.
 - Rodar teste completo de clique e redirecionamento.
+- Rodar teste completo de dashboard com contagens de itens, produtos, links, visualizacoes e cliques.
+- Rodar teste completo de analytics basico por item.
 - Testar isolamento de dados entre dois usuarios.
 - Testar pagina inexistente.
 - Testar pagina despublicada.
@@ -769,6 +840,7 @@ Deploy alvo definido e conexao minima validada; MVP completo ainda pendente.
 - O fluxo principal funciona sem erro bloqueador.
 - Dados privados estao isolados por usuario.
 - Paginas publicas funcionam sem login.
+- A pagina funciona com apenas produtos, apenas links ou produtos e links juntos.
 - Cliques redirecionam corretamente para destinos externos.
 - Estados obrigatorios foram verificados.
 - Primeiros criadores conseguem usar o produto com suporte manual aceitavel.
@@ -783,20 +855,55 @@ pnpm exec tsc --noEmit
 
 ---
 
+# Evolucoes futuras fora do MVP
+
+## Imagens para links
+
+Possiveis issues futuras:
+
+- Adicionar `image_url` opcional para `PageItem.type = link`.
+- Gerar thumbnails a partir da URL quando viavel.
+- Importar imagem de metadados externos.
+- Criar fallback visual por tipo de link.
+
+## Video
+
+Possiveis issues futuras:
+
+- Adicionar tipo ou metadados de video em `PageItem`.
+- Permitir thumbnail de video.
+- Permitir link para video externo.
+- Avaliar item de video incorporado somente se houver demanda real.
+
+## Analytics avancado
+
+Possiveis issues futuras:
+
+- Filtros por periodo.
+- Origem detalhada de trafego.
+- Taxa de clique por item.
+- Ranking de itens mais acessados.
+- Comparacao entre periodos.
+- Desempenho por posicao na pagina.
+- Exportacao de relatorios.
+
+---
+
 # Sequencia recomendada de milestones
 
-1. Preparacao e alinhamento.
-2. Prototipo navegavel.
+1. Documentacao e decisao `PageItem`.
+2. Prototipo navegavel com itens.
 3. Fundacao da aplicacao.
 4. Schema `PageItem` e `ItemClick`.
 5. Perfil do criador.
-6. Produtos como `PageItem`.
-7. Links manuais como `PageItem`.
-8. Redes sociais.
-9. Pagina publica unificada.
-10. Publicacao e dashboard real.
-11. Metricas basicas.
-12. Deploy e validacao do MVP.
+6. Gestao unificada de `PageItem`.
+7. Produtos como `PageItem.type = product`.
+8. Links manuais como `PageItem.type = link`.
+9. Redes sociais.
+10. Pagina publica com itens ativos.
+11. Publicacao e dashboard real.
+12. Analytics basico por item.
+13. Deploy e validacao do MVP.
 
 # Proximas issues recomendadas
 
@@ -807,8 +914,9 @@ pnpm exec tsc --noEmit
 5. Integrar Supabase Auth para cadastro, login, logout e recuperacao de senha.
 6. Proteger rotas privadas.
 7. Implementar perfil real com validacao Zod.
-8. Implementar produto como `PageItem.type = product`.
-9. Implementar link manual como `PageItem.type = link`.
-10. Implementar pagina publica real por username.
-11. Implementar publicacao e despublicacao.
-12. Implementar metricas basicas com `PageView` e `ItemClick`.
+8. Implementar gestao unificada de `PageItem`.
+9. Implementar produto como `PageItem.type = product`.
+10. Implementar link manual como `PageItem.type = link`.
+11. Implementar pagina publica real por username com itens ativos.
+12. Implementar publicacao, despublicacao e dashboard com contagens.
+13. Implementar metricas basicas com `PageView` e `ItemClick`.
