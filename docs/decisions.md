@@ -104,6 +104,50 @@ Caso exista demanda no futuro, será possível adicionar múltiplas páginas sem
 
 ---
 
+## published_at representa a publicação mais recente
+
+**Status:** MVP
+
+### Decisão
+
+`Profile.published_at` deve representar a data e hora da publicação mais recente.
+
+Ao publicar uma página pela primeira vez, a aplicação deve preencher `published_at` com o momento atual.
+
+Ao despublicar uma página, a aplicação deve manter `published_at` com o valor existente.
+
+Ao republicar uma página, a aplicação deve atualizar `published_at` para o novo momento de publicação.
+
+`published_at = null` indica que o perfil nunca foi publicado.
+
+`Profile.is_published` continua sendo a fonte de verdade para saber se a página está acessível publicamente.
+
+`published_at` não deve ser usado sozinho para decidir visibilidade pública.
+
+Histórico completo de publicações e despublicações fica fora do MVP.
+
+### Motivo
+
+O MVP precisa saber se a página nunca foi publicada e qual foi a publicação mais recente, sem adicionar uma trilha completa de auditoria.
+
+Separar o timestamp do estado atual evita que a despublicação apague uma informação útil para o dashboard e para decisões simples de produto.
+
+### Consequências
+
+Consultas públicas devem continuar usando `Profile.is_published = true` para decidir se uma página pode ser acessada por visitantes.
+
+O dashboard pode usar `published_at` para exibir quando a página foi publicada pela última vez, mas não deve inferir visibilidade pública apenas por esse campo.
+
+Despublicar não limpa `published_at`.
+
+Republicar atualiza `published_at`.
+
+Se um histórico completo de publicação/despublicação for necessário futuramente, ele deverá ser modelado em outra entidade ou evento, com decisão própria registrada.
+
+Essa decisão não altera os limites permanentes do produto: a Creator Store continua apresentando destinos externos e não implementa e-commerce, marketplace, checkout, pagamentos, pedidos, estoque, frete, avaliações, comentários ou feed social.
+
+---
+
 ## Cadastro manual de produtos e links
 
 **Status:** MVP

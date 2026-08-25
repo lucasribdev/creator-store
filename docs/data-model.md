@@ -113,7 +113,7 @@ Representa a página pública do criador e suas informações principais.
 | `avatar_url`   | String   |         Não | Endereço da foto de perfil            |
 | `banner_url`   | String   |         Não | Endereço da imagem de capa            |
 | `is_published` | Boolean  |         Sim | Define se a página está pública       |
-| `published_at` | DateTime |         Não | Data da primeira ou última publicação |
+| `published_at` | DateTime |         Não | Data da publicação mais recente        |
 | `created_at`   | DateTime |         Sim | Data de criação                       |
 | `updated_at`   | DateTime |         Sim | Data da última atualização            |
 
@@ -123,7 +123,14 @@ Representa a página pública do criador e suas informações principais.
 - cada usuário pode possuir apenas um perfil;
 - o `username` deve ser único;
 - o `username` deve ser tratado sem diferença entre letras maiúsculas e minúsculas;
-- somente perfis publicados podem ser acessados por visitantes;
+- `is_published` é a fonte de verdade para saber se a página está acessível publicamente;
+- somente perfis com `is_published = true` podem ser acessados por visitantes;
+- `published_at` não deve ser usado sozinho para decidir visibilidade pública;
+- `published_at = null` indica que o perfil nunca foi publicado;
+- ao publicar pela primeira vez, preencher `published_at` com o momento atual;
+- ao despublicar, manter `published_at` com o valor existente;
+- ao republicar, atualizar `published_at` para o novo momento de publicação;
+- histórico completo de publicações e despublicações fica fora do MVP;
 - o perfil pode ser publicado mesmo sem itens ativos;
 - quando não houver itens ativos, a página pública deve exibir as informações do criador e suas redes sociais.
 
@@ -948,7 +955,10 @@ A autorização deve ser garantida no servidor ou no banco de dados.
 - biografia limitada a um tamanho razoável;
 - URLs de imagens válidas;
 - publicação permitida somente com dados mínimos;
-- `published_at` deve ser preenchido ou atualizado quando a página for publicada, conforme a regra escolhida para auditoria.
+- `published_at` deve ser preenchido ao publicar pela primeira vez;
+- `published_at` deve ser mantido ao despublicar;
+- `published_at` deve ser atualizado ao republicar;
+- `is_published` deve ser usado como fonte de verdade para visibilidade pública.
 
 ## SocialLink
 

@@ -734,7 +734,10 @@ Dashboard simulado existente, implementacao real pendente.
 
 - Implementar mutation de publicar pagina.
 - Implementar mutation de despublicar pagina.
-- Registrar `published_at` quando aplicavel.
+- Ao publicar pela primeira vez, preencher `published_at` com o momento atual.
+- Ao despublicar, manter `published_at` com o valor existente.
+- Ao republicar, atualizar `published_at` para o novo momento de publicacao.
+- Usar `is_published` como fonte de verdade para visibilidade publica.
 - Exibir status atual da pagina no dashboard.
 - Exibir link publico baseado no username.
 - Implementar copiar link publico.
@@ -755,6 +758,7 @@ Dashboard simulado existente, implementacao real pendente.
 - O dashboard mostra contagens reais de itens, produtos, links, visualizacoes e cliques.
 - O dashboard direciona a gestao principal de `PageItem` para `Itens` em `/dashboard/items`.
 - Uma pagina despublicada nao fica acessivel para visitantes.
+- `published_at` representa a publicacao mais recente e nao e limpo ao despublicar.
 
 ## Comandos de verificacao
 
