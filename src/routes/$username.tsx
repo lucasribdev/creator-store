@@ -193,17 +193,7 @@ function CreatorPage() {
 						</section>
 					) : null}
 
-					{activeProducts.length === 0 ? (
-						<section className="space-y-3">
-							<h2 className="text-lg font-extrabold">Recomendações</h2>
-							<EmptyState
-								icon={<Package className="size-5" aria-hidden="true" />}
-								title="Esta vitrine ainda não tem produtos ativos"
-								description={`Quando ${creator.displayName} publicar recomendações, elas aparecem aqui.`}
-								variant="products"
-							/>
-						</section>
-					) : regularProducts.length > 0 ? (
+					{regularProducts.length > 0 ? (
 						<section className="space-y-3">
 							<h2 className="text-lg font-extrabold">
 								{featuredProduct ? "Mais recomendações" : "Recomendações"}
