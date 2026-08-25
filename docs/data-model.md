@@ -31,6 +31,8 @@ As principais entidades do MVP são:
 - `PageView`;
 - `ItemClick`.
 
+`Product` e `ProductClick` não são entidades separadas no MVP. Produtos recomendados são representados por `PageItem` com `type = product`, e cliques em produtos ou links são registrados em `ItemClick`.
+
 Relacionamentos principais:
 
 ```text
@@ -239,7 +241,7 @@ Essa modelagem permite ordenar produtos e links em uma lista única, registrar c
 | `type`           | Enum ou String |         Sim | Tipo do item: `product` ou `link`              |
 | `title`          | String         |         Sim | Nome do produto ou título do link              |
 | `description`    | String         |         Não | Descrição curta                                |
-| `image_url`      | String         |         Não | Endereço da imagem, mais comum em produtos     |
+| `image_url`      | String         |         Não | Imagem do produto no MVP                       |
 | `external_url`   | String         |         Sim | Destino externo                                |
 | `button_label`   | String         |         Não | Texto exibido no botão                         |
 | `price`          | Decimal        |         Não | Preço informado manualmente para produtos      |
@@ -275,8 +277,10 @@ link
 - representa um produto recomendado pelo criador;
 - continua sendo o tipo principal da UX;
 - pode possuir imagem, descrição, preço, preço anterior e moeda;
+- deve usar `external_url` para o link afiliado, loja externa ou página externa do produto;
 - o preço é apenas informativo;
 - o preço não será atualizado automaticamente no MVP;
+- se `previous_price` for informado, deve ser maior que `price`, quando essa comparação for possível;
 - pode ser marcado como destaque;
 - cada perfil poderá possuir no máximo um item em destaque no MVP.
 
@@ -285,10 +289,26 @@ link
 - representa um link manual comum que não é produto;
 - deve possuir título e URL externa;
 - pode possuir descrição curta e texto de botão;
+- deve possuir posição para ordenação junto aos produtos;
+- pode ser ativado ou desativado sem ser excluído;
 - não deve usar preço, preço anterior ou moeda;
+- não deve exigir imagem no MVP;
 - não deve ser usado para redes sociais que pertencem ao topo do perfil;
 - pode aparecer junto aos produtos na lista principal;
 - deve complementar a vitrine, sem transformar a página em uma rede social ou marketplace.
+
+### Evoluções futuras previstas
+
+Alguns formatos podem ser úteis depois, mas não devem adicionar complexidade ao MVP:
+
+- imagem específica para links manuais;
+- vídeo anexado ou incorporado a um item;
+- miniatura de vídeo;
+- detecção automática de metadados da URL.
+
+No MVP, produtos podem usar `image_url`. Links simples devem funcionar bem apenas com título, URL, descrição opcional, texto de botão opcional, status ativo/inativo e posição.
+
+Se imagem de link ou vídeo forem adicionados futuramente, devem ser tratados como extensão de `PageItem` ou como metadados opcionais, sem transformar a plataforma em feed social, hospedagem de vídeo ou CMS genérico.
 
 ### Item em destaque
 
@@ -750,7 +770,10 @@ A autorização deve ser garantida no servidor ou no banco de dados.
 - posição maior ou igual a zero;
 - no máximo um item em destaque por perfil, com prioridade para produtos;
 - itens do tipo `link` não devem usar preço, preço anterior ou moeda;
-- itens do tipo `product` podem usar preço, preço anterior, moeda, imagem e descrição.
+- itens do tipo `link` não devem exigir imagem ou vídeo no MVP;
+- itens do tipo `product` podem usar preço, preço anterior, moeda, imagem e descrição;
+- preço e preço anterior devem ser valores não negativos;
+- moeda deve usar código ISO 4217 quando informada, com `BRL` como padrão inicial para produtos com preço.
 
 ---
 
