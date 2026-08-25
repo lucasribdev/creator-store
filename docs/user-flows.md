@@ -6,8 +6,8 @@ Este documento descreve os principais fluxos de uso do MVP.
 
 O foco está nas ações necessárias para que:
 
-- um criador crie e publique sua vitrine;
-- um visitante encontre e acesse produtos recomendados e links manuais;
+- um criador crie e publique sua página;
+- um visitante encontre e acesse produtos recomendados, links manuais e destinos externos;
 - a plataforma registre os principais eventos de uso.
 
 Os fluxos devem permanecer simples, especialmente por se tratar de um projeto desenvolvido por uma única pessoa.
@@ -280,7 +280,7 @@ A rede social removida não é mais exibida.
 
 ### Objetivo
 
-Permitir que o criador adicione um produto recomendado à sua vitrine como um item publicável do tipo `product`.
+Permitir que o criador adicione um produto recomendado à página como um item publicável do tipo `product`.
 
 ### Fluxo principal
 
@@ -313,7 +313,7 @@ Permitir que o criador adicione um produto recomendado à sua vitrine como um it
 
 ### Resultado esperado
 
-O produto aparece na vitrine quando estiver ativo e a página estiver publicada.
+O produto aparece na página quando estiver ativo e a página estiver publicada.
 
 ### Possíveis erros
 
@@ -387,11 +387,11 @@ Permitir que o criador dê mais visibilidade a um item do tipo `product`.
 
 ### Regra inicial
 
-A primeira versão deve permitir apenas um item em destaque por página, com prioridade de UX para produtos.
+A primeira versão deve permitir apenas um item em destaque por página.
 
 ### Resultado esperado
 
-O visitante visualiza o produto destacado antes da lista principal.
+O visitante visualiza o item destacado antes da lista principal.
 
 ---
 
@@ -412,7 +412,7 @@ Permitir que o criador exclua um item publicável do tipo `product`.
 
 ### Resultado esperado
 
-O produto é removido da vitrine.
+O produto é removido da página.
 
 ### Observação
 
@@ -522,7 +522,7 @@ Permitir que o criador exclua um link manual da plataforma.
 
 ### Resultado esperado
 
-O link manual é removido da vitrine.
+O link manual é removido da página.
 
 ### Observação
 
@@ -636,7 +636,7 @@ O criador consegue revisar a página antes ou depois da publicação.
 
 ### Objetivo
 
-Permitir que o criador copie e divulgue o endereço público da vitrine.
+Permitir que o criador copie e divulgue o endereço público da página.
 
 ### Fluxo principal
 
@@ -670,7 +670,7 @@ Permitir que qualquer pessoa visualize a página publicada de um criador.
 
 ### Resultado esperado
 
-O visitante consegue visualizar a vitrine sem criar uma conta.
+O visitante consegue visualizar a página sem criar uma conta.
 
 ### Possíveis estados
 
@@ -758,7 +758,7 @@ Permitir que o visitante entenda um link manual publicado pelo criador.
 ### Fluxo principal
 
 1. O visitante acessa a página pública.
-2. Visualiza os links manuais ativos junto aos produtos.
+2. Visualiza os links manuais ativos na lista principal de itens.
 3. Localiza um link de interesse.
 4. Consulta título e descrição, quando disponível.
 
@@ -911,9 +911,7 @@ Configura perfil
         ↓
 Adiciona redes sociais
         ↓
-Cadastra produto
-        ↓
-Cadastra link manual, se necessário
+Cadastra produto e/ou link manual
         ↓
 Publica a página
         ↓
@@ -921,7 +919,7 @@ Compartilha o link
         ↓
 Visitante acessa
         ↓
-Visualiza produtos e links
+Visualiza itens ativos
         ↓
 Clica em um item
         ↓
@@ -937,10 +935,10 @@ Para a primeira versão funcional, os fluxos obrigatórios são:
 1. Criar conta.
 2. Fazer login.
 3. Configurar perfil.
-4. Cadastrar produto.
-5. Editar produto.
-6. Ativar ou desativar produto.
-7. Cadastrar link manual.
+4. Cadastrar produto ou link manual.
+5. Editar item cadastrado.
+6. Ativar ou desativar item.
+7. Cadastrar outro tipo de item, se necessário.
 8. Publicar página.
 9. Acessar página pública.
 10. Clicar em item.
@@ -959,11 +957,13 @@ Quando o criador ainda não possui produtos, o painel deve exibir:
 - uma explicação curta;
 - um botão para adicionar o primeiro produto.
 
+A ausência de produtos não deve bloquear a publicação se houver links ativos ou se a página puder ser publicada apenas com os dados mínimos de perfil.
+
 ## Estado vazio de links manuais
 
 Quando o criador ainda não possui links manuais, o painel deve permitir seguir sem adicionar nenhum link.
 
-Links manuais são complementares e não devem bloquear a publicação da página.
+A ausência de links manuais não deve bloquear a publicação se houver produtos ativos ou se a página puder ser publicada apenas com os dados mínimos de perfil.
 
 ## Página sem item ativo
 
@@ -1008,7 +1008,7 @@ Os fluxos devem seguir estes princípios:
 - não exigir configurações avançadas;
 - permitir que o criador publique rapidamente;
 - não interromper o visitante com cadastro ou login;
-- deixar claro que os produtos levam para páginas externas.
+- deixar claro que produtos e links levam para destinos externos.
 
 ---
 
@@ -1022,6 +1022,6 @@ Os fluxos serão considerados funcionais quando:
 - um usuário não conseguir alterar dados de outro;
 - a interface funcionar em celular e computador;
 - dados salvos aparecerem corretamente na página pública;
-- produtos inativos não aparecerem para visitantes;
+- itens inativos não aparecerem para visitantes;
 - cliques levarem para o endereço correto;
 - o fluxo principal puder ser testado do início ao fim.

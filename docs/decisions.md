@@ -12,7 +12,7 @@ Novas decisões devem ser adicionadas conforme o produto evoluir.
 
 # Produto
 
-## A plataforma é uma vitrine, não um e-commerce
+## A plataforma apresenta destinos externos
 
 **Status:** Decisão permanente
 
@@ -22,7 +22,7 @@ A plataforma será responsável apenas por apresentar recomendações e links, e
 
 ### Motivo
 
-O objetivo é ajudar criadores de conteúdo a organizar recomendações, não competir com marketplaces ou lojas virtuais.
+O objetivo é ajudar criadores de conteúdo a organizar recomendações, não competir com marketplaces, lojas virtuais ou redes sociais.
 
 ### Consequências
 
@@ -36,6 +36,48 @@ A plataforma nunca será responsável por:
 - frete;
 - entrega;
 - devoluções.
+- avaliações;
+- comentários;
+- feed social.
+
+---
+
+## Produtos não são foco obrigatório
+
+**Status:** Permanente
+
+### Decisão
+
+A Creator Store é uma plataforma para criadores organizarem e compartilharem recomendações, produtos, links importantes e destinos externos em uma página pública pessoal.
+
+Produtos não são foco principal obrigatório da plataforma.
+
+Um criador pode usar:
+
+- apenas produtos;
+- apenas links;
+- produtos e links juntos.
+
+### Motivo
+
+Criadores compartilham mais do que produtos: também divulgam newsletters, grupos, materiais gratuitos, páginas de inscrição, agendas, sites e outros destinos externos.
+
+Forçar produtos como centro obrigatório reduziria a utilidade da página pública e deixaria de atender criadores que precisam organizar recomendações e links sem necessariamente publicar produtos.
+
+### Consequências
+
+`PageItem` deve ser a entidade base para conteúdos clicáveis da área principal da página pública.
+
+`PageItem.type` deve suportar inicialmente:
+
+- `product`;
+- `link`.
+
+A página pública deve funcionar quando houver links ativos, mesmo sem produtos.
+
+Analytics e dashboard devem considerar itens, produtos e links, com cliques registrados por `ItemClick`.
+
+Essa decisão não muda os limites permanentes: a plataforma não será e-commerce, marketplace ou rede social.
 
 ---
 
@@ -69,7 +111,7 @@ Evita integrações complexas e acelera o desenvolvimento.
 
 Também permite validar se o problema realmente existe antes de investir em automações.
 
-Links manuais comuns devem ser simples o suficiente para complementar a vitrine sem exigir integrações externas.
+Links manuais comuns devem ser simples o suficiente para publicar destinos externos importantes sem exigir integrações externas.
 
 ---
 
@@ -97,19 +139,17 @@ A ordenação manual será suficiente na primeira versão.
 
 ### Decisão
 
-Cada página poderá destacar apenas um item, com prioridade para produtos.
+Cada página poderá destacar apenas um item.
 
 ### Motivo
 
-Ajuda o criador a direcionar a atenção do visitante para sua principal recomendação.
+Ajuda o criador a direcionar a atenção do visitante para sua principal recomendação, seja produto ou link.
 
 Também simplifica o layout da página pública.
 
 ### Consequências
 
-A interface deve orientar o destaque para produtos recomendados.
-
-Caso links manuais em destaque se tornem necessários, isso deve ser tratado como evolução explícita, sem transformar o foco do produto em uma página genérica de links.
+A interface deve deixar claro qual tipo de item está em destaque.
 
 ---
 
@@ -130,7 +170,7 @@ Produtos recomendados e links manuais comuns serão representados por uma entida
 
 ### Motivo
 
-A página pública precisa permitir que o criador publique produtos e alguns links complementares em uma lista ordenável.
+A página pública precisa permitir que o criador publique produtos e/ou links manuais em uma lista ordenável.
 
 Usar uma entidade comum evita duplicar lógica de ordenação, ativação, redirecionamento e métricas.
 
@@ -138,13 +178,11 @@ Usar uma entidade comum evita duplicar lógica de ordenação, ativação, redir
 
 A lista principal da página pública deve carregar `PageItem` ativos.
 
-Produtos deixam de ser modelados como a única entidade clicável da página pública e passam a ser o tipo principal de `PageItem`.
+Produtos deixam de ser modelados como a única entidade clicável da página pública e passam a ser um tipo de `PageItem`.
 
-Produtos continuam sendo o foco principal da Creator Store.
+Links manuais passam a ser outro tipo de `PageItem`, com a mesma base de ordenação, ativação, redirecionamento e métricas.
 
-Links manuais podem aparecer na página, mas devem complementar a vitrine. Eles não substituem o foco em produtos recomendados.
-
-Links manuais não transformam a Creator Store em e-commerce, marketplace ou rede social. A compra, contratação ou interação principal continua acontecendo fora da plataforma.
+Produtos e links manuais não transformam a Creator Store em e-commerce, marketplace ou rede social. A compra, contratação ou interação principal continua acontecendo fora da plataforma.
 
 Campos específicos de produto, como preço e preço anterior, devem ser usados apenas quando `type = product`.
 
@@ -168,9 +206,9 @@ Links manuais comuns pertencem à área principal da página pública, junto dos
 
 `SocialLink` deve continuar sendo usado para Instagram, TikTok, YouTube, WhatsApp, site e outros links de presença social.
 
-`PageItem` deve ser usado para conteúdos clicáveis da vitrine, como produtos e links manuais comuns.
+`PageItem` deve ser usado para conteúdos clicáveis da página pública, como produtos e links manuais comuns.
 
-`SocialLink` permanece separado para representar redes sociais e a presença do criador, sem entrar na lista principal de itens clicáveis da vitrine.
+`SocialLink` permanece separado para representar redes sociais e a presença do criador, sem entrar na lista principal de itens clicáveis da página pública.
 
 Cliques em redes sociais podem ser medidos futuramente, mas não fazem parte das métricas de item do MVP.
 
@@ -208,7 +246,7 @@ Visitantes poderão acessar qualquer página publicada sem autenticação.
 
 ### Motivo
 
-O objetivo da plataforma é facilitar a descoberta de produtos.
+O objetivo da plataforma é facilitar a descoberta de recomendações, produtos, links e destinos externos.
 
 Exigir login reduziria a conversão.
 
@@ -448,7 +486,7 @@ O campo `public.users.id` devera usar o mesmo UUID de `auth.users.id`.
 
 Supabase Auth sera responsavel por credenciais, sessoes e fluxo de autenticacao.
 
-A aplicacao precisa de uma tabela propria no schema publico para relacionar perfis, produtos e metricas sem consultar diretamente os dados internos de autenticacao em todas as operacoes de produto.
+A aplicacao precisa de uma tabela propria no schema publico para relacionar perfis, itens e metricas sem consultar diretamente os dados internos de autenticacao em todas as operacoes de produto.
 
 ### Consequências
 

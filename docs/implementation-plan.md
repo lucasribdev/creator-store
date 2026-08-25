@@ -18,7 +18,7 @@ O plano acompanha o escopo definido em:
 
 ## Regras de escopo
 
-A Creator Store e uma vitrine pessoal de recomendacoes, nao um e-commerce, marketplace ou rede social.
+A Creator Store e uma pagina publica pessoal para recomendacoes, produtos, links importantes e destinos externos, nao um e-commerce, marketplace ou rede social.
 
 Nao implementar no MVP:
 
@@ -56,7 +56,7 @@ As principais rotas e telas visuais ja existem para validar fluxo e interface, m
 - Lista simulada de produtos.
 - Telas simuladas de cadastro e edicao de produto.
 - Pagina publica simulada por username.
-- Estados visuais de pagina publicada, pagina despublicada, pagina inexistente e pagina sem produtos ativos.
+- Estados visuais de pagina publicada, pagina despublicada, pagina inexistente e pagina sem itens ativos.
 - Schema inicial Drizzle com `users`, `profiles`, `social_links`, `products`, `page_views` e `product_clicks`.
 - Migration inicial em `drizzle/0000_lazy_prodigy.sql`.
 - Rota tecnica `/api/health/db` para validar conexao com banco.
@@ -109,8 +109,8 @@ ItemClick
 - Substituir a tabela `product_clicks` por `item_clicks`.
 - Manter `page_views` para visualizacoes da pagina publica.
 - Manter `social_links` separado de `page_items`.
-- Tratar produtos como o principal tipo de item da UX, sem criar um CRUD definitivo de `Product` isolado.
-- Tratar links manuais como complemento da vitrine, sem transformar o produto em uma pagina generica de links.
+- Tratar produtos como um tipo de item da UX, sem criar um CRUD definitivo de `Product` isolado.
+- Tratar links manuais como outro tipo de item, sem transformar a plataforma em rede social, e-commerce ou marketplace.
 
 ### Consequencias para milestones
 
@@ -118,6 +118,7 @@ ItemClick
 - As telas atuais de produtos devem ser reaproveitadas, mas conectadas a `PageItem` com `type = product`.
 - Links manuais devem usar a mesma base de dados, ordenacao, ativacao e metricas dos produtos.
 - A pagina publica deve renderizar uma lista unificada de itens ativos.
+- A pagina publica deve funcionar com apenas produtos, apenas links ou produtos e links juntos.
 
 ## Verificacao padrao
 
@@ -202,12 +203,12 @@ Concluida como prototipo inicial, com revisoes visuais pendentes.
 - Edicao de perfil simulada.
 - Lista, cadastro e edicao de produtos simulados.
 - Pagina publica por username com dados ficticios.
-- Estados visuais de pagina publicada, despublicada, inexistente e sem produtos ativos.
+- Estados visuais de pagina publicada, despublicada, inexistente e sem itens ativos.
 
 ## Pendencias para issues
 
 - Revisar o prototipo em celular e desktop.
-- Confirmar que a pagina publica parece uma vitrine pessoal de recomendacoes, nao uma loja.
+- Confirmar que a pagina publica parece uma pagina pessoal de recomendacoes, nao uma loja.
 - Atualizar textos visuais que ainda falem apenas em produtos quando o fluxo precisar incluir links manuais.
 - Registrar ajustes visuais necessarios antes da integracao real.
 - Incluir no prototipo o estado "sem itens ativos", considerando produtos e links manuais.
@@ -385,7 +386,7 @@ pnpm exec tsc --noEmit
 
 ## Objetivo
 
-Implementar produtos recomendados como o primeiro e principal tipo de `PageItem`.
+Implementar produtos recomendados como `PageItem.type = product`.
 
 ## Estado
 
@@ -445,7 +446,7 @@ pnpm exec tsc --noEmit
 
 ## Objetivo
 
-Permitir que o criador adicione links manuais comuns que complementam a vitrine, usando `PageItem.type = link`.
+Permitir que o criador adicione links manuais comuns usando `PageItem.type = link`.
 
 ## Estado
 
@@ -458,7 +459,7 @@ Pendente.
 - Edicao de link manual.
 - Ativacao e desativacao de link manual.
 - Exclusao ou remocao controlada de link manual.
-- Ordenacao unificada junto aos produtos.
+- Ordenacao unificada junto aos demais itens.
 - Validacoes de campos de link manual.
 
 ## Pendencias para issues
@@ -484,7 +485,7 @@ Pendente.
 
 - O criador consegue cadastrar, editar, ativar, desativar, ordenar e remover links manuais.
 - Links manuais sao persistidos como `PageItem.type = link`.
-- Links manuais ativos aparecem junto aos produtos na lista publica unificada.
+- Links manuais ativos aparecem na lista publica unificada, com ou sem produtos ativos.
 - Links manuais inativos nao aparecem publicamente.
 
 ## Comandos de verificacao
@@ -555,7 +556,7 @@ pnpm exec tsc --noEmit
 
 ## Objetivo
 
-Disponibilizar a vitrine publica real por username, renderizando perfil, redes sociais e lista unificada de `PageItem` ativos.
+Disponibilizar a pagina publica real por username, renderizando perfil, redes sociais e lista unificada de `PageItem` ativos.
 
 ## Estado
 
@@ -595,7 +596,7 @@ Prototipo visual existente, dados reais pendentes.
 
 - Qualquer visitante com o link consegue acessar uma pagina publicada sem login.
 - A pagina exibe somente conteudo ativo.
-- Produtos continuam visualmente prioritarios em relacao a links manuais.
+- A pagina funciona com apenas produtos, apenas links ou produtos e links juntos.
 - Cliques em itens abrem corretamente o destino externo.
 
 ## Comandos de verificacao
@@ -612,7 +613,7 @@ pnpm exec tsc --noEmit
 
 ## Objetivo
 
-Permitir que o criador controle a visibilidade da pagina e veja um resumo simples da propria vitrine.
+Permitir que o criador controle a visibilidade da pagina e veja um resumo simples dos proprios itens.
 
 ## Estado
 
@@ -624,6 +625,7 @@ Dashboard simulado existente, implementacao real pendente.
 - Despublicacao da pagina.
 - Link publico exibido no dashboard.
 - Acao para copiar link publico.
+- Resumo real de itens.
 - Resumo real de produtos.
 - Resumo real de links manuais.
 - Atalhos para editar perfil, adicionar produto e adicionar link manual.
@@ -636,6 +638,7 @@ Dashboard simulado existente, implementacao real pendente.
 - Exibir status atual da pagina no dashboard.
 - Exibir link publico baseado no username.
 - Implementar copiar link publico.
+- Exibir quantidade real de itens.
 - Exibir quantidade real de produtos.
 - Exibir quantidade real de links manuais.
 - Exibir quantidade real de visualizacoes quando metricas estiverem disponiveis.

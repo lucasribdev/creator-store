@@ -25,8 +25,8 @@ A implementação deve evoluir nesta ordem:
 
 1. atualizar documentação e registrar decisões;
 2. criar schema `PageItem` e `ItemClick`;
-3. implementar produtos como primeiro tipo de `PageItem`;
-4. implementar links manuais como segundo tipo de `PageItem`;
+3. implementar produtos como um tipo de `PageItem`;
+4. implementar links manuais como outro tipo de `PageItem`;
 5. unificar a página pública em torno da lista de itens;
 6. adicionar analytics básico por item;
 7. avaliar imagens para links no futuro;
@@ -37,11 +37,13 @@ Essa ordem evita implementar um CRUD real de `Product` isolado para depois migra
 
 ## Construir sobre PageItem desde o início
 
-`PageItem` deve ser a base dos conteúdos clicáveis da vitrine.
+`PageItem` deve ser a base dos conteúdos clicáveis da página pública.
 
-Produtos continuam sendo o foco principal da Creator Store, mas devem ser implementados como o primeiro tipo de `PageItem`, não como uma entidade pública isolada.
+Produtos são um tipo importante de `PageItem`, mas não são foco obrigatório da Creator Store nem uma entidade pública isolada.
 
-Links manuais entram depois como o segundo tipo de `PageItem`, complementando a vitrine sem transformar o produto em uma página genérica de links.
+Links manuais são outro tipo importante de `PageItem` e devem usar a mesma base de ordenação, ativação, redirecionamento e métricas.
+
+A página pública deve funcionar com apenas produtos, apenas links ou produtos e links juntos.
 
 ## Construir o fluxo principal primeiro
 
@@ -50,7 +52,7 @@ A prioridade é permitir que:
 1. o criador crie sua conta;
 2. configure sua página;
 3. cadastre produtos e links manuais;
-4. publique sua vitrine;
+4. publique sua página;
 5. compartilhe o link;
 6. o visitante acesse a página;
 7. o visitante clique em um item;
@@ -179,7 +181,7 @@ O protótipo deverá exibir:
 - clareza da proposta;
 - organização da página pública;
 - experiência em celular;
-- facilidade para encontrar produtos;
+- facilidade para encontrar itens;
 - clareza dos botões;
 - fluxo entre dashboard e página pública;
 - quantidade de informações solicitadas no cadastro de produto.
@@ -258,10 +260,11 @@ Produtos, links manuais, redes sociais e métricas podem ser adicionados nas fas
 
 Antes de implementar CRUD real de produto, a documentação deve deixar claro que:
 
-- produtos são o primeiro tipo de `PageItem`;
-- links manuais são o segundo tipo de `PageItem`;
+- produtos são um tipo de `PageItem`;
+- links manuais são outro tipo de `PageItem`;
 - a página pública renderiza uma lista unificada de itens ativos;
 - cliques de produtos e links manuais usam a mesma base de métricas por item;
+- a página pública funciona mesmo sem produtos, se houver links ativos;
 - funcionalidades futuras, como imagens para links e vídeo, devem evoluir a partir de `PageItem`.
 
 ## Critério de conclusão
@@ -326,7 +329,7 @@ Implementar a base de dados para os conteúdos clicáveis da página pública.
 
 ### PageItem
 
-Representa um item clicável da vitrine pública.
+Representa um item clicável da página pública.
 
 Campos iniciais:
 
@@ -377,11 +380,11 @@ O banco deve permitir salvar itens de página e cliques por item sem exigir uma 
 
 ---
 
-# Fase 5 — Produtos como primeiro tipo de PageItem
+# Fase 5 — Produtos como PageItem
 
 ## Objetivo
 
-Implementar produtos recomendados como a principal funcionalidade do produto, usando `PageItem` com `type = product`.
+Implementar produtos recomendados usando `PageItem` com `type = product`.
 
 ## Funcionalidades
 
@@ -417,7 +420,7 @@ Implementar produtos recomendados como a principal funcionalidade do produto, us
 - produto é um `PageItem` com `type = product`;
 - produto pertence a um perfil;
 - apenas itens ativos do tipo `product` aparecem publicamente como produtos;
-- no máximo um item em destaque por página, com prioridade para produtos;
+- no máximo um item em destaque por página;
 - link externo deve ser válido;
 - a plataforma não garante preços ou disponibilidade;
 - produto desativado permanece salvo no painel.
@@ -428,11 +431,11 @@ O criador deve conseguir cadastrar um produto como `PageItem` e visualizá-lo em
 
 ---
 
-# Fase 6 — Links manuais como segundo tipo de PageItem
+# Fase 6 — Links manuais como PageItem
 
 ## Objetivo
 
-Permitir que o criador adicione links comuns que complementam a vitrine, usando `PageItem` com `type = link`.
+Permitir que o criador adicione links comuns usando `PageItem` com `type = link`.
 
 ## Funcionalidades
 
@@ -463,7 +466,7 @@ Permitir que o criador adicione links comuns que complementam a vitrine, usando 
 
 ## Critério de conclusão
 
-O criador deve conseguir cadastrar um link manual como `PageItem` e ordená-lo junto aos produtos.
+O criador deve conseguir cadastrar um link manual como `PageItem` e ordená-lo junto aos demais itens.
 
 ---
 
@@ -471,7 +474,7 @@ O criador deve conseguir cadastrar um link manual como `PageItem` e ordená-lo j
 
 ## Objetivo
 
-Disponibilizar a vitrine para visitantes usando uma lista unificada de `PageItem`.
+Disponibilizar a página pública para visitantes usando uma lista unificada de `PageItem`.
 
 ## Conteúdo da página
 
@@ -480,7 +483,7 @@ Disponibilizar a vitrine para visitantes usando uma lista unificada de `PageItem
 - nome;
 - biografia;
 - redes sociais, caso já implementadas;
-- produto em destaque;
+- item em destaque;
 - lista unificada de itens ativos, incluindo produtos e links manuais;
 - botões de acesso externo.
 
@@ -754,7 +757,8 @@ Não é necessário abrir o produto para muitas pessoas no início.
 - observar onde eles têm dificuldade;
 - analisar quais campos não entendem;
 - verificar quantos produtos cadastram;
-- verificar se links manuais complementam ou atrapalham a vitrine;
+- verificar quantos links manuais cadastram;
+- verificar se usam apenas produtos, apenas links ou produtos e links juntos;
 - verificar se compartilham a página;
 - coletar feedback;
 - corrigir problemas críticos.
@@ -768,7 +772,7 @@ Não é necessário abrir o produto para muitas pessoas no início.
 - Você usaria essa página no link da bio?
 - O que faltou para você publicar?
 - O que pareceu desnecessário?
-- Você conseguiu encontrar os produtos facilmente?
+- Você conseguiu encontrar os itens facilmente?
 - Você voltaria para atualizar sua página?
 
 ## Métricas iniciais
@@ -827,7 +831,7 @@ As próximas funcionalidades não possuem ordem fixa.
 
 Elas devem ser priorizadas de acordo com dados e feedback.
 
-## Organização de produtos
+## Organização de itens
 
 Possíveis funcionalidades:
 
@@ -835,11 +839,11 @@ Possíveis funcionalidades:
 - coleções;
 - busca;
 - filtros;
-- múltiplos produtos em destaque;
-- produtos relacionados;
+- múltiplos itens em destaque;
+- itens relacionados;
 - seções personalizadas.
 
-Adicionar somente quando os usuários tiverem dificuldade para organizar muitos produtos.
+Adicionar somente quando os usuários tiverem dificuldade para organizar muitos itens.
 
 ## Personalização
 
@@ -873,7 +877,7 @@ Possíveis funcionalidades:
 
 - cliques por período;
 - visualizações por período;
-- produtos mais acessados;
+- itens mais acessados;
 - origem de tráfego;
 - taxa de cliques;
 - exportação;
@@ -901,7 +905,7 @@ Possíveis funcionalidades:
 - thumbnail de vídeo;
 - destaque para conteúdo em vídeo.
 
-Adicionar somente após validar que vídeos melhoram a conversão ou a clareza da vitrine.
+Adicionar somente após validar que vídeos melhoram a conversão ou a clareza da página pública.
 
 ## Analytics avançado
 
@@ -936,7 +940,7 @@ A monetização deve ser planejada somente após observar uso recorrente.
 
 # Funcionalidades que permanecem fora do produto
 
-O produto continuará sendo uma vitrine de links externos.
+O produto continuará sendo uma página pública de links externos.
 
 Não serão adicionados:
 
@@ -950,6 +954,7 @@ Não serão adicionados:
 - emissão de notas;
 - devoluções;
 - marketplace próprio.
+- rede social.
 
 A compra sempre acontecerá fora da plataforma.
 
@@ -963,8 +968,8 @@ A compra sempre acontecerá fora da plataforma.
 2. Autenticação, fundação e decisão PageItem
 3. Perfil do criador
 4. Schema PageItem e ItemClick
-5. Produtos como primeiro tipo de PageItem
-6. Links manuais como segundo tipo de PageItem
+5. Produtos como PageItem
+6. Links manuais como PageItem
 7. Página pública unificada
 8. Publicação e compartilhamento
 9. Redes sociais
@@ -984,8 +989,8 @@ A primeira entrega que realmente valida a base técnica deve permitir:
 1. criar uma conta;
 2. fazer login;
 3. configurar nome e username;
-4. cadastrar um produto;
-5. cadastrar um link manual, caso necessário;
+4. cadastrar um produto ou link manual;
+5. cadastrar outro item, caso necessário;
 6. acessar a página pública;
 7. clicar em um item;
 8. ser direcionado para o link externo.
@@ -995,7 +1000,7 @@ Nesta primeira entrega ainda não são obrigatórios:
 - banner;
 - redes sociais;
 - ordenação;
-- produto em destaque;
+- item em destaque;
 - métricas visíveis;
 - recuperação de senha;
 - compartilhamento nativo.
@@ -1010,7 +1015,7 @@ A primeira página a ser desenhada deve ser a página pública do criador, pois 
 
 Depois, devem ser desenhadas:
 
-1. lista de itens com produtos;
+1. lista de itens com produtos e links;
 2. cadastro de produto como `PageItem`;
 3. cadastro de link manual como `PageItem`;
 4. edição de perfil;

@@ -2,27 +2,25 @@
 
 ## Visão
 
-Criar uma plataforma onde afiliados e criadores de conteúdo possam transformar o link da bio em uma vitrine pessoal focada em produtos recomendados, com suporte a links manuais importantes quando eles complementarem a página pública.
+Criar uma plataforma onde afiliados e criadores de conteúdo possam transformar o link da bio em uma página pública pessoal para organizar e compartilhar recomendações, produtos, links importantes e destinos externos.
 
-A plataforma deverá facilitar a organização, a divulgação e a descoberta de produtos apresentados em vídeos, stories, publicações e outros conteúdos nas redes sociais.
+A plataforma deverá facilitar a organização, a divulgação e a descoberta de itens apresentados em vídeos, stories, publicações e outros conteúdos nas redes sociais.
 
 ## Problema
 
-Criadores divulgam produtos constantemente, mas essas recomendações ficam espalhadas entre diferentes publicações e plataformas.
+Criadores divulgam produtos, links, materiais, grupos, páginas de inscrição e outros destinos externos constantemente, mas essas recomendações ficam espalhadas entre diferentes publicações e plataformas.
 
-Depois de algum tempo, o público pode ter dificuldade para encontrar um produto apresentado anteriormente.
+Depois de algum tempo, o público pode ter dificuldade para encontrar um produto, link ou destino apresentado anteriormente.
 
-As ferramentas tradicionais de link na bio permitem reunir endereços externos, mas geralmente apresentam os links como uma lista simples, sem uma experiência adequada para a divulgação de produtos.
-
-Ainda assim, criadores também precisam publicar links comuns que não são produtos, como uma newsletter, um grupo, um material gratuito, uma página de inscrição ou outro destino externo relevante.
+As ferramentas tradicionais de link na bio permitem reunir endereços externos, mas geralmente apresentam todos os links como uma lista simples, sem uma experiência adequada para recomendações que misturam produtos, links importantes e conteúdos externos.
 
 ## Oportunidade
 
-Existe uma oportunidade de oferecer uma página pública mais visual e organizada, criada especificamente para pessoas que recomendam produtos nas redes sociais.
+Existe uma oportunidade de oferecer uma página pública mais visual e organizada, criada especificamente para pessoas que recomendam produtos, links e destinos externos nas redes sociais.
 
 Essa página pode funcionar como o principal destino do link da bio do criador.
 
-Em vez de procurar um produto em conteúdos antigos, o visitante poderá acessar uma única vitrine e encontrar as recomendações disponíveis.
+Em vez de procurar uma recomendação em conteúdos antigos, o visitante poderá acessar uma única página e encontrar os itens disponíveis.
 
 ## Solução
 
@@ -32,12 +30,12 @@ Cada criador poderá criar uma página pública com:
 - uma breve apresentação;
 - suas redes sociais;
 - suas redes sociais no topo;
-- uma vitrine de produtos recomendados;
-- links manuais comuns, quando fizerem sentido para complementar a página.
+- uma lista principal de itens clicáveis;
+- produtos recomendados, links manuais ou ambos.
 
-Cada produto ou link manual terá um destino externo cadastrado pelo criador.
+Cada item clicável terá um destino externo cadastrado pelo criador.
 
-Produtos serão o foco principal da proposta de valor e da experiência pública. Links manuais existirão para destinos importantes que não sejam produtos, como newsletter, grupo, material gratuito, inscrição, agenda ou site externo relevante.
+Produtos e links manuais são dois formatos válidos para a página pública. Um criador poderá usar apenas produtos, apenas links ou produtos e links juntos.
 
 Quando o visitante demonstrar interesse, será direcionado para a loja, marketplace, formulário, conteúdo ou página externa responsável pelo destino.
 
@@ -47,35 +45,39 @@ O produto será desenvolvido inicialmente para:
 
 - afiliados do TikTok;
 - afiliados do Instagram;
-- criadores de conteúdo que recomendam produtos.
+- criadores de conteúdo que recomendam produtos, links, materiais e destinos externos.
 
 O foco inicial estará em criadores que precisam organizar várias recomendações em uma única página compartilhável.
 
 ## Proposta de valor
 
-> Transforme o link da sua bio em uma vitrine de produtos recomendados, com links importantes para complementar sua presença pública.
+> Organize recomendações, produtos, links importantes e destinos externos em uma página pública pessoal.
 
 A plataforma deverá ajudar o criador a:
 
-- organizar suas recomendações de produtos e links principais;
-- apresentar produtos de forma mais visual;
-- facilitar a descoberta de produtos;
+- organizar recomendações, produtos e links principais;
+- apresentar itens importantes de forma mais visual;
+- facilitar a descoberta de destinos externos;
 - centralizar sua presença digital;
 - aumentar os cliques em destinos externos.
 
-Para o visitante, a plataforma deverá oferecer uma forma simples de encontrar os produtos divulgados pelo criador e acessar links complementares relevantes sem confundir a página com uma rede social, loja completa ou marketplace.
+Para o visitante, a plataforma deverá oferecer uma forma simples de encontrar os itens divulgados pelo criador e acessar destinos externos relevantes sem confundir a página com uma rede social, loja completa ou marketplace.
 
 ## Princípios do produto
 
 ### Simplicidade
 
-O criador deverá conseguir configurar sua página e cadastrar produtos sem conhecimentos técnicos.
+O criador deverá conseguir configurar sua página e cadastrar produtos ou links sem conhecimentos técnicos.
 
-### Foco em produtos
+### Foco em itens clicáveis
 
-A experiência deverá priorizar a visualização e a descoberta de produtos, em vez de apresentar apenas uma lista de links.
+A experiência deverá priorizar a organização clara de itens clicáveis, sem exigir que produtos sejam o foco principal obrigatório.
 
-Links manuais comuns poderão aparecer na página pública, mas devem complementar a vitrine. Eles não devem transformar a experiência principal em uma página genérica de links.
+A página pública deve funcionar para três usos legítimos:
+
+- apenas produtos;
+- apenas links;
+- produtos e links juntos.
 
 No MVP, links manuais deverão ser simples e conter apenas os campos necessários para publicação e ordenação na página pública:
 
@@ -100,7 +102,7 @@ O criador será responsável por escolher quais informações, redes sociais, pr
 
 A compra sempre acontecerá fora da plataforma.
 
-A plataforma deverá apresentar a recomendação ou link, registrar o interesse quando aplicável e direcionar o visitante para o destino cadastrado.
+A plataforma deverá apresentar o item, registrar o interesse quando aplicável e direcionar o visitante para o destino cadastrado.
 
 ### Evolução baseada em uso real
 
@@ -108,7 +110,7 @@ Novas funcionalidades deverão ser priorizadas a partir do comportamento e do fe
 
 ## Limites permanentes
 
-A plataforma não será um e-commerce, uma loja virtual ou um marketplace.
+A plataforma não será um e-commerce, uma loja virtual, um marketplace ou uma rede social.
 
 O produto não terá:
 
@@ -129,13 +131,13 @@ Essas funcionalidades não fazem parte da visão futura do produto.
 
 ## Objetivo inicial
 
-O primeiro objetivo é validar se afiliados e criadores utilizariam uma página própria para organizar e divulgar os produtos que recomendam.
+O primeiro objetivo é validar se afiliados e criadores utilizariam uma página própria para organizar e divulgar recomendações, produtos, links importantes e destinos externos.
 
 A validação deverá observar se os criadores:
 
 - criam suas páginas;
-- cadastram produtos e, quando necessário, links manuais;
-- publicam suas vitrines;
+- cadastram produtos, links manuais ou ambos;
+- publicam suas páginas;
 - compartilham o link;
 - retornam para atualizar as recomendações.
 
@@ -143,20 +145,20 @@ Também deverá ser observado se os visitantes acessam as páginas e clicam nos 
 
 ## Experiência desejada
 
-Para o criador, o produto deverá parecer uma ferramenta simples de montagem de vitrine.
+Para o criador, o produto deverá parecer uma ferramenta simples de montagem de página pública de recomendações.
 
-Para o visitante, a página deverá parecer um catálogo pessoal de recomendações, com links complementares bem organizados.
+Para o visitante, a página deverá parecer um catálogo pessoal de recomendações, produtos e links bem organizados.
 
 O fluxo ideal será:
 
 ```text
 Criador configura sua página
         ↓
-Cadastra produtos recomendados e links relevantes
+Cadastra produtos recomendados, links relevantes ou ambos
         ↓
 Compartilha o link na bio
         ↓
-Visitante acessa a vitrine
+Visitante acessa a página
         ↓
 Encontra um item de interesse
         ↓
@@ -170,20 +172,20 @@ No futuro, a plataforma poderá se tornar uma ferramenta completa para criadores
 Possíveis evoluções incluem:
 
 - métricas de visualizações e cliques;
-- desempenho por item e por produto;
+- desempenho por item e por tipo de item;
 - categorias e coleções;
 - busca e filtros;
 - personalização visual;
 - domínio próprio;
-- importação de produtos;
+- importação de produtos ou metadados de links;
 - integração com serviços externos;
 - verificação de links;
 - atualização de informações externas;
 - recursos para melhorar a conversão;
 - planos gratuitos e pagos.
 
-Mesmo com essas evoluções, o produto continuará sendo uma vitrine de recomendações e links com redirecionamento para destinos externos.
+Mesmo com essas evoluções, o produto continuará sendo uma página pública de recomendações e links com redirecionamento para destinos externos.
 
 ## Declaração de visão
 
-> Ser a forma mais simples para criadores transformarem suas recomendações e links importantes em uma vitrine organizada, compartilhável e focada em conversão.
+> Ser a forma mais simples para criadores transformarem recomendações, produtos e links importantes em uma página organizada, compartilhável e focada em conversão.

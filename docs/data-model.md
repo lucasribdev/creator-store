@@ -53,7 +53,13 @@ O perfil pode possuir várias redes sociais e vários itens de página.
 - `product`;
 - `link`.
 
-Produtos continuam sendo o foco principal da UX, mas links manuais comuns podem aparecer na página para complementar a vitrine.
+Produtos e links manuais são tipos equivalentes de conteúdo clicável para fins de publicação, ordenação, redirecionamento e métricas.
+
+Um perfil pode publicar:
+
+- apenas produtos;
+- apenas links;
+- produtos e links juntos.
 
 `SocialLink` continua separado porque redes sociais fazem parte da identidade do criador e devem aparecer no topo, com comportamento visual próprio.
 
@@ -230,7 +236,7 @@ No MVP, `PageItem` substitui a ideia de uma lista composta apenas por produtos. 
 - produtos recomendados (`type = product`);
 - links manuais comuns (`type = link`).
 
-Essa modelagem permite ordenar produtos e links em uma lista única, registrar cliques de forma uniforme e manter a página pública flexível sem criar um marketplace ou rede social.
+Essa modelagem permite ordenar produtos e links em uma lista única, registrar cliques de forma uniforme e manter a página pública flexível sem criar um e-commerce, marketplace ou rede social.
 
 ### Campos
 
@@ -275,7 +281,6 @@ link
 ### Regras para `type = product`
 
 - representa um produto recomendado pelo criador;
-- continua sendo o tipo principal da UX;
 - pode possuir imagem, descrição, preço, preço anterior e moeda;
 - deve usar `external_url` para o link afiliado, loja externa ou página externa do produto;
 - o preço é apenas informativo;
@@ -289,13 +294,14 @@ link
 - representa um link manual comum que não é produto;
 - deve possuir título e URL externa;
 - pode possuir descrição curta e texto de botão;
-- deve possuir posição para ordenação junto aos produtos;
+- deve possuir posição para ordenação junto aos demais itens;
 - pode ser ativado ou desativado sem ser excluído;
 - não deve usar preço, preço anterior ou moeda;
 - não deve exigir imagem no MVP;
 - não deve ser usado para redes sociais que pertencem ao topo do perfil;
 - pode aparecer junto aos produtos na lista principal;
-- deve complementar a vitrine, sem transformar a página em uma rede social ou marketplace.
+- pode ser o único tipo de item ativo em uma página publicada;
+- não deve transformar a página em uma rede social, e-commerce ou marketplace.
 
 ### Evoluções futuras previstas
 
@@ -312,9 +318,9 @@ Se imagem de link ou vídeo forem adicionados futuramente, devem ser tratados co
 
 ### Item em destaque
 
-No MVP, cada perfil poderá possuir no máximo um item em destaque, com prioridade para produtos.
+No MVP, cada perfil poderá possuir no máximo um item em destaque.
 
-A interface deve orientar o criador a destacar produtos. Caso links manuais em destaque sejam permitidos no futuro, isso deve ser tratado como evolução explícita.
+O destaque pode ser aplicado a qualquer `PageItem` ativo quando fizer sentido para o criador. A interface deve deixar claro o tipo do item destacado.
 
 Ao marcar um novo item como destaque, a plataforma deve remover o destaque do item anterior.
 
@@ -696,7 +702,7 @@ Tipos de imagem:
 
 - avatar do perfil;
 - banner do perfil;
-- imagem de item, principalmente produto.
+- imagem de item, principalmente produto no MVP.
 
 A aplicação deve validar:
 
@@ -768,7 +774,7 @@ A autorização deve ser garantida no servidor ou no banco de dados.
 - título não vazio;
 - link externo válido;
 - posição maior ou igual a zero;
-- no máximo um item em destaque por perfil, com prioridade para produtos;
+- no máximo um item em destaque por perfil;
 - itens do tipo `link` não devem usar preço, preço anterior ou moeda;
 - itens do tipo `link` não devem exigir imagem ou vídeo no MVP;
 - itens do tipo `product` podem usar preço, preço anterior, moeda, imagem e descrição;
@@ -848,11 +854,13 @@ Produtos recomendados e links manuais comuns serão representados por `PageItem`
 
 A lista principal da página pública será ordenada por `position` e exibirá apenas itens ativos.
 
-## Produtos continuam prioritários
+## Produtos e links são formatos válidos
 
-Produtos são o principal caso de uso da Creator Store.
+Produtos recomendados e links manuais comuns são formatos válidos de `PageItem`.
 
-Links manuais comuns existem para complementar a página, não para reposicionar o produto como uma ferramenta genérica de link na bio.
+A página pública deve funcionar com apenas produtos, apenas links ou produtos e links juntos.
+
+Produtos podem ter campos específicos, como preço e imagem. Links manuais devem continuar simples e não substituem `SocialLink`.
 
 ## Redes sociais separadas
 
