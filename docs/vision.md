@@ -2,7 +2,7 @@
 
 ## Visão
 
-Criar uma plataforma onde afiliados e criadores de conteúdo possam transformar o link da bio em uma vitrine pessoal de produtos recomendados e links importantes.
+Criar uma plataforma onde afiliados e criadores de conteúdo possam transformar o link da bio em uma vitrine pessoal focada em produtos recomendados, com suporte a links manuais importantes quando eles complementarem a página pública.
 
 A plataforma deverá facilitar a organização, a divulgação e a descoberta de produtos apresentados em vídeos, stories, publicações e outros conteúdos nas redes sociais.
 
@@ -37,6 +37,8 @@ Cada criador poderá criar uma página pública com:
 
 Cada produto ou link manual terá um destino externo cadastrado pelo criador.
 
+Produtos serão o foco principal da proposta de valor e da experiência pública. Links manuais existirão para destinos importantes que não sejam produtos, como newsletter, grupo, material gratuito, inscrição, agenda ou site externo relevante.
+
 Quando o visitante demonstrar interesse, será direcionado para a loja, marketplace, formulário, conteúdo ou página externa responsável pelo destino.
 
 ## Público inicial
@@ -51,17 +53,17 @@ O foco inicial estará em criadores que precisam organizar várias recomendaçõ
 
 ## Proposta de valor
 
-> Transforme o link da sua bio em uma vitrine de recomendações e links importantes.
+> Transforme o link da sua bio em uma vitrine de produtos recomendados, com links importantes para complementar sua presença pública.
 
 A plataforma deverá ajudar o criador a:
 
-- organizar suas recomendações e links principais;
+- organizar suas recomendações de produtos e links principais;
 - apresentar produtos de forma mais visual;
 - facilitar a descoberta de produtos;
 - centralizar sua presença digital;
 - aumentar os cliques em destinos externos.
 
-Para o visitante, a plataforma deverá oferecer uma forma simples de encontrar os produtos divulgados pelo criador e acessar links complementares relevantes.
+Para o visitante, a plataforma deverá oferecer uma forma simples de encontrar os produtos divulgados pelo criador e acessar links complementares relevantes sem confundir a página com uma rede social, loja completa ou marketplace.
 
 ## Princípios do produto
 
@@ -74,6 +76,15 @@ O criador deverá conseguir configurar sua página e cadastrar produtos sem conh
 A experiência deverá priorizar a visualização e a descoberta de produtos, em vez de apresentar apenas uma lista de links.
 
 Links manuais comuns poderão aparecer na página pública, mas devem complementar a vitrine. Eles não devem transformar a experiência principal em uma página genérica de links.
+
+No MVP, links manuais deverão ser simples e conter apenas os campos necessários para publicação e ordenação na página pública:
+
+- título;
+- URL;
+- descrição opcional;
+- texto do botão opcional;
+- ativo ou inativo;
+- posição.
 
 ### Mobile first
 
@@ -103,9 +114,12 @@ O produto não terá:
 
 - carrinho;
 - checkout;
-- processamento de pagamentos;
+- pagamentos;
 - pedidos;
 - controle de estoque;
+- avaliações;
+- comentários;
+- feed social;
 - cálculo de frete;
 - gestão de entregas;
 - emissão de notas fiscais;

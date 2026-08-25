@@ -2,13 +2,13 @@
 
 ## Objetivo
 
-Validar se criadores de conteúdo e afiliados utilizariam uma página personalizada para organizar e compartilhar os produtos que recomendam e links externos importantes.
+Validar se criadores de conteúdo e afiliados utilizariam uma página personalizada para organizar e compartilhar principalmente os produtos que recomendam, com links manuais importantes como complemento da página pública.
 
 O sucesso do MVP não depende da quantidade de funcionalidades, mas da capacidade de responder às seguintes perguntas:
 
 - Os criadores criam suas páginas?
-- Eles cadastram produtos?
-- Eles cadastram links manuais quando precisam complementar a vitrine?
+- Eles cadastram produtos recomendados?
+- Eles cadastram links manuais quando precisam complementar a vitrine, sem substituir o foco em produtos?
 - Eles compartilham a página nas redes sociais?
 - Os visitantes clicam nos itens publicados?
 
@@ -21,7 +21,7 @@ O MVP deve resolver apenas este fluxo:
 1. O criador cria uma conta.
 2. Configura sua página.
 3. Adiciona suas redes sociais.
-4. Cadastra produtos e, quando necessário, links manuais.
+4. Cadastra produtos recomendados e, quando necessário, links manuais importantes.
 5. Publica sua página.
 6. Compartilha o link.
 7. O visitante acessa a página.
@@ -71,7 +71,7 @@ A página será composta por:
 - nome;
 - biografia;
 - redes sociais;
-- itens da página, com produtos recomendados e links manuais.
+- itens da página, com foco em produtos recomendados e links manuais complementares.
 
 ---
 
@@ -106,6 +106,8 @@ O usuário poderá adicionar, editar e remover links.
 
 Os produtos serão cadastrados manualmente.
 
+Produtos são o foco principal da proposta de valor do MVP e devem ter mais destaque na experiência pública do que links manuais.
+
 Cada produto terá:
 
 - imagem;
@@ -130,7 +132,7 @@ O usuário poderá:
 
 ## Links manuais
 
-Links manuais comuns poderão ser cadastrados para destinos externos que não sejam produtos.
+Links manuais comuns poderão ser cadastrados para destinos externos importantes que não sejam produtos.
 
 Exemplos:
 
@@ -146,10 +148,11 @@ Exemplos:
 Cada link manual terá:
 
 - título;
-- descrição curta (opcional);
 - URL externa;
+- descrição curta (opcional);
 - texto do botão (opcional);
 - ativo (sim ou não).
+- posição.
 
 O usuário poderá:
 
@@ -159,7 +162,7 @@ O usuário poderá:
 - ativar/desativar;
 - alterar a ordem de exibição junto aos produtos.
 
-Links manuais devem complementar a vitrine e não substituir o foco principal em produtos recomendados.
+Links manuais devem complementar a vitrine e não substituir o foco principal em produtos recomendados. Eles devem ser mínimos no MVP e não devem criar uma experiência genérica de página de links.
 
 ---
 
@@ -172,7 +175,7 @@ O visitante poderá visualizar:
 - produto em destaque;
 - lista de itens ativos, contendo produtos recomendados e links manuais.
 
-Ao clicar em um item, será redirecionado para o destino externo cadastrado.
+Ao clicar em um produto ou link manual, o visitante será redirecionado para o destino externo cadastrado.
 
 ---
 
@@ -228,8 +231,29 @@ Mostrará apenas:
 
 - pertence a um único perfil;
 - deve possuir título e URL externa;
+- pode possuir descrição opcional;
+- pode possuir texto do botão opcional;
+- deve possuir posição;
+- pode ser ativado ou desativado;
 - não deve possuir comportamento de rede social;
 - não deve criar funcionalidades sociais, comentários, feed ou marketplace.
+
+## Limites permanentes
+
+A Creator Store não será um e-commerce, loja virtual ou marketplace.
+
+Não serão implementados:
+
+- carrinho;
+- checkout;
+- pagamentos;
+- pedidos;
+- estoque;
+- avaliações;
+- comentários;
+- feed social.
+
+A compra, inscrição, cadastro ou qualquer outra ação final sempre acontecerá fora da plataforma.
 
 ---
 
@@ -246,7 +270,11 @@ As seguintes funcionalidades não serão desenvolvidas na primeira versão:
 - feed social;
 - chat;
 - notificações;
+- carrinho;
+- checkout;
+- pagamentos;
 - pedidos;
+- estoque;
 - cupons;
 - importação automática de produtos;
 - integração com marketplaces;
