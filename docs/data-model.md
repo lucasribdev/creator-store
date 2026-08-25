@@ -471,6 +471,41 @@ BRL
 
 ---
 
+## Visitor ID anônimo
+
+O MVP deve usar um identificador anônimo de visitante para analytics básico.
+
+Esse identificador deve ser gerado pela própria aplicação e salvo em um cookie first-party. O valor deve ser aleatório, preferencialmente um UUID ou identificador equivalente com entropia suficiente.
+
+O cookie deve conter apenas esse valor aleatório. Ele não deve conter:
+
+- e-mail;
+- nome;
+- username;
+- endereço IP;
+- user-agent completo;
+- qualquer outro dado pessoal direto.
+
+`visitor_id` pode ser reutilizado em `PageView` e `ItemClick` para estimativas simples de visitantes recorrentes.
+
+O identificador é opcional. Se a aplicação não conseguir criar, salvar ou ler o cookie, visualizações e cliques ainda podem ser registrados com:
+
+```text
+visitor_id = null
+```
+
+A ausência de `visitor_id` não deve bloquear o tracking básico nem impedir o redirecionamento de um clique.
+
+Endereço IP não deve ser armazenado diretamente no banco no MVP.
+
+User-agent completo não deve ser armazenado no MVP.
+
+O cookie existe apenas para analytics básico. Ele não deve ser usado para autenticação, fingerprinting, rastreamento avançado, identificação cross-site, origem detalhada, localização ou inferência de dispositivo.
+
+Analytics avançado, fingerprinting, origem detalhada, localização, dispositivo e identificação cross-site ficam fora do MVP.
+
+---
+
 ## PageView
 
 Representa uma visualização da página pública.
@@ -490,8 +525,12 @@ Representa uma visualização da página pública.
 - a visualização deve estar relacionada ao perfil acessado;
 - visitantes não precisam possuir conta;
 - não armazenar informações pessoais desnecessárias;
-- o identificador do visitante deve ser anônimo;
-- endereços IP não devem ser armazenados diretamente sem necessidade;
+- `visitor_id` deve ser anônimo, gerado pela aplicação e salvo em cookie first-party;
+- `visitor_id` deve conter apenas um valor aleatório, como UUID, sem dados pessoais diretos;
+- `visitor_id` é opcional e pode ser registrado como `null` quando o cookie não puder ser criado ou lido;
+- falha ao criar ou ler o cookie não deve impedir o registro da visualização;
+- endereços IP não devem ser armazenados diretamente no banco no MVP;
+- user-agent completo não deve ser armazenado no MVP;
 - métricas do MVP podem ser acumuladas sem análises avançadas.
 
 ### Contagem inicial
@@ -538,6 +577,12 @@ Representa um clique realizado por um visitante em um item da página pública.
 - o clique deve ser registrado antes do redirecionamento;
 - a falha no registro não deve impedir o redirecionamento;
 - o visitante não precisa estar autenticado;
+- `visitor_id` deve ser anônimo, gerado pela aplicação e salvo em cookie first-party;
+- `visitor_id` deve conter apenas um valor aleatório, como UUID, sem dados pessoais diretos;
+- `visitor_id` é opcional e pode ser registrado como `null` quando o cookie não puder ser criado ou lido;
+- falha ao criar ou ler o cookie não deve impedir o registro do clique nem o redirecionamento;
+- endereços IP não devem ser armazenados diretamente no banco no MVP;
+- user-agent completo não deve ser armazenado no MVP;
 - não armazenar dados pessoais desnecessários.
 
 ### Analytics por item

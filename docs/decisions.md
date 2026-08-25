@@ -438,6 +438,54 @@ Analytics avançado, segmentações, funis, relatórios detalhados e atribuiçã
 
 ---
 
+## Visitor ID anônimo para analytics básico
+
+**Status:** MVP
+
+### Decisão
+
+O MVP deve usar um identificador anônimo de visitante gerado pela própria aplicação para analytics básico.
+
+Esse identificador deve ser salvo em cookie first-party e conter apenas um valor aleatório, preferencialmente um UUID ou identificador equivalente.
+
+O cookie não deve conter e-mail, nome, username, endereço IP, user-agent completo ou qualquer dado pessoal direto.
+
+`visitor_id` pode ser reutilizado em `PageView` e `ItemClick` para estimativas simples de visitantes recorrentes.
+
+Se não for possível criar, salvar ou ler o cookie, `PageView` e `ItemClick` ainda podem ser registrados com:
+
+```text
+visitor_id = null
+```
+
+Endereço IP não deve ser armazenado diretamente no banco no MVP.
+
+User-agent completo não deve ser armazenado no MVP.
+
+O cookie deve existir apenas para analytics básico. Ele não deve ser usado para autenticação, fingerprinting, rastreamento avançado ou identificação cross-site.
+
+Analytics avançado, fingerprinting, origem detalhada, localização, dispositivo e identificação cross-site ficam fora do MVP.
+
+### Motivo
+
+Visualizações e cliques são suficientes para validar o uso inicial da Creator Store.
+
+Um identificador aleatório first-party permite estimativas simples de visitantes recorrentes sem transformar o MVP em uma solução de analytics avançado e sem armazenar dados pessoais diretos nos eventos.
+
+### Consequências
+
+`PageView.visitor_id` e `ItemClick.visitor_id` devem ser opcionais.
+
+A ausência de `visitor_id` não deve bloquear o registro de visualizações ou cliques.
+
+Falhas ao registrar analytics não devem impedir o redirecionamento do visitante para o destino externo.
+
+A implementação não deve adicionar armazenamento direto de IP, user-agent completo, fingerprinting, origem detalhada, localização, dispositivo, identificação cross-site, autenticação por esse cookie ou rastreamento avançado.
+
+Essa decisão mantém analytics básico dentro do escopo do MVP e não altera os limites permanentes do produto: a Creator Store continua apresentando destinos externos e não implementa e-commerce, marketplace, checkout, pagamentos, pedidos, estoque, frete, avaliações, comentários ou feed social.
+
+---
+
 # Desenvolvimento
 
 ## Mobile First
