@@ -9,10 +9,12 @@ O modelo deve suportar os seguintes fluxos:
 - criação de conta;
 - configuração da página pública;
 - cadastro de redes sociais;
-- cadastro de produtos;
+- cadastro de itens clicáveis da página pública;
+- cadastro de produtos recomendados;
+- cadastro de links manuais comuns;
 - publicação da página;
 - registro de visualizações;
-- registro de cliques em produtos.
+- registro de cliques em itens.
 
 O modelo inicial deve permanecer simples, evitando estruturas que ainda não são necessárias para validar o produto.
 
@@ -25,9 +27,9 @@ As principais entidades do MVP são:
 - `User`;
 - `Profile`;
 - `SocialLink`;
-- `Product`;
+- `PageItem`;
 - `PageView`;
-- `ProductClick`.
+- `ItemClick`.
 
 Relacionamentos principais:
 
@@ -35,14 +37,23 @@ Relacionamentos principais:
 User
  └── Profile
       ├── SocialLinks
-      ├── Products
+      ├── PageItems
       ├── PageViews
-      └── ProductClicks
+      └── ItemClicks
 ```
 
 Um usuário possui uma página pública representada pelo perfil.
 
-O perfil pode possuir várias redes sociais e vários produtos.
+O perfil pode possuir várias redes sociais e vários itens de página.
+
+`PageItem` representa qualquer conteúdo clicável da área principal da página pública. No MVP, os tipos permitidos são:
+
+- `product`;
+- `link`.
+
+Produtos continuam sendo o foco principal da UX, mas links manuais comuns podem aparecer na página para complementar a vitrine.
+
+`SocialLink` continua separado porque redes sociais fazem parte da identidade do criador e devem aparecer no topo, com comportamento visual próprio.
 
 Visualizações e cliques são registrados para permitir métricas básicas.
 
@@ -103,8 +114,8 @@ Representa a página pública do criador e suas informações principais.
 - o `username` deve ser único;
 - o `username` deve ser tratado sem diferença entre letras maiúsculas e minúsculas;
 - somente perfis publicados podem ser acessados por visitantes;
-- o perfil pode ser publicado mesmo sem produtos ativos;
-- quando não houver produtos ativos, a página pública deve exibir as informações do criador e suas redes sociais.
+- o perfil pode ser publicado mesmo sem itens ativos;
+- quando não houver itens ativos, a página pública deve exibir as informações do criador e suas redes sociais.
 
 ### Regras sugeridas para username
 
@@ -144,7 +155,7 @@ terms
   "user_id": "user-uuid",
   "username": "lucasreviews",
   "display_name": "Lucas Reviews",
-  "bio": "Produtos e acessórios que uso e recomendo.",
+  "bio": "Produtos, ferramentas e links que uso e recomendo.",
   "avatar_url": "https://example.com/avatar.jpg",
   "banner_url": null,
   "is_published": true
@@ -155,7 +166,7 @@ terms
 
 ## SocialLink
 
-Representa uma rede social ou link externo exibido no perfil.
+Representa uma rede social ou link de presença digital exibido no topo do perfil.
 
 ### Campos
 
@@ -163,7 +174,7 @@ Representa uma rede social ou link externo exibido no perfil.
 | ------------ | -------------- | ----------: | ----------------------------- |
 | `id`         | UUID           |         Sim | Identificador único           |
 | `profile_id` | UUID           |         Sim | Perfil proprietário           |
-| `type`       | Enum ou String |         Sim | Tipo do link                  |
+| `type`       | Enum ou String |         Sim | Tipo do link social           |
 | `label`      | String         |         Não | Nome personalizado            |
 | `url`        | String         |         Sim | Endereço externo              |
 | `position`   | Integer        |         Sim | Ordem de exibição             |
@@ -184,11 +195,13 @@ other
 
 ### Regras
 
-- cada link pertence a um único perfil;
-- somente links ativos devem aparecer publicamente;
+- cada link social pertence a um único perfil;
+- somente links sociais ativos devem aparecer publicamente;
 - a URL deve ser válida;
 - a posição deve ser utilizada para ordenar os links;
-- o campo `label` pode ser obrigatório quando o tipo for `other`.
+- o campo `label` pode ser obrigatório quando o tipo for `other`;
+- redes sociais não entram na lista principal de `PageItem`;
+- cliques em redes sociais podem ser medidos futuramente, mas não fazem parte das métricas de item do MVP.
 
 ### Exemplo
 
@@ -206,73 +219,110 @@ other
 
 ---
 
-## Product
+## PageItem
 
-Representa um produto recomendado pelo criador.
+Representa um conteúdo clicável exibido na área principal da página pública.
+
+No MVP, `PageItem` substitui a ideia de uma lista composta apenas por produtos. A mesma entidade será usada para:
+
+- produtos recomendados (`type = product`);
+- links manuais comuns (`type = link`).
+
+Essa modelagem permite ordenar produtos e links em uma lista única, registrar cliques de forma uniforme e manter a página pública flexível sem criar um marketplace ou rede social.
 
 ### Campos
 
-| Campo            | Tipo     | Obrigatório | Descrição                                |
-| ---------------- | -------- | ----------: | ---------------------------------------- |
-| `id`             | UUID     |         Sim | Identificador único                      |
-| `profile_id`     | UUID     |         Sim | Perfil proprietário                      |
-| `name`           | String   |         Sim | Nome do produto                          |
-| `description`    | String   |         Não | Descrição curta                          |
-| `image_url`      | String   |         Não | Endereço da imagem                       |
-| `external_url`   | String   |         Sim | Link afiliado ou link externo            |
-| `button_label`   | String   |         Não | Texto exibido no botão                   |
-| `price`          | Decimal  |         Não | Preço informado manualmente              |
-| `previous_price` | Decimal  |         Não | Preço anterior opcional                  |
-| `currency`       | String   |         Não | Moeda utilizada no preço                 |
-| `is_active`      | Boolean  |         Sim | Define se o produto aparece publicamente |
-| `is_featured`    | Boolean  |         Sim | Define se o produto está em destaque     |
-| `position`       | Integer  |         Sim | Ordem de exibição                        |
-| `created_at`     | DateTime |         Sim | Data de criação                          |
-| `updated_at`     | DateTime |         Sim | Data da última atualização               |
+| Campo            | Tipo           | Obrigatório | Descrição                                      |
+| ---------------- | -------------- | ----------: | ---------------------------------------------- |
+| `id`             | UUID           |         Sim | Identificador único                            |
+| `profile_id`     | UUID           |         Sim | Perfil proprietário                            |
+| `type`           | Enum ou String |         Sim | Tipo do item: `product` ou `link`              |
+| `title`          | String         |         Sim | Nome do produto ou título do link              |
+| `description`    | String         |         Não | Descrição curta                                |
+| `image_url`      | String         |         Não | Endereço da imagem, mais comum em produtos     |
+| `external_url`   | String         |         Sim | Destino externo                                |
+| `button_label`   | String         |         Não | Texto exibido no botão                         |
+| `price`          | Decimal        |         Não | Preço informado manualmente para produtos      |
+| `previous_price` | Decimal        |         Não | Preço anterior opcional para produtos          |
+| `currency`       | String         |         Não | Moeda utilizada no preço                       |
+| `is_active`      | Boolean        |         Sim | Define se o item aparece publicamente          |
+| `is_featured`    | Boolean        |         Sim | Define se o item está em destaque              |
+| `position`       | Integer        |         Sim | Ordem de exibição                              |
+| `created_at`     | DateTime       |         Sim | Data de criação                                |
+| `updated_at`     | DateTime       |         Sim | Data da última atualização                     |
 
-### Regras
+### Tipos iniciais
 
-- cada produto pertence a um único perfil;
-- o nome é obrigatório;
-- o link externo é obrigatório;
-- somente produtos ativos aparecem na página pública;
-- produtos inativos continuam disponíveis no painel;
+```text
+product
+link
+```
+
+### Regras gerais
+
+- cada item pertence a um único perfil;
+- o tipo é obrigatório;
+- o título é obrigatório;
+- o destino externo é obrigatório;
+- somente itens ativos aparecem na página pública;
+- itens inativos continuam disponíveis no painel;
+- a posição será utilizada para definir a ordem dos itens;
+- a compra, inscrição, leitura, download ou qualquer outra ação final sempre acontecerá fora da plataforma;
+- a plataforma não deve criar carrinho, checkout, pagamentos, pedidos, estoque, entrega, comentários ou feed social.
+
+### Regras para `type = product`
+
+- representa um produto recomendado pelo criador;
+- continua sendo o tipo principal da UX;
+- pode possuir imagem, descrição, preço, preço anterior e moeda;
 - o preço é apenas informativo;
 - o preço não será atualizado automaticamente no MVP;
-- a compra sempre acontecerá em um serviço externo;
-- a posição será utilizada para definir a ordem dos produtos.
+- pode ser marcado como destaque;
+- cada perfil poderá possuir no máximo um item em destaque no MVP.
 
-### Produto em destaque
+### Regras para `type = link`
 
-No MVP, cada perfil poderá possuir no máximo um produto em destaque.
+- representa um link manual comum que não é produto;
+- deve possuir título e URL externa;
+- pode possuir descrição curta e texto de botão;
+- não deve usar preço, preço anterior ou moeda;
+- não deve ser usado para redes sociais que pertencem ao topo do perfil;
+- pode aparecer junto aos produtos na lista principal;
+- deve complementar a vitrine, sem transformar a página em uma rede social ou marketplace.
 
-Ao marcar um novo produto como destaque, a plataforma deve remover o destaque do produto anterior.
+### Item em destaque
+
+No MVP, cada perfil poderá possuir no máximo um item em destaque, com prioridade para produtos.
+
+A interface deve orientar o criador a destacar produtos. Caso links manuais em destaque sejam permitidos no futuro, isso deve ser tratado como evolução explícita.
+
+Ao marcar um novo item como destaque, a plataforma deve remover o destaque do item anterior.
 
 Alternativamente, essa regra pode ser garantida pela aplicação no primeiro momento e reforçada no banco posteriormente.
 
 ### Texto padrão do botão
 
-Caso `button_label` não seja informado, utilizar:
+Caso `button_label` não seja informado:
 
-```text
-Ver produto
-```
+- para `type = product`, utilizar `Ver produto`;
+- para `type = link`, utilizar `Acessar link`.
 
 ### Moeda padrão
 
-Caso um preço seja informado sem moeda, utilizar:
+Caso um preço seja informado em um item de produto sem moeda, utilizar:
 
 ```text
 BRL
 ```
 
-### Exemplo
+### Exemplo de produto
 
 ```json
 {
-  "id": "product-uuid",
+  "id": "item-product-uuid",
   "profile_id": "profile-uuid",
-  "name": "Fone Bluetooth",
+  "type": "product",
+  "title": "Fone Bluetooth",
   "description": "Modelo que utilizo no dia a dia.",
   "image_url": "https://example.com/product.jpg",
   "external_url": "https://loja.com/produto?affiliate=123",
@@ -283,6 +333,27 @@ BRL
   "is_active": true,
   "is_featured": false,
   "position": 2
+}
+```
+
+### Exemplo de link manual
+
+```json
+{
+  "id": "item-link-uuid",
+  "profile_id": "profile-uuid",
+  "type": "link",
+  "title": "Lista completa de equipamentos",
+  "description": "Planilha com meus acessórios favoritos.",
+  "image_url": null,
+  "external_url": "https://example.com/equipamentos",
+  "button_label": "Abrir lista",
+  "price": null,
+  "previous_price": null,
+  "currency": null,
+  "is_active": true,
+  "is_featured": false,
+  "position": 3
 }
 ```
 
@@ -331,25 +402,27 @@ Posteriormente, pode ser criada uma regra para reduzir duplicações do mesmo vi
 
 ---
 
-## ProductClick
+## ItemClick
 
-Representa um clique realizado por um visitante em um produto.
+Representa um clique realizado por um visitante em um item da página pública.
 
 ### Campos
 
 | Campo        | Tipo     | Obrigatório | Descrição                          |
 | ------------ | -------- | ----------: | ---------------------------------- |
 | `id`         | UUID     |         Sim | Identificador único                |
-| `profile_id` | UUID     |         Sim | Perfil proprietário do produto     |
-| `product_id` | UUID     |         Sim | Produto clicado                    |
+| `profile_id` | UUID     |         Sim | Perfil proprietário do item        |
+| `item_id`    | UUID     |         Sim | Item clicado                       |
+| `item_type`  | String   |         Sim | Tipo do item no momento do clique  |
 | `visitor_id` | String   |         Não | Identificador anônimo do visitante |
 | `referrer`   | String   |         Não | Origem informada pelo navegador    |
 | `created_at` | DateTime |         Sim | Data e hora do clique              |
 
 ### Regras
 
-- o clique deve estar relacionado ao produto;
-- o produto deve pertencer ao perfil informado;
+- o clique deve estar relacionado ao item;
+- o item deve pertencer ao perfil informado;
+- o tipo do item deve ser armazenado para facilitar métricas básicas por tipo;
 - o clique deve ser registrado antes do redirecionamento;
 - a falha no registro não deve impedir o redirecionamento;
 - o visitante não precisa estar autenticado;
@@ -359,9 +432,10 @@ Representa um clique realizado por um visitante em um produto.
 
 ```json
 {
-  "id": "product-click-uuid",
+  "id": "item-click-uuid",
   "profile_id": "profile-uuid",
-  "product_id": "product-uuid",
+  "item_id": "item-product-uuid",
+  "item_type": "product",
   "visitor_id": "anonymous-session-id",
   "referrer": "https://www.tiktok.com/",
   "created_at": "2026-08-04T18:05:00Z"
@@ -390,14 +464,14 @@ Profile 1 ─── N SocialLink
 - um perfil pode possuir vários links sociais;
 - um link social pertence a um perfil.
 
-## Profile e Product
+## Profile e PageItem
 
 ```text
-Profile 1 ─── N Product
+Profile 1 ─── N PageItem
 ```
 
-- um perfil pode possuir vários produtos;
-- um produto pertence a um perfil.
+- um perfil pode possuir vários itens;
+- um item pertence a um perfil.
 
 ## Profile e PageView
 
@@ -408,23 +482,23 @@ Profile 1 ─── N PageView
 - um perfil pode receber várias visualizações;
 - uma visualização pertence a um perfil.
 
-## Profile e ProductClick
+## Profile e ItemClick
 
 ```text
-Profile 1 ─── N ProductClick
+Profile 1 ─── N ItemClick
 ```
 
 - um perfil pode receber vários cliques;
 - um clique pertence a um perfil.
 
-## Product e ProductClick
+## PageItem e ItemClick
 
 ```text
-Product 1 ─── N ProductClick
+PageItem 1 ─── N ItemClick
 ```
 
-- um produto pode receber vários cliques;
-- um clique está relacionado a um produto.
+- um item pode receber vários cliques;
+- um clique está relacionado a um item.
 
 ---
 
@@ -434,10 +508,10 @@ Product 1 ─── N ProductClick
 erDiagram
     USER ||--|| PROFILE : owns
     PROFILE ||--o{ SOCIAL_LINK : has
-    PROFILE ||--o{ PRODUCT : has
+    PROFILE ||--o{ PAGE_ITEM : has
     PROFILE ||--o{ PAGE_VIEW : receives
-    PROFILE ||--o{ PRODUCT_CLICK : receives
-    PRODUCT ||--o{ PRODUCT_CLICK : receives
+    PROFILE ||--o{ ITEM_CLICK : receives
+    PAGE_ITEM ||--o{ ITEM_CLICK : receives
 
     USER {
         uuid id
@@ -472,10 +546,11 @@ erDiagram
         datetime updated_at
     }
 
-    PRODUCT {
+    PAGE_ITEM {
         uuid id
         uuid profile_id
-        string name
+        string type
+        string title
         string description
         string image_url
         string external_url
@@ -498,10 +573,11 @@ erDiagram
         datetime created_at
     }
 
-    PRODUCT_CLICK {
+    ITEM_CLICK {
         uuid id
         uuid profile_id
-        uuid product_id
+        uuid item_id
+        string item_type
         string visitor_id
         string referrer
         datetime created_at
@@ -526,10 +602,12 @@ Devem existir referências entre:
 
 - `Profile.user_id` e `User.id`;
 - `SocialLink.profile_id` e `Profile.id`;
-- `Product.profile_id` e `Profile.id`;
+- `PageItem.profile_id` e `Profile.id`;
 - `PageView.profile_id` e `Profile.id`;
-- `ProductClick.profile_id` e `Profile.id`;
-- `ProductClick.product_id` e `Product.id`.
+- `ItemClick.profile_id` e `Profile.id`;
+- `ItemClick.item_id` e `PageItem.id`.
+
+`ItemClick` deve garantir que `item_id` pertence ao mesmo `profile_id` registrado no clique. Essa garantia pode ser feita por chave estrangeira composta referenciando uma combinação única equivalente em `PageItem`.
 
 ## Índices recomendados
 
@@ -538,14 +616,17 @@ Criar índices para:
 - `Profile.username`;
 - `SocialLink.profile_id`;
 - `SocialLink.profile_id + position`;
-- `Product.profile_id`;
-- `Product.profile_id + is_active`;
-- `Product.profile_id + position`;
+- `PageItem.profile_id`;
+- `PageItem.profile_id + type`;
+- `PageItem.profile_id + is_active`;
+- `PageItem.profile_id + is_active + position`;
+- `PageItem.profile_id + is_featured`;
 - `PageView.profile_id`;
 - `PageView.profile_id + created_at`;
-- `ProductClick.profile_id`;
-- `ProductClick.product_id`;
-- `ProductClick.product_id + created_at`.
+- `ItemClick.profile_id`;
+- `ItemClick.item_id`;
+- `ItemClick.item_id + created_at`;
+- `ItemClick.profile_id + item_type`.
 
 Esses índices ajudam a carregar páginas públicas e calcular métricas básicas.
 
@@ -558,26 +639,26 @@ Esses índices ajudam a carregar páginas públicas e calcular métricas básica
 Ao excluir um perfil, os seguintes dados relacionados devem ser removidos ou anonimizados:
 
 - redes sociais;
-- produtos;
+- itens da página;
 - visualizações;
 - cliques.
 
 A exclusão da conta deve ser tratada com cuidado para evitar registros órfãos.
 
-## Exclusão de produto
+## Exclusão de item
 
-Ao excluir um produto, existem duas opções:
+Ao excluir um item, existem duas opções:
 
 1. remover também seus registros de clique;
 2. preservar os cliques para histórico, removendo apenas a referência pública.
 
-Para o MVP, a opção mais simples é impedir a exclusão imediata e recomendar que o usuário desative o produto.
+Para o MVP, a opção mais simples é impedir a exclusão imediata e recomendar que o usuário desative o item.
 
-Caso a exclusão definitiva seja permitida, os cliques podem ser removidos junto com o produto.
+Caso a exclusão definitiva seja permitida, os cliques podem ser removidos junto com o item.
 
 ## Exclusão lógica
 
-No MVP, produtos podem utilizar `is_active` para ocultação.
+No MVP, itens podem utilizar `is_active` para ocultação.
 
 Não é necessário adicionar `deleted_at` inicialmente.
 
@@ -595,7 +676,7 @@ Tipos de imagem:
 
 - avatar do perfil;
 - banner do perfil;
-- imagem do produto.
+- imagem de item, principalmente produto.
 
 A aplicação deve validar:
 
@@ -615,9 +696,9 @@ Somente o proprietário do perfil pode:
 
 - editar suas informações;
 - adicionar ou remover redes sociais;
-- cadastrar produtos;
-- editar produtos;
-- ativar ou desativar produtos;
+- cadastrar itens;
+- editar itens;
+- ativar ou desativar itens;
 - publicar ou despublicar a página;
 - consultar métricas privadas.
 
@@ -628,7 +709,7 @@ Visitantes podem consultar apenas:
 - perfis publicados;
 - informações públicas do criador;
 - redes sociais ativas;
-- produtos ativos.
+- itens ativos.
 
 ## Isolamento de dados
 
@@ -661,14 +742,15 @@ A autorização deve ser garantida no servidor ou no banco de dados.
 - posição maior ou igual a zero;
 - label obrigatória para links personalizados.
 
-## Product
+## PageItem
 
-- nome não vazio;
+- tipo válido: `product` ou `link`;
+- título não vazio;
 - link externo válido;
-- preço não negativo;
-- preço anterior não negativo;
 - posição maior ou igual a zero;
-- no máximo um produto em destaque por perfil.
+- no máximo um item em destaque por perfil, com prioridade para produtos;
+- itens do tipo `link` não devem usar preço, preço anterior ou moeda;
+- itens do tipo `product` podem usar preço, preço anterior, moeda, imagem e descrição.
 
 ---
 
@@ -676,11 +758,29 @@ A autorização deve ser garantida no servidor ou no banco de dados.
 
 Algumas informações não precisam ser armazenadas diretamente.
 
+## Quantidade de itens
+
+Pode ser calculada a partir dos itens pertencentes ao perfil.
+
 ## Quantidade de produtos
 
-Pode ser calculada a partir dos produtos pertencentes ao perfil.
+Pode ser calculada filtrando:
 
-## Quantidade de produtos ativos
+```text
+profile_id = perfil atual
+type = product
+```
+
+## Quantidade de links manuais
+
+Pode ser calculada filtrando:
+
+```text
+profile_id = perfil atual
+type = link
+```
+
+## Quantidade de itens ativos
 
 Pode ser calculada filtrando:
 
@@ -695,11 +795,15 @@ Pode ser calculado pela quantidade de registros em `PageView`.
 
 ## Total de cliques
 
-Pode ser calculado pela quantidade de registros em `ProductClick`.
+Pode ser calculado pela quantidade de registros em `ItemClick`.
 
-## Total de cliques por produto
+## Total de cliques por item
 
-Pode ser calculado agrupando os cliques por `product_id`.
+Pode ser calculado agrupando os cliques por `item_id`.
+
+## Total de cliques por tipo
+
+Pode ser calculado agrupando os cliques por `item_type`.
 
 No MVP, essas consultas são suficientes.
 
@@ -715,27 +819,45 @@ Cada usuário terá apenas uma página pública.
 
 Múltiplas páginas por conta ficam fora do MVP.
 
+## Itens de página com tipos
+
+Produtos recomendados e links manuais comuns serão representados por `PageItem`.
+
+A lista principal da página pública será ordenada por `position` e exibirá apenas itens ativos.
+
+## Produtos continuam prioritários
+
+Produtos são o principal caso de uso da Creator Store.
+
+Links manuais comuns existem para complementar a página, não para reposicionar o produto como uma ferramenta genérica de link na bio.
+
+## Redes sociais separadas
+
+`SocialLink` continua separado de `PageItem`.
+
+Redes sociais pertencem ao topo do perfil e ajudam a apresentar a identidade do criador.
+
 ## Produtos sem categorias
 
-Os produtos serão exibidos em uma lista única.
+Os itens serão exibidos em uma lista única.
 
 A organização será feita por:
 
-- produto em destaque;
+- item em destaque;
 - posição de exibição;
 - status ativo ou inativo.
 
-Categorias poderão ser adicionadas depois, caso os usuários cadastrem muitos produtos.
+Categorias poderão ser adicionadas depois, caso os usuários cadastrem muitos itens.
 
 ## Cadastro manual
 
-Todos os produtos serão cadastrados manualmente.
+Todos os produtos e links serão cadastrados manualmente.
 
 Não haverá importação ou sincronização automática no MVP.
 
 ## Preço informativo
 
-O preço exibido será informado pelo criador.
+O preço exibido será informado pelo criador e deve ser usado apenas em itens do tipo `product`.
 
 A plataforma não garante que ele seja igual ao preço encontrado na loja externa.
 
@@ -743,14 +865,14 @@ A plataforma não garante que ele seja igual ao preço encontrado na loja extern
 
 A plataforma registra o clique e redireciona o visitante.
 
-Ela não participa da compra, do pagamento, do pedido, da entrega ou do estoque.
+Ela não participa da compra, do pagamento, do pedido, da entrega, do estoque ou da execução do serviço externo.
 
 ## Métricas simples
 
 Serão registrados apenas:
 
 - visualizações de página;
-- cliques em produtos.
+- cliques em itens.
 
 Não haverá analytics avançado na primeira versão.
 
@@ -758,71 +880,23 @@ Não haverá analytics avançado na primeira versão.
 
 # Itens não modelados
 
-Os seguintes conceitos não fazem parte do produto ou do MVP atual:
+Não fazem parte do modelo inicial:
 
 - carrinho;
 - checkout;
-- pagamentos;
 - pedidos;
+- pagamentos;
 - estoque;
 - frete;
-- entregas;
-- devoluções;
-- notas fiscais;
-- categorias;
+- entrega;
 - avaliações;
 - comentários;
 - seguidores;
-- favoritos;
-- chat;
-- campanhas;
-- cupons internos;
-- comissões processadas pela plataforma;
-- múltiplos administradores;
-- planos e assinaturas.
-
-Essas entidades não devem ser criadas antecipadamente.
-
----
-
-# Possíveis evoluções
-
-Após a validação do MVP, o modelo poderá receber novas entidades relacionadas a:
-
-- categorias ou coleções;
-- temas personalizados;
-- domínios próprios;
-- importação de produtos;
-- integrações externas;
-- cupons externos;
-- métricas agregadas;
-- planos de assinatura;
-- páginas para marcas.
-
-Essas estruturas somente devem ser adicionadas quando houver necessidade real.
-
----
-
-# Resumo
-
-O modelo inicial é composto por uma conta, um perfil público, redes sociais, produtos e eventos básicos de visualização e clique.
-
-A estrutura atende ao fluxo principal do produto:
-
-```text
-Usuário cria conta
-        ↓
-Configura perfil
-        ↓
-Cadastra produtos
-        ↓
-Publica a página
-        ↓
-Visitante acessa
-        ↓
-Visitante clica
-        ↓
-Plataforma registra e redireciona
-```
-
-O modelo não inclui funcionalidades de comércio eletrônico, pois a plataforma será permanentemente uma vitrine de links externos.
+- feed social;
+- categorias;
+- coleções;
+- múltiplas páginas por usuário;
+- permissões por equipe;
+- importação automática;
+- sincronização com marketplaces;
+- analytics avançado.

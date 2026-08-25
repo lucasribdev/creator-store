@@ -7,7 +7,7 @@ Este documento descreve os principais fluxos de uso do MVP.
 O foco está nas ações necessárias para que:
 
 - um criador crie e publique sua vitrine;
-- um visitante encontre e acesse os produtos recomendados;
+- um visitante encontre e acesse produtos recomendados e links manuais;
 - a plataforma registre os principais eventos de uso.
 
 Os fluxos devem permanecer simples, especialmente por se tratar de um projeto desenvolvido por uma única pessoa.
@@ -33,6 +33,7 @@ Pessoa que acessa a página pública de um criador para:
 - conhecer o perfil;
 - acessar suas redes sociais;
 - visualizar produtos;
+- visualizar links manuais;
 - seguir links externos.
 
 ---
@@ -155,7 +156,7 @@ Permitir que o criador crie a primeira versão de sua página pública.
 
 ### Resultado esperado
 
-O criador possui uma página pública configurada, ainda que sem produtos.
+O criador possui uma página pública configurada, ainda que sem itens.
 
 ### Possíveis erros
 
@@ -294,7 +295,7 @@ Permitir que o criador adicione um produto à sua vitrine.
 9. Escolhe se o produto ficará ativo.
 10. Escolhe se o produto será destaque.
 11. Salva o produto.
-12. A plataforma adiciona o produto à página pública.
+12. A plataforma adiciona o produto à página pública como um item do tipo `product`.
 
 ### Dados obrigatórios
 
@@ -381,7 +382,7 @@ Permitir que o criador dê mais visibilidade a um produto.
 
 ### Regra inicial
 
-A primeira versão pode permitir apenas um produto em destaque por página.
+A primeira versão deve permitir apenas um item em destaque por página, com prioridade de UX para produtos.
 
 ### Resultado esperado
 
@@ -438,7 +439,137 @@ Arrastar e soltar não é necessário no primeiro corte.
 
 ---
 
-## 15. Publicar página
+## 15. Cadastrar link manual
+
+### Objetivo
+
+Permitir que o criador adicione à página um link comum que não seja produto nem rede social.
+
+### Fluxo principal
+
+1. O usuário acessa a seção de itens ou links da página.
+2. Clica em `Adicionar link`.
+3. Informa o título.
+4. Adiciona uma descrição curta, opcionalmente.
+5. Informa a URL externa.
+6. Define o texto do botão, opcionalmente.
+7. Escolhe se o link ficará ativo.
+8. Salva o link.
+9. A plataforma adiciona o link à página pública como um item do tipo `link`.
+
+### Dados obrigatórios
+
+- título;
+- URL externa.
+
+### Dados opcionais
+
+- descrição;
+- texto do botão.
+
+### Resultado esperado
+
+O link manual aparece na página pública quando estiver ativo.
+
+### Possíveis erros
+
+- URL inválida;
+- título vazio;
+- erro ao salvar.
+
+---
+
+## 16. Editar link manual
+
+### Objetivo
+
+Permitir que o criador atualize um link manual já cadastrado.
+
+### Fluxo principal
+
+1. O usuário acessa a lista de itens ou links da página.
+2. Seleciona um link manual.
+3. Clica em `Editar`.
+4. Altera as informações desejadas.
+5. Salva as alterações.
+6. A página pública é atualizada.
+
+### Resultado esperado
+
+O link manual passa a exibir as novas informações.
+
+---
+
+## 17. Ativar ou desativar link manual
+
+### Objetivo
+
+Permitir que o criador oculte temporariamente um link manual sem excluí-lo.
+
+### Fluxo principal
+
+1. O usuário acessa a lista de itens ou links da página.
+2. Localiza o link manual.
+3. Altera seu status.
+4. A plataforma salva a alteração.
+
+### Resultado esperado
+
+- link ativo: aparece na página pública;
+- link inativo: não aparece na página pública.
+
+---
+
+## 18. Remover link manual
+
+### Objetivo
+
+Permitir que o criador exclua um link manual da plataforma.
+
+### Fluxo principal
+
+1. O usuário acessa a lista de itens ou links da página.
+2. Seleciona o link manual.
+3. Clica em `Excluir`.
+4. Confirma a ação.
+5. A plataforma remove o link.
+6. O link deixa de aparecer na página pública.
+
+### Resultado esperado
+
+O link manual é removido da vitrine.
+
+### Observação
+
+Antes da exclusão definitiva, a interface deve sugerir a opção de desativar o link.
+
+---
+
+## 19. Ordenar itens da página
+
+### Objetivo
+
+Permitir que o criador defina a ordem conjunta de produtos e links manuais na área principal da página.
+
+### Fluxo principal
+
+1. O usuário acessa a lista de itens da página.
+2. Move um produto ou link para cima ou para baixo.
+3. A plataforma salva a nova ordem.
+4. A página pública passa a utilizar essa ordenação.
+
+### Implementação inicial recomendada
+
+Na primeira versão, utilizar botões de:
+
+- mover para cima;
+- mover para baixo.
+
+Arrastar e soltar não é necessário no primeiro corte.
+
+---
+
+## 20. Publicar página
 
 ### Objetivo
 
@@ -472,7 +603,7 @@ Qualquer visitante com o endereço pode acessar a página.
 
 ---
 
-## 16. Despublicar página
+## 21. Despublicar página
 
 ### Objetivo
 
@@ -492,7 +623,7 @@ A página não aparece para visitantes, mas os dados permanecem salvos.
 
 ---
 
-## 17. Visualizar prévia
+## 22. Visualizar prévia
 
 ### Objetivo
 
@@ -503,7 +634,7 @@ Permitir que o criador veja como sua página aparecerá para o visitante.
 1. O usuário acessa o dashboard.
 2. Clica em `Visualizar página`.
 3. A plataforma abre a prévia.
-4. O usuário verifica as informações e os produtos.
+4. O usuário verifica as informações, redes sociais, produtos e links manuais.
 5. Retorna ao painel para fazer ajustes, caso necessário.
 
 ### Resultado esperado
@@ -512,7 +643,7 @@ O criador consegue revisar a página antes ou depois da publicação.
 
 ---
 
-## 18. Compartilhar página
+## 23. Compartilhar página
 
 ### Objetivo
 
@@ -534,7 +665,7 @@ O criador consegue usar o endereço na bio, em stories, vídeos, mensagens ou pu
 
 # Fluxos do visitante
 
-## 19. Acessar página pública
+## 24. Acessar página pública
 
 ### Objetivo
 
@@ -546,7 +677,7 @@ Permitir que qualquer pessoa visualize a página publicada de um criador.
 2. A plataforma localiza o nome de usuário.
 3. Verifica se a página está publicada.
 4. Registra uma visualização.
-5. Exibe o perfil, redes sociais e produtos.
+5. Exibe o perfil, redes sociais e itens ativos.
 
 ### Resultado esperado
 
@@ -561,7 +692,7 @@ O visitante consegue visualizar a vitrine sem criar uma conta.
 
 ---
 
-## 20. Acessar rede social
+## 25. Acessar rede social
 
 ### Objetivo
 
@@ -579,7 +710,7 @@ O visitante é direcionado para o serviço externo.
 
 ---
 
-## 21. Visualizar produto
+## 26. Visualizar produto
 
 ### Objetivo
 
@@ -598,7 +729,7 @@ O visitante entende o que está sendo recomendado antes de sair da plataforma.
 
 ---
 
-## 22. Clicar em produto
+## 27. Clicar em produto
 
 ### Objetivo
 
@@ -609,7 +740,7 @@ Direcionar o visitante para a loja ou página externa associada ao produto.
 1. O visitante acessa a página pública.
 2. Seleciona um produto.
 3. Clica no botão de acesso.
-4. A plataforma registra o clique.
+4. A plataforma registra o clique no item.
 5. O visitante é redirecionado para o link cadastrado.
 
 ### Resultado esperado
@@ -629,9 +760,59 @@ A disponibilidade do produto e o funcionamento da loja externa não são respons
 
 ---
 
+## 28. Visualizar link manual
+
+### Objetivo
+
+Permitir que o visitante entenda um link manual publicado pelo criador.
+
+### Fluxo principal
+
+1. O visitante acessa a página pública.
+2. Visualiza os links manuais ativos junto aos produtos.
+3. Localiza um link de interesse.
+4. Consulta título e descrição, quando disponível.
+
+### Resultado esperado
+
+O visitante entende o destino antes de sair da plataforma.
+
+---
+
+## 29. Clicar em link manual
+
+### Objetivo
+
+Direcionar o visitante para o destino externo associado ao link manual.
+
+### Fluxo principal
+
+1. O visitante acessa a página pública.
+2. Seleciona um link manual.
+3. Clica no botão de acesso.
+4. A plataforma registra o clique no item.
+5. O visitante é redirecionado para o link cadastrado.
+
+### Resultado esperado
+
+O visitante chega ao destino externo correto.
+
+### Possíveis erros
+
+- link inválido;
+- página externa indisponível;
+- link removido;
+- falha no redirecionamento.
+
+### Observação
+
+O funcionamento do destino externo não é responsabilidade da plataforma.
+
+---
+
 # Fluxos administrativos do MVP
 
-## 23. Visualizar dashboard
+## 30. Visualizar dashboard
 
 ### Objetivo
 
@@ -647,6 +828,7 @@ Apresentar ao criador um resumo simples da página.
    - status da página;
    - link público;
    - quantidade de produtos;
+   - quantidade de links manuais;
    - quantidade de visualizações;
    - quantidade de cliques.
 
@@ -656,14 +838,16 @@ Apresentar ao criador um resumo simples da página.
 
 - editar perfil;
 - adicionar produto;
+- adicionar link manual;
 - gerenciar produtos;
+- gerenciar links manuais;
 - gerenciar redes sociais;
 - visualizar página;
 - copiar link.
 
 ---
 
-## 24. Visualizar métricas básicas
+## 31. Visualizar métricas básicas
 
 ### Objetivo
 
@@ -678,8 +862,10 @@ Permitir que o criador acompanhe o uso da página.
 ### Métricas iniciais
 
 - visualizações da página;
-- cliques totais nos produtos;
-- quantidade de produtos ativos.
+- cliques totais nos itens;
+- cliques por tipo de item, caso seja simples;
+- quantidade de produtos ativos;
+- quantidade de links manuais ativos.
 
 ### Fora do fluxo inicial
 
@@ -706,17 +892,19 @@ Adiciona redes sociais
         ↓
 Cadastra produto
         ↓
+Cadastra link manual, se necessário
+        ↓
 Publica a página
         ↓
 Compartilha o link
         ↓
 Visitante acessa
         ↓
-Visualiza os produtos
+Visualiza produtos e links
         ↓
-Clica em um produto
+Clica em um item
         ↓
-É redirecionado para uma loja externa
+É redirecionado para um destino externo
 ```
 
 ---
@@ -731,10 +919,11 @@ Para a primeira versão funcional, os fluxos obrigatórios são:
 4. Cadastrar produto.
 5. Editar produto.
 6. Ativar ou desativar produto.
-7. Publicar página.
-8. Acessar página pública.
-9. Clicar em produto.
-10. Registrar clique.
+7. Cadastrar link manual.
+8. Publicar página.
+9. Acessar página pública.
+10. Clicar em item.
+11. Registrar clique.
 
 Os fluxos de redes sociais, ordenação, destaque, banner e métricas visíveis podem ser adicionados depois que o fluxo principal estiver funcionando.
 
@@ -749,11 +938,17 @@ Quando o criador ainda não possui produtos, o painel deve exibir:
 - uma explicação curta;
 - um botão para adicionar o primeiro produto.
 
-## Página sem produto ativo
+## Estado vazio de links manuais
 
-Quando a página estiver publicada sem produtos ativos, visitantes devem visualizar as informações e redes sociais do criador.
+Quando o criador ainda não possui links manuais, o painel deve permitir seguir sem adicionar nenhum link.
 
-A área de produtos deve aparecer vazia, oculta ou com uma mensagem simples, sem impedir o acesso à página.
+Links manuais são complementares e não devem bloquear a publicação da página.
+
+## Página sem item ativo
+
+Quando a página estiver publicada sem itens ativos, visitantes devem visualizar as informações e redes sociais do criador.
+
+A área principal deve aparecer vazia, oculta ou com uma mensagem simples, sem impedir o acesso à página.
 
 ## Produto sem imagem
 

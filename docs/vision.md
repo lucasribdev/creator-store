@@ -2,7 +2,7 @@
 
 ## Visão
 
-Criar uma plataforma onde afiliados e criadores de conteúdo possam transformar o link da bio em uma vitrine pessoal de produtos recomendados.
+Criar uma plataforma onde afiliados e criadores de conteúdo possam transformar o link da bio em uma vitrine pessoal de produtos recomendados e links importantes.
 
 A plataforma deverá facilitar a organização, a divulgação e a descoberta de produtos apresentados em vídeos, stories, publicações e outros conteúdos nas redes sociais.
 
@@ -13,6 +13,8 @@ Criadores divulgam produtos constantemente, mas essas recomendações ficam espa
 Depois de algum tempo, o público pode ter dificuldade para encontrar um produto apresentado anteriormente.
 
 As ferramentas tradicionais de link na bio permitem reunir endereços externos, mas geralmente apresentam os links como uma lista simples, sem uma experiência adequada para a divulgação de produtos.
+
+Ainda assim, criadores também precisam publicar links comuns que não são produtos, como uma newsletter, um grupo, um material gratuito, uma página de inscrição ou outro destino externo relevante.
 
 ## Oportunidade
 
@@ -29,12 +31,13 @@ Cada criador poderá criar uma página pública com:
 - sua identidade;
 - uma breve apresentação;
 - suas redes sociais;
-- seus links importantes;
-- uma vitrine de produtos recomendados.
+- suas redes sociais no topo;
+- uma vitrine de produtos recomendados;
+- links manuais comuns, quando fizerem sentido para complementar a página.
 
-Cada produto terá um link externo cadastrado pelo criador.
+Cada produto ou link manual terá um destino externo cadastrado pelo criador.
 
-Quando o visitante demonstrar interesse, será direcionado para a loja, marketplace ou página responsável pela oferta.
+Quando o visitante demonstrar interesse, será direcionado para a loja, marketplace, formulário, conteúdo ou página externa responsável pelo destino.
 
 ## Público inicial
 
@@ -48,17 +51,17 @@ O foco inicial estará em criadores que precisam organizar várias recomendaçõ
 
 ## Proposta de valor
 
-> Transforme o link da sua bio em uma vitrine de produtos recomendados.
+> Transforme o link da sua bio em uma vitrine de recomendações e links importantes.
 
 A plataforma deverá ajudar o criador a:
 
-- organizar suas recomendações;
+- organizar suas recomendações e links principais;
 - apresentar produtos de forma mais visual;
 - facilitar a descoberta de produtos;
 - centralizar sua presença digital;
-- aumentar os cliques em links externos.
+- aumentar os cliques em destinos externos.
 
-Para o visitante, a plataforma deverá oferecer uma forma simples de encontrar os produtos divulgados pelo criador.
+Para o visitante, a plataforma deverá oferecer uma forma simples de encontrar os produtos divulgados pelo criador e acessar links complementares relevantes.
 
 ## Princípios do produto
 
@@ -70,6 +73,8 @@ O criador deverá conseguir configurar sua página e cadastrar produtos sem conh
 
 A experiência deverá priorizar a visualização e a descoberta de produtos, em vez de apresentar apenas uma lista de links.
 
+Links manuais comuns poderão aparecer na página pública, mas devem complementar a vitrine. Eles não devem transformar a experiência principal em uma página genérica de links.
+
 ### Mobile first
 
 A maior parte dos visitantes chegará por redes sociais utilizando celulares.
@@ -78,13 +83,13 @@ A experiência em dispositivos móveis deverá ser a principal prioridade.
 
 ### Controle do criador
 
-O criador será responsável por escolher quais informações, redes sociais, produtos e links deseja publicar.
+O criador será responsável por escolher quais informações, redes sociais, produtos e links manuais deseja publicar.
 
 ### Redirecionamento externo
 
 A compra sempre acontecerá fora da plataforma.
 
-A plataforma deverá apresentar a recomendação, registrar o interesse quando aplicável e direcionar o visitante para o destino cadastrado.
+A plataforma deverá apresentar a recomendação ou link, registrar o interesse quando aplicável e direcionar o visitante para o destino cadastrado.
 
 ### Evolução baseada em uso real
 
@@ -115,33 +120,33 @@ O primeiro objetivo é validar se afiliados e criadores utilizariam uma página 
 A validação deverá observar se os criadores:
 
 - criam suas páginas;
-- cadastram produtos;
+- cadastram produtos e, quando necessário, links manuais;
 - publicam suas vitrines;
 - compartilham o link;
 - retornam para atualizar as recomendações.
 
-Também deverá ser observado se os visitantes acessam as páginas e clicam nos produtos.
+Também deverá ser observado se os visitantes acessam as páginas e clicam nos itens publicados.
 
 ## Experiência desejada
 
 Para o criador, o produto deverá parecer uma ferramenta simples de montagem de vitrine.
 
-Para o visitante, a página deverá parecer um catálogo pessoal de recomendações.
+Para o visitante, a página deverá parecer um catálogo pessoal de recomendações, com links complementares bem organizados.
 
 O fluxo ideal será:
 
 ```text
 Criador configura sua página
         ↓
-Cadastra produtos recomendados
+Cadastra produtos recomendados e links relevantes
         ↓
 Compartilha o link na bio
         ↓
 Visitante acessa a vitrine
         ↓
-Encontra um produto
+Encontra um item de interesse
         ↓
-Acessa a oferta externa
+Acessa o destino externo
 ```
 
 ## Visão de longo prazo
@@ -151,7 +156,7 @@ No futuro, a plataforma poderá se tornar uma ferramenta completa para criadores
 Possíveis evoluções incluem:
 
 - métricas de visualizações e cliques;
-- desempenho por produto;
+- desempenho por item e por produto;
 - categorias e coleções;
 - busca e filtros;
 - personalização visual;
@@ -163,8 +168,8 @@ Possíveis evoluções incluem:
 - recursos para melhorar a conversão;
 - planos gratuitos e pagos.
 
-Mesmo com essas evoluções, o produto continuará sendo uma vitrine de recomendações com redirecionamento para destinos externos.
+Mesmo com essas evoluções, o produto continuará sendo uma vitrine de recomendações e links com redirecionamento para destinos externos.
 
 ## Declaração de visão
 
-> Ser a forma mais simples para criadores transformarem suas recomendações em uma vitrine organizada, compartilhável e focada em conversão.
+> Ser a forma mais simples para criadores transformarem suas recomendações e links importantes em uma vitrine organizada, compartilhável e focada em conversão.

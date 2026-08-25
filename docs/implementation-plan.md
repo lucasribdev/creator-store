@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este plano transforma o roadmap da Creator Store em uma sequência prática de execução para uma pessoa desenvolvendo sozinha. O foco é levar o produto até o MVP sem ampliar o escopo: conta, perfil público, redes sociais, produtos manuais, publicação da vitrine, acesso público, redirecionamento externo e métricas básicas.
+Este plano transforma o roadmap da Creator Store em uma sequência prática de execução para uma pessoa desenvolvendo sozinha. O foco é levar o produto até o MVP sem ampliar o escopo: conta, perfil público, redes sociais, produtos manuais, links manuais comuns, publicação da vitrine, acesso público, redirecionamento externo e métricas básicas.
 
 ## Estado Atual
 
@@ -15,6 +15,7 @@ O codigo atual esta em fase de prototipo navegavel. As rotas e telas principais 
 - [x] Projeto base criado com rotas públicas e privadas visuais.
 - [x] Protótipo navegável iniciado com dados fictícios para página pública, dashboard, perfil, redes sociais, login, cadastro, recuperação de senha e produtos.
 - [x] Schema inicial Drizzle modelado para `users`, `profiles`, `social_links`, `products`, `page_views` e `product_clicks`.
+- [ ] Schema precisa evoluir para substituir `products` por `page_items` e `product_clicks` por `item_clicks`.
 - [x] Migration inicial existente em `drizzle/0000_lazy_prodigy.sql`.
 - [x] Rota técnica `/api/health/db` existente para validar conexão com banco.
 - [x] Validação técnica de Cloudflare Workers com Supabase Postgres via `pg`/`node-postgres` concluída e registrada em `docs/decisions.md`.
@@ -25,6 +26,7 @@ O codigo atual esta em fase de prototipo navegavel. As rotas e telas principais 
 - [ ] Dashboard existe como protótipo, mas ainda não usa autenticação, banco ou métricas reais.
 - [ ] Formulários visuais existem, mas ainda não persistem dados.
 - [ ] Produtos existem no protótipo, mas ainda não possuem CRUD real.
+- [ ] Links manuais comuns ainda precisam ser representados no protótipo e no modelo real.
 - [ ] Redes sociais aparecem na página pública fictícia, mas ainda não possuem gerenciamento real.
 
 ### Pendente
@@ -32,7 +34,7 @@ O codigo atual esta em fase de prototipo navegavel. As rotas e telas principais 
 - [ ] Autenticação real com Supabase Auth.
 - [ ] Integração real com Supabase Storage.
 - [ ] Proteção das rotas privadas.
-- [ ] Persistência real para perfil, redes sociais, produtos, publicação e métricas.
+- [ ] Persistência real para perfil, redes sociais, itens da página, publicação e métricas.
 - [ ] Aplicação e validação das migrations no banco de desenvolvimento.
 - [ ] Server functions, loaders e mutations reais.
 - [ ] Upload real de avatar, banner e imagens de produto.
@@ -97,7 +99,7 @@ pnpm exec tsc --noEmit
 
 - [ ] Registrar ajustes visuais necessários antes da integração real.
 
-Critério de conclusão: deve ser possível simular o fluxo de criar conta, configurar perfil, adicionar produto, visualizar página pública e clicar em produto usando dados fictícios.
+Critério de conclusão: deve ser possível simular o fluxo de criar conta, configurar perfil, adicionar produto ou link manual, visualizar página pública e clicar em item usando dados fictícios.
 
 Comandos de verificação:
 
@@ -173,32 +175,36 @@ pnpm build
 pnpm exec tsc --noEmit
 ```
 
-## Fase 4 - Produtos
+## Fase 4 - Itens da página e produtos
 
 ### Concluído
 
 - [x] Lista, cadastro e edição de produtos existem no protótipo.
 - [x] Schema de `products` inclui campos obrigatórios, opcionais, status ativo, destaque e posição.
-- [x] Regra de um produto em destaque por perfil foi planejada no banco.
+- [x] Regra de um item em destaque por perfil foi planejada no banco.
+- [ ] Documentação define a evolução para `page_items` com `type = product` e `type = link`.
 
 ### Parcial
 
 - [ ] Converter formulários visuais em TanStack Form com validação Zod.
 - [ ] Reaproveitar estados visuais de produto ativo, inativo, destaque e sem imagem.
+- [ ] Adaptar nomenclatura interna para tratar produtos como `PageItem` do tipo `product`.
 
 ### Pendente
 
-- [ ] Implementar listagem real de produtos do perfil autenticado.
-- [ ] Implementar criação, edição e exclusão de produto.
-- [ ] Implementar ativar e desativar produto.
-- [ ] Implementar marcação de destaque removendo destaque anterior.
-- [ ] Implementar ordenação simples com mover para cima e mover para baixo.
+- [ ] Implementar listagem real de itens do perfil autenticado, com filtro por tipo quando necessário.
+- [ ] Implementar criação, edição e exclusão de produto como `PageItem` do tipo `product`.
+- [ ] Implementar criação, edição e exclusão de link manual como `PageItem` do tipo `link`.
+- [ ] Implementar ativar e desativar item.
+- [ ] Implementar marcação de destaque removendo destaque anterior, com prioridade de UX para produtos.
+- [ ] Implementar ordenação simples de produtos e links com mover para cima e mover para baixo.
 - [ ] Implementar upload de imagem do produto no Supabase Storage.
 - [ ] Validar nome obrigatório, link externo válido, preço não negativo e posição não negativa.
-- [ ] Garantir que produtos inativos não apareçam publicamente.
+- [ ] Validar que links manuais não usam preço, preço anterior ou moeda.
+- [ ] Garantir que itens inativos não apareçam publicamente.
 - [ ] Sugerir desativação antes de exclusão definitiva.
 
-Critério de conclusão: o criador deve conseguir cadastrar, editar, ativar, desativar, destacar, ordenar e remover produtos reais, e produtos ativos devem aparecer na prévia pública.
+Critério de conclusão: o criador deve conseguir cadastrar, editar, ativar, desativar, destacar, ordenar e remover itens reais, e itens ativos devem aparecer na prévia pública.
 
 Comandos de verificação:
 
@@ -244,6 +250,7 @@ pnpm exec tsc --noEmit
 
 - [x] Protótipo de página pública por username existe.
 - [x] Estados visuais de página inexistente, despublicada e sem produtos ativos existem no protótipo.
+- [ ] Estado sem itens ativos precisa considerar produtos e links manuais.
 
 ### Parcial
 
@@ -254,14 +261,14 @@ pnpm exec tsc --noEmit
 
 - [ ] Carregar perfil publicado por username.
 - [ ] Bloquear acesso público a perfis despublicados.
-- [ ] Exibir perfil, redes sociais ativas, produto em destaque e produtos ativos ordenados.
+- [ ] Exibir perfil, redes sociais ativas, item em destaque e itens ativos ordenados.
 - [ ] Implementar publicação e despublicação a partir do dashboard.
 - [ ] Exibir e copiar link público no dashboard.
-- [ ] Abrir link externo do produto corretamente.
+- [ ] Abrir link externo do item corretamente.
 - [ ] Adicionar SEO básico e metadados de compartilhamento.
 - [ ] Garantir que visitante não precise de conta.
 
-Critério de conclusão: qualquer visitante com o link deve acessar uma página publicada, ver apenas conteúdo ativo e abrir o destino externo de um produto.
+Critério de conclusão: qualquer visitante com o link deve acessar uma página publicada, ver apenas conteúdo ativo e abrir o destino externo de um item.
 
 Comandos de verificação:
 
@@ -275,7 +282,8 @@ pnpm exec tsc --noEmit
 
 ### Concluído
 
-- [x] Entidades `page_views` e `product_clicks` modeladas no schema.
+- [x] Entidades `page_views` e `product_clicks` modeladas no schema inicial.
+- [ ] Documentação define a evolução de `product_clicks` para `item_clicks`.
 - [x] Dashboard simulado já reserva espaço para visualizações e cliques.
 - [x] Regra de clique não bloquear redirecionamento está documentada.
 
@@ -286,11 +294,12 @@ pnpm exec tsc --noEmit
 ### Pendente
 
 - [ ] Registrar visualização por carregamento de página pública publicada.
-- [ ] Registrar clique de produto antes do redirecionamento.
+- [ ] Registrar clique de item antes do redirecionamento.
 - [ ] Garantir que falha no registro de clique não impeça o redirecionamento.
-- [ ] Validar no banco que o produto clicado pertence ao perfil registrado.
+- [ ] Validar no banco que o item clicado pertence ao perfil registrado.
 - [ ] Exibir totais reais de visualizações e cliques no dashboard.
-- [ ] Exibir cliques por produto se for simples manter a consulta no MVP.
+- [ ] Exibir cliques por item se for simples manter a consulta no MVP.
+- [ ] Exibir cliques por tipo de item se for simples manter a consulta no MVP.
 - [ ] Evitar analytics avançado, filtros por período e origem detalhada nesta fase.
 
 Critério de conclusão: a plataforma deve informar total de visualizações e total de cliques reais, mantendo o redirecionamento externo funcional mesmo em caso de falha de métrica.
@@ -319,9 +328,9 @@ pnpm exec tsc --noEmit
 
 - [ ] Rodar teste interno completo do fluxo principal em celular e desktop.
 - [ ] Testar criar conta, login, recuperação de senha, logout e proteção de rota privada.
-- [ ] Testar perfil, produtos, redes sociais, publicação, página pública, clique e redirecionamento.
+- [ ] Testar perfil, produtos, links manuais, redes sociais, publicação, página pública, clique e redirecionamento.
 - [ ] Testar permissões entre dois usuários.
-- [ ] Testar página inexistente, página despublicada, produto inativo e produto sem imagem.
+- [ ] Testar página inexistente, página despublicada, item inativo, produto sem imagem e link manual sem descrição.
 - [ ] Validar deploy do MVP no Cloudflare Workers.
 - [ ] Conferir variáveis de produção sem commitar segredos.
 - [ ] Preparar política de privacidade, termos de uso, aviso sobre links externos e canal de contato antes de abrir para usuários.
@@ -341,12 +350,12 @@ pnpm exec tsc --noEmit
 ## Próxima Sequência Recomendada
 
 1. Revisar README e `.env.example` para garantir instalação, execução local e variáveis mínimas.
-2. Gerar e aplicar migrations do schema Drizzle em banco de desenvolvimento.
+2. Gerar e aplicar migrations do schema Drizzle para `page_items` e `item_clicks` em banco de desenvolvimento.
 3. Integrar Supabase Auth com cadastro, login, logout e recuperação de senha.
 4. Criar sincronização segura entre Supabase Auth e `public.users`.
 5. Proteger rotas privadas e validar isolamento de dados por usuário.
 6. Transformar o formulário de perfil em fluxo real com validação Zod e persistência.
-7. Transformar produtos em CRUD real com TanStack Form, TanStack Query e mutations.
-8. Implementar página pública real carregando perfil e produtos ativos por username.
+7. Transformar produtos e links manuais em CRUD real de `PageItem` com TanStack Form, TanStack Query e mutations.
+8. Implementar página pública real carregando perfil e itens ativos por username.
 9. Implementar publicação, despublicação e cópia do link público no dashboard.
 10. Implementar registro básico de visualizações e cliques com redirecionamento resiliente.

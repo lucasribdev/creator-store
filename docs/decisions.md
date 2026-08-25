@@ -18,7 +18,7 @@ Novas decisões devem ser adicionadas conforme o produto evoluir.
 
 ### Decisão
 
-A plataforma será responsável apenas por apresentar produtos e direcionar o visitante para uma página externa.
+A plataforma será responsável apenas por apresentar recomendações e links, e direcionar o visitante para uma página externa.
 
 ### Motivo
 
@@ -55,19 +55,21 @@ Caso exista demanda no futuro, será possível adicionar múltiplas páginas sem
 
 ---
 
-## Cadastro manual de produtos
+## Cadastro manual de produtos e links
 
 **Status:** MVP
 
 ### Decisão
 
-Todos os produtos serão cadastrados manualmente pelo criador.
+Todos os produtos e links manuais serão cadastrados manualmente pelo criador.
 
 ### Motivo
 
 Evita integrações complexas e acelera o desenvolvimento.
 
 Também permite validar se o problema realmente existe antes de investir em automações.
+
+Links manuais comuns devem ser simples o suficiente para complementar a vitrine sem exigir integrações externas.
 
 ---
 
@@ -77,31 +79,92 @@ Também permite validar se o problema realmente existe antes de investir em auto
 
 ### Decisão
 
-Os produtos serão exibidos em uma única lista.
+Os itens da página serão exibidos em uma única lista.
 
 ### Motivo
 
 Categorias aumentam significativamente a complexidade do sistema.
 
-Antes de implementá-las, será necessário validar se os usuários realmente possuem produtos suficientes para justificar essa organização.
+Antes de implementá-las, será necessário validar se os usuários realmente possuem itens suficientes para justificar essa organização.
 
 A ordenação manual será suficiente na primeira versão.
 
 ---
 
-## Apenas um produto em destaque
+## Apenas um item em destaque
 
 **Status:** MVP
 
 ### Decisão
 
-Cada página poderá destacar apenas um produto.
+Cada página poderá destacar apenas um item, com prioridade para produtos.
 
 ### Motivo
 
 Ajuda o criador a direcionar a atenção do visitante para sua principal recomendação.
 
 Também simplifica o layout da página pública.
+
+### Consequências
+
+A interface deve orientar o destaque para produtos recomendados.
+
+Caso links manuais em destaque se tornem necessários, isso deve ser tratado como evolução explícita, sem transformar o foco do produto em uma página genérica de links.
+
+---
+
+## PageItem como entidade para conteúdos clicáveis
+
+**Status:** MVP
+
+### Decisão
+
+Produtos recomendados e links manuais comuns serão representados por uma entidade genérica `PageItem`.
+
+`PageItem.type` definirá o comportamento inicial do item:
+
+- `product`;
+- `link`.
+
+### Motivo
+
+A página pública precisa permitir que o criador publique produtos e alguns links complementares em uma lista ordenável.
+
+Usar uma entidade comum evita duplicar lógica de ordenação, ativação, redirecionamento e métricas.
+
+### Consequências
+
+A lista principal da página pública deve carregar `PageItem` ativos.
+
+Produtos deixam de ser modelados como a única entidade clicável da página pública e passam a ser o tipo principal de `PageItem`.
+
+Links manuais podem aparecer na página, mas devem complementar a vitrine. Eles não substituem o foco em produtos recomendados.
+
+Campos específicos de produto, como preço e preço anterior, devem ser usados apenas quando `type = product`.
+
+---
+
+## SocialLink continua separado de PageItem
+
+**Status:** MVP
+
+### Decisão
+
+Redes sociais continuarão sendo modeladas por `SocialLink`, separadas de `PageItem`.
+
+### Motivo
+
+Redes sociais fazem parte da identidade do criador e aparecem no topo da página com tratamento visual próprio.
+
+Links manuais comuns pertencem à área principal da página pública, junto dos produtos.
+
+### Consequências
+
+`SocialLink` deve continuar sendo usado para Instagram, TikTok, YouTube, WhatsApp, site e outros links de presença social.
+
+`PageItem` deve ser usado para conteúdos clicáveis da vitrine, como produtos e links manuais comuns.
+
+Cliques em redes sociais podem ser medidos futuramente, mas não fazem parte das métricas de item do MVP.
 
 ---
 
@@ -403,49 +466,49 @@ A exibicao publica deve usar esse valor normalizado como identificador da URL.
 
 ---
 
-## Um produto em destaque por perfil no banco
+## Um item em destaque por perfil no banco
 
 **Status:** MVP
 
 ### Decisão
 
-A regra de apenas um produto em destaque por perfil devera ser garantida no banco por um indice unico parcial.
+A regra de apenas um item em destaque por perfil devera ser garantida no banco por um indice unico parcial.
 
 O indice devera considerar `profile_id` apenas quando `is_featured = true`.
 
 ### Motivo
 
-A aplicacao pode remover o destaque anterior ao marcar um novo produto, mas a regra e uma invariante do produto e nao deve depender apenas da camada de aplicacao.
+A aplicacao pode remover o destaque anterior ao marcar um novo item, mas a regra e uma invariante da pagina publica e nao deve depender apenas da camada de aplicacao.
 
 ### Consequências
 
-O schema Drizzle deve declarar ou acompanhar uma migration com indice unico parcial para produtos em destaque.
+O schema Drizzle deve declarar ou acompanhar uma migration com indice unico parcial para itens em destaque.
 
 Mutations que alteram destaque devem tratar conflito de unicidade e manter uma experiencia clara para o usuario.
 
 ---
 
-## Cliques de produto validam o perfil do produto
+## Cliques de item validam o perfil do item
 
 **Status:** MVP
 
 ### Decisão
 
-A tabela `product_clicks` devera garantir que `product_id` pertence ao mesmo `profile_id` registrado no clique.
+A tabela `item_clicks` devera garantir que `item_id` pertence ao mesmo `profile_id` registrado no clique.
 
-Essa garantia devera ser feita por chave estrangeira composta referenciando a combinacao correspondente em `products`.
+Essa garantia devera ser feita por chave estrangeira composta referenciando a combinacao correspondente em `page_items`.
 
 ### Motivo
 
 Cliques sao metricas basicas do MVP e precisam permanecer consistentes com o perfil visitado.
 
-Sem essa garantia, seria possivel registrar um clique associando um produto de um perfil a outro perfil.
+Sem essa garantia, seria possivel registrar um clique associando um item de um perfil a outro perfil.
 
 ### Consequências
 
-A tabela `products` deve expor uma chave unica ou primaria compativel com a referencia composta.
+A tabela `page_items` deve expor uma chave unica ou primaria compativel com a referencia composta.
 
-`product_clicks` deve armazenar `profile_id` e `product_id` e validar a combinacao no banco.
+`item_clicks` deve armazenar `profile_id`, `item_id` e o tipo do item no momento do clique.
 
 Falhas ao registrar clique nao devem impedir o redirecionamento do visitante para o link externo.
 

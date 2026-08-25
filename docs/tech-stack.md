@@ -106,7 +106,7 @@ Sera utilizado para armazenar:
 
 - perfis;
 - links sociais;
-- produtos;
+- itens da página, incluindo produtos e links manuais;
 - visualizacoes;
 - cliques.
 
@@ -118,8 +118,8 @@ Postgres oferece uma base solida para regras como:
 
 - username unico;
 - um perfil por usuario;
-- produtos por perfil;
-- cliques por produto;
+- itens por perfil;
+- cliques por item;
 - isolamento de dados.
 
 ---
@@ -198,7 +198,7 @@ Sera utilizada para validar:
 - biografia;
 - URLs;
 - links sociais;
-- produtos;
+- itens da página;
 - precos;
 - estados ativo e destaque.
 
@@ -219,6 +219,7 @@ Sera utilizada em:
 - editar perfil;
 - cadastro de produto;
 - edicao de produto;
+- cadastro e edicao de links manuais;
 - redes sociais;
 - login;
 - cadastro.

@@ -25,11 +25,11 @@ A prioridade é permitir que:
 
 1. o criador crie sua conta;
 2. configure sua página;
-3. cadastre produtos;
+3. cadastre produtos e links manuais;
 4. publique sua vitrine;
 5. compartilhe o link;
 6. o visitante acesse a página;
-7. o visitante clique em um produto;
+7. o visitante clique em um item;
 8. seja redirecionado para uma página externa.
 
 Funcionalidades que não contribuam diretamente para esse fluxo devem ser adiadas.
@@ -145,6 +145,7 @@ O protótipo deverá exibir:
 - perfil de um criador fictício;
 - redes sociais;
 - produtos;
+- links manuais;
 - produto em destaque;
 - página publicada;
 - métricas básicas fictícias.
@@ -177,11 +178,11 @@ Criar conta
     ↓
 Configurar perfil
     ↓
-Adicionar produto
+Adicionar produto ou link
     ↓
 Visualizar página pública
     ↓
-Clicar no produto
+Clicar no item
 ```
 
 ---
@@ -224,9 +225,9 @@ Implementar:
 
 - usuário;
 - perfil;
-- produto.
+- item da página.
 
-Redes sociais e métricas podem ser adicionadas nas fases seguintes.
+Produtos, links manuais, redes sociais e métricas podem ser adicionados nas fases seguintes.
 
 ## Critério de conclusão
 
@@ -315,9 +316,10 @@ Implementar a principal funcionalidade do produto.
 
 ## Regras
 
+- produto é um `PageItem` com `type = product`;
 - produto pertence a um perfil;
-- apenas produtos ativos aparecem publicamente;
-- no máximo um produto em destaque;
+- apenas itens ativos do tipo `product` aparecem publicamente como produtos;
+- no máximo um item em destaque por página, com prioridade para produtos;
 - link externo deve ser válido;
 - a plataforma não garante preços ou disponibilidade;
 - produto desativado permanece salvo no painel.
@@ -328,7 +330,45 @@ O criador deve conseguir cadastrar um produto e visualizá-lo em sua página pú
 
 ---
 
-# Fase 5 — Página pública
+# Fase 5 — Links manuais
+
+## Objetivo
+
+Permitir que o criador adicione links comuns que complementam a vitrine.
+
+## Funcionalidades
+
+- listar links manuais;
+- cadastrar link manual;
+- editar link manual;
+- excluir link manual;
+- ativar link manual;
+- desativar link manual;
+- adicionar URL externa;
+- adicionar descrição opcional;
+- adicionar texto de botão opcional.
+
+## Dados mínimos do link manual
+
+- título;
+- URL externa.
+
+## Regras
+
+- link manual é um `PageItem` com `type = link`;
+- link manual pertence a um perfil;
+- apenas links ativos aparecem publicamente;
+- links manuais não substituem redes sociais;
+- links manuais não devem usar campos de preço;
+- o destino externo deve ser válido.
+
+## Critério de conclusão
+
+O criador deve conseguir cadastrar um link manual e visualizá-lo em sua página pública.
+
+---
+
+# Fase 6 — Página pública
 
 ## Objetivo
 
@@ -342,7 +382,7 @@ Disponibilizar a vitrine para visitantes.
 - biografia;
 - redes sociais, caso já implementadas;
 - produto em destaque;
-- lista de produtos ativos;
+- lista de itens ativos, incluindo produtos e links manuais;
 - botões de acesso externo.
 
 ## Requisitos
@@ -364,7 +404,7 @@ Acessa a URL
     ↓
 Visualiza o criador
     ↓
-Encontra um produto
+Encontra um item
     ↓
 Clica no botão
     ↓
@@ -373,11 +413,11 @@ Clica no botão
 
 ## Critério de conclusão
 
-Um visitante deve conseguir acessar uma página publicada e abrir corretamente o link de um produto.
+Um visitante deve conseguir acessar uma página publicada e abrir corretamente o destino externo de um item.
 
 ---
 
-# Fase 6 — Publicação e compartilhamento
+# Fase 7 — Publicação e compartilhamento
 
 ## Objetivo
 
@@ -405,11 +445,11 @@ O criador deve conseguir publicar, compartilhar e despublicar sua página sem pe
 
 ---
 
-# Fase 7 — Redes sociais e links
+# Fase 8 — Redes sociais
 
 ## Objetivo
 
-Permitir que o criador reúna sua presença digital na página.
+Permitir que o criador reúna sua presença digital no topo da página.
 
 ## Tipos iniciais
 
@@ -433,18 +473,20 @@ Permitir que o criador reúna sua presença digital na página.
 
 O criador deve conseguir cadastrar suas redes e o visitante deve conseguir acessá-las pela página pública.
 
+Links manuais comuns não devem ser cadastrados como `SocialLink`; eles pertencem à lista de `PageItem`.
+
 ---
 
-# Fase 8 — Registro de visualizações e cliques
+# Fase 9 — Registro de visualizações e cliques
 
 ## Objetivo
 
-Medir se as páginas são acessadas e se os produtos geram interesse.
+Medir se as páginas são acessadas e se os itens geram interesse.
 
 ## Eventos iniciais
 
 - visualização de página;
-- clique em produto.
+- clique em item.
 
 ## Dados necessários
 
@@ -458,7 +500,8 @@ Medir se as páginas são acessadas e se os produtos geram interesse.
 ### Clique
 
 - perfil;
-- produto;
+- item;
+- tipo do item;
 - data;
 - identificador anônimo opcional;
 - origem opcional.
@@ -476,11 +519,12 @@ A plataforma deve conseguir informar:
 
 - número total de visualizações;
 - número total de cliques;
-- cliques por produto, caso seja simples implementar.
+- cliques por item, caso seja simples implementar;
+- cliques por tipo de item, caso seja simples implementar.
 
 ---
 
-# Fase 9 — Dashboard mínimo
+# Fase 10 — Dashboard mínimo
 
 ## Objetivo
 
@@ -491,10 +535,12 @@ Oferecer ao criador acesso rápido às principais informações e ações.
 - status da página;
 - link público;
 - quantidade de produtos ativos;
+- quantidade de links manuais ativos;
 - total de visualizações;
 - total de cliques;
 - botão para editar perfil;
 - botão para adicionar produto;
+- botão para adicionar link manual;
 - botão para gerenciar produtos;
 - botão para visualizar página;
 - botão para copiar link.
@@ -515,7 +561,7 @@ O criador deve conseguir entender rapidamente o estado da página e acessar as a
 
 ---
 
-# Fase 10 — Testes internos
+# Fase 11 — Testes internos
 
 ## Objetivo
 
@@ -549,19 +595,30 @@ Garantir que o fluxo principal funcione do início ao fim.
 - trocar produto em destaque;
 - reordenar produtos.
 
+### Links manuais
+
+- adicionar link manual;
+- editar link manual;
+- desativar link manual;
+- excluir link manual;
+- cadastrar URL inválida;
+- reordenar links junto aos produtos.
+
 ### Página pública
 
 - acessar página publicada;
 - acessar página despublicada;
 - acessar página inexistente;
-- visualizar somente produtos ativos;
+- visualizar somente itens ativos;
 - clicar em produto;
+- clicar em link manual;
 - abrir rede social.
 
 ### Permissões
 
 - usuário não pode editar perfil de outro;
 - usuário não pode editar produto de outro;
+- usuário não pode editar link manual de outro;
 - visitante não pode acessar dados privados.
 
 ## Dispositivos
@@ -579,7 +636,7 @@ O fluxo principal deve funcionar sem erros bloqueadores.
 
 ---
 
-# Fase 11 — Validação com primeiros usuários
+# Fase 12 — Validação com primeiros usuários
 
 ## Objetivo
 
@@ -597,6 +654,7 @@ Não é necessário abrir o produto para muitas pessoas no início.
 - observar onde eles têm dificuldade;
 - analisar quais campos não entendem;
 - verificar quantos produtos cadastram;
+- verificar se links manuais complementam ou atrapalham a vitrine;
 - verificar se compartilham a página;
 - coletar feedback;
 - corrigir problemas críticos.
@@ -606,6 +664,7 @@ Não é necessário abrir o produto para muitas pessoas no início.
 - Como você organiza seus links atualmente?
 - Foi fácil criar a página?
 - Foi fácil cadastrar um produto?
+- Foi fácil cadastrar um link manual?
 - Você usaria essa página no link da bio?
 - O que faltou para você publicar?
 - O que pareceu desnecessário?
@@ -617,6 +676,7 @@ Não é necessário abrir o produto para muitas pessoas no início.
 - contas criadas;
 - perfis concluídos;
 - produtos cadastrados;
+- links manuais cadastrados;
 - páginas publicadas;
 - páginas compartilhadas;
 - visualizações;
@@ -635,7 +695,7 @@ A fase será concluída quando houver feedback suficiente para decidir entre:
 
 ---
 
-# Fase 12 — Lançamento inicial
+# Fase 13 — Lançamento inicial
 
 ## Objetivo
 
@@ -767,14 +827,15 @@ A compra sempre acontecerá fora da plataforma.
 2. Autenticação e fundação
 3. Perfil do criador
 4. Produtos
-5. Página pública
-6. Publicação e compartilhamento
-7. Redes sociais
-8. Visualizações e cliques
-9. Dashboard mínimo
-10. Testes internos
-11. Validação com usuários
-12. Lançamento inicial
+5. Links manuais
+6. Página pública
+7. Publicação e compartilhamento
+8. Redes sociais
+9. Visualizações e cliques
+10. Dashboard mínimo
+11. Testes internos
+12. Validação com usuários
+13. Lançamento inicial
 ```
 
 ---
@@ -787,9 +848,10 @@ A primeira entrega que realmente valida a base técnica deve permitir:
 2. fazer login;
 3. configurar nome e username;
 4. cadastrar um produto;
-5. acessar a página pública;
-6. clicar no produto;
-7. ser direcionado para o link externo.
+5. cadastrar um link manual, caso necessário;
+6. acessar a página pública;
+7. clicar em um item;
+8. ser direcionado para o link externo.
 
 Nesta primeira entrega ainda não são obrigatórios:
 
