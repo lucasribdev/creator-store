@@ -1,73 +1,180 @@
-# Plano de Implementação do MVP
+# Plano de Implementacao do MVP
+
+## Objetivo do documento
+
+Este documento deve servir como base para gerar milestones e issues da Creator Store.
+
+Cada fase abaixo pode virar um milestone. Cada item em **Pendencias para issues** deve poder virar uma issue pequena, verificavel e com criterio de conclusao claro.
+
+O plano acompanha o escopo definido em:
+
+- `docs/vision.md`;
+- `docs/mvp.md`;
+- `docs/user-flows.md`;
+- `docs/data-model.md`;
+- `docs/tech-stack.md`;
+- `docs/roadmap.md`;
+- `docs/decisions.md`.
+
+## Regras de escopo
+
+A Creator Store e uma vitrine pessoal de recomendacoes, nao um e-commerce, marketplace ou rede social.
+
+Nao implementar no MVP:
+
+- carrinho;
+- checkout;
+- pagamentos;
+- pedidos;
+- estoque;
+- frete;
+- entrega;
+- notas fiscais;
+- devolucoes;
+- avaliacoes;
+- comentarios;
+- feed social;
+- analytics avancado;
+- importacao automatica de produtos;
+- integracoes com marketplaces.
+
+## Estado atual do prototipo
+
+O codigo atual esta em fase de prototipo navegavel.
+
+As principais rotas e telas visuais ja existem para validar fluxo e interface, mas ainda usam principalmente dados ficticios. O prototipo ainda nao representa a implementacao real de autenticacao, persistencia, autorizacao, uploads ou metricas.
+
+### Ja existe
+
+- Documentacao inicial do produto em `docs/`.
+- Stack do MVP definida com TanStack Start, TypeScript, TanStack Router, TanStack Query, TanStack Form, Tailwind CSS, Supabase, Drizzle, Zod e Cloudflare Workers.
+- Projeto base com rotas publicas e privadas visuais.
+- Pagina inicial.
+- Telas simuladas de login, cadastro e recuperacao de senha.
+- Dashboard simulado.
+- Tela simulada de edicao de perfil.
+- Lista simulada de produtos.
+- Telas simuladas de cadastro e edicao de produto.
+- Pagina publica simulada por username.
+- Estados visuais de pagina publicada, pagina despublicada, pagina inexistente e pagina sem produtos ativos.
+- Schema inicial Drizzle com `users`, `profiles`, `social_links`, `products`, `page_views` e `product_clicks`.
+- Migration inicial em `drizzle/0000_lazy_prodigy.sql`.
+- Rota tecnica `/api/health/db` para validar conexao com banco.
+- Validacao tecnica de Cloudflare Workers com Supabase Postgres via `pg`/`node-postgres`, registrada em `docs/decisions.md`.
+
+### Ainda nao existe
+
+- Autenticacao real com Supabase Auth.
+- Persistencia real do fluxo principal.
+- Protecao real das rotas privadas.
+- Isolamento de dados por usuario.
+- Upload real de avatar, banner e imagens.
+- CRUD real de redes sociais.
+- CRUD real de itens da pagina.
+- Publicacao e despublicacao reais.
+- Pagina publica carregando dados reais.
+- Registro real de visualizacoes e cliques.
+- Dashboard com metricas reais.
+- Deploy validado do MVP completo.
+
+## Mudanca planejada de modelo
+
+O schema inicial ainda usa `products` e `product_clicks`, mas a documentacao de produto ja definiu a evolucao para `PageItem` e `ItemClick`.
+
+### Decisao
+
+`Product` e `ProductClick` nao devem ser tratados como entidades finais do MVP.
+
+Produtos recomendados devem ser implementados como:
+
+```text
+PageItem.type = product
+```
+
+Links manuais comuns devem ser implementados como:
+
+```text
+PageItem.type = link
+```
+
+Cliques em produtos e links manuais devem ser registrados em:
+
+```text
+ItemClick
+```
+
+### Mudanca tecnica esperada
+
+- Substituir a tabela `products` por `page_items`.
+- Substituir a tabela `product_clicks` por `item_clicks`.
+- Manter `page_views` para visualizacoes da pagina publica.
+- Manter `social_links` separado de `page_items`.
+- Tratar produtos como o principal tipo de item da UX, sem criar um CRUD definitivo de `Product` isolado.
+- Tratar links manuais como complemento da vitrine, sem transformar o produto em uma pagina generica de links.
+
+### Consequencias para milestones
+
+- A proxima implementacao de schema deve partir de `PageItem` e `ItemClick`.
+- As telas atuais de produtos devem ser reaproveitadas, mas conectadas a `PageItem` com `type = product`.
+- Links manuais devem usar a mesma base de dados, ordenacao, ativacao e metricas dos produtos.
+- A pagina publica deve renderizar uma lista unificada de itens ativos.
+
+## Verificacao padrao
+
+Quando houver alteracao de codigo no futuro, rodar quando aplicavel:
+
+```bash
+pnpm check
+pnpm build
+pnpm exec tsc --noEmit
+```
+
+Quando uma fase alterar banco, tambem verificar:
+
+```bash
+pnpm drizzle-kit generate
+pnpm drizzle-kit migrate
+```
+
+Os comandos de Drizzle podem variar conforme os scripts reais do projeto. Se os scripts forem ajustados, atualizar este documento e o README.
+
+---
+
+# Fase 0 - Preparacao e alinhamento
 
 ## Objetivo
 
-Este plano transforma o roadmap da Creator Store em uma sequência prática de execução para uma pessoa desenvolvendo sozinha. O foco é levar o produto até o MVP sem ampliar o escopo: conta, perfil público, redes sociais, produtos manuais, links manuais comuns, publicação da vitrine, acesso público, redirecionamento externo e métricas básicas.
+Garantir que documentacao, ambiente local e configuracao tecnica estejam prontos para iniciar funcionalidades reais.
 
-## Estado Atual
+## Estado
 
-O codigo atual esta em fase de prototipo navegavel. As rotas e telas principais ja existem para validar fluxo e interface, mas ainda usam principalmente dados ficticios e nao representam a implementacao real de autenticacao, persistencia, autorizacao ou metricas.
+Parcialmente concluida.
 
-### Concluído
+## Entregas
 
-- [x] Documentação inicial do produto criada em `docs/`.
-- [x] Stack do MVP definida com TanStack Start, TypeScript, Tailwind CSS, Supabase, Drizzle, Zod, TanStack Form e Cloudflare Workers.
-- [x] Projeto base criado com rotas públicas e privadas visuais.
-- [x] Protótipo navegável iniciado com dados fictícios para página pública, dashboard, perfil, redes sociais, login, cadastro, recuperação de senha e produtos.
-- [x] Schema inicial Drizzle modelado para `users`, `profiles`, `social_links`, `products`, `page_views` e `product_clicks`.
-- [ ] Schema precisa evoluir para substituir `products` por `page_items` e `product_clicks` por `item_clicks`.
-- [x] Migration inicial existente em `drizzle/0000_lazy_prodigy.sql`.
-- [x] Rota técnica `/api/health/db` existente para validar conexão com banco.
-- [x] Validação técnica de Cloudflare Workers com Supabase Postgres via `pg`/`node-postgres` concluída e registrada em `docs/decisions.md`.
+- Documentacao principal do produto criada.
+- Escopo do MVP definido.
+- Stack tecnica definida.
+- Estrutura inicial do projeto criada.
+- Scripts principais no `package.json` configurados.
+- Schema inicial Drizzle criado.
+- Validacao minima de conexao com Supabase Postgres em Cloudflare Workers registrada.
 
-### Parcial
+## Pendencias para issues
 
-- [ ] Página pública existe como protótipo, mas ainda não carrega dados reais.
-- [ ] Dashboard existe como protótipo, mas ainda não usa autenticação, banco ou métricas reais.
-- [ ] Formulários visuais existem, mas ainda não persistem dados.
-- [ ] Produtos existem no protótipo, mas ainda não possuem CRUD real.
-- [ ] Links manuais comuns ainda precisam ser representados no protótipo e no modelo real.
-- [ ] Redes sociais aparecem na página pública fictícia, mas ainda não possuem gerenciamento real.
+- Atualizar README com instalacao, execucao local, variaveis de ambiente, comandos de verificacao e fluxo de deploy.
+- Revisar `.env.example` para garantir que todas as variaveis esperadas estejam documentadas.
+- Confirmar que `wrangler.jsonc` esta alinhado com `nodejs_compat`, Drizzle e Supabase Postgres.
+- Definir claramente como migrations serao aplicadas no banco de desenvolvimento.
 
-### Pendente
+## Criterios de conclusao
 
-- [ ] Autenticação real com Supabase Auth.
-- [ ] Integração real com Supabase Storage.
-- [ ] Proteção das rotas privadas.
-- [ ] Persistência real para perfil, redes sociais, itens da página, publicação e métricas.
-- [ ] Aplicação e validação das migrations no banco de desenvolvimento.
-- [ ] Server functions, loaders e mutations reais.
-- [ ] Upload real de avatar, banner e imagens de produto.
-- [ ] Publicação e despublicação real da página.
-- [ ] Registro real de visualizações e cliques.
-- [ ] Testes internos do fluxo principal.
-- [ ] Deploy validado do MVP.
+- Uma pessoa nova no projeto consegue instalar dependencias e rodar o app localmente seguindo o README.
+- Variaveis obrigatorias estao documentadas sem segredos reais.
+- A decisao de runtime Cloudflare Workers + Supabase Postgres esta documentada.
+- Nao ha decisao tecnica bloqueadora para iniciar autenticacao e persistencia.
 
-## Fase 0 - Preparação
-
-### Concluído
-
-- [x] Criar documentação principal do produto.
-- [x] Definir o que entra e o que fica fora do MVP.
-- [x] Definir stack técnica.
-- [x] Criar estrutura inicial do projeto.
-- [x] Configurar scripts principais no `package.json`.
-- [x] Criar schema inicial do banco com Drizzle.
-- [x] Validar conexão mínima com Supabase Postgres no Cloudflare Workers.
-
-### Parcial
-
-- [ ] Garantir que o README reflita o fluxo atual de instalação, execução local, variáveis de ambiente e deploy.
-- [ ] Confirmar que `.env.example` lista todas as variáveis necessárias para desenvolvimento local.
-
-### Pendente
-
-- [ ] Aplicar migrations no banco de desenvolvimento.
-- [ ] Revisar se a configuração do Worker está alinhada com `nodejs_compat`, Drizzle e Supabase Postgres.
-
-Critério de conclusão: a documentação, o ambiente local, o schema, as variáveis e a conexão com banco devem estar prontos para iniciar funcionalidades reais sem decisões técnicas bloqueadoras.
-
-Comandos de verificação:
+## Comandos de verificacao
 
 ```bash
 pnpm check
@@ -75,99 +182,93 @@ pnpm build
 pnpm exec tsc --noEmit
 ```
 
-## Fase 1 - Protótipo navegável
+---
 
-### Concluído
+# Fase 1 - Prototipo navegavel
 
-- [x] Criar página inicial.
-- [x] Criar telas simuladas de login e cadastro.
-- [x] Criar tela simulada de recuperação de senha.
-- [x] Criar dashboard simulado.
-- [x] Criar tela simulada de edição de perfil.
-- [x] Criar lista simulada de produtos.
-- [x] Criar telas simuladas de cadastro e edição de produto.
-- [x] Criar página pública simulada por username.
-- [x] Representar estados de página publicada, despublicada, inexistente e sem produtos ativos no protótipo.
+## Objetivo
 
-### Parcial
+Validar fluxo, navegacao e interface antes de conectar autenticacao, banco e metricas reais.
 
-- [ ] Revisar o protótipo em celular e desktop para confirmar clareza do fluxo principal.
-- [ ] Validar se os campos de produto são suficientes e simples para cadastro manual.
-- [ ] Confirmar se a página pública parece uma vitrine pessoal, não uma loja completa.
+## Estado
 
-### Pendente
+Concluida como prototipo inicial, com revisoes visuais pendentes.
 
-- [ ] Registrar ajustes visuais necessários antes da integração real.
+## Entregas
 
-Critério de conclusão: deve ser possível simular o fluxo de criar conta, configurar perfil, adicionar produto ou link manual, visualizar página pública e clicar em item usando dados fictícios.
+- Pagina inicial visual.
+- Login, cadastro e recuperacao de senha simulados.
+- Dashboard simulado.
+- Edicao de perfil simulada.
+- Lista, cadastro e edicao de produtos simulados.
+- Pagina publica por username com dados ficticios.
+- Estados visuais de pagina publicada, despublicada, inexistente e sem produtos ativos.
 
-Comandos de verificação:
+## Pendencias para issues
+
+- Revisar o prototipo em celular e desktop.
+- Confirmar que a pagina publica parece uma vitrine pessoal de recomendacoes, nao uma loja.
+- Atualizar textos visuais que ainda falem apenas em produtos quando o fluxo precisar incluir links manuais.
+- Registrar ajustes visuais necessarios antes da integracao real.
+- Incluir no prototipo o estado "sem itens ativos", considerando produtos e links manuais.
+
+## Criterios de conclusao
+
+- O fluxo principal pode ser simulado com dados ficticios.
+- A navegacao entre dashboard, perfil, itens e pagina publica esta clara.
+- Os estados vazios, de erro visual e de pagina indisponivel estao representados.
+
+## Comandos de verificacao
 
 ```bash
 pnpm check
 pnpm build
 ```
 
-## Fase 2 - Fundação da aplicação
+---
 
-### Concluído
+# Fase 2 - Fundacao da aplicacao
 
-- [x] Estrutura de rotas com TanStack Router iniciada.
-- [x] Integração base com TanStack Query criada.
-- [x] Configuração inicial de Drizzle criada.
-- [x] Endpoint técnico de saúde do banco criado.
+## Objetivo
 
-### Parcial
+Implementar a base real de autenticacao, sessao, acesso a dados, validacao e protecao da area privada.
 
-- [ ] Separar claramente dados fictícios de dados reais para facilitar a transição.
-- [ ] Definir helpers de ambiente com validação explícita, sem non-null assertion.
-- [ ] Definir camada inicial de acesso a dados sem acoplamento excessivo a `process.env.DATABASE_URL`.
+## Estado
 
-### Pendente
+Parcialmente iniciada.
 
-- [ ] Integrar Supabase Auth para cadastro, login, logout e recuperação de senha.
-- [ ] Criar sincronização entre Supabase Auth e `public.users`.
-- [ ] Proteger rotas privadas do dashboard.
-- [ ] Garantir que usuário autenticado acesse apenas seus próprios dados.
-- [ ] Implementar loaders para dados iniciais de rotas públicas e privadas quando aplicável.
-- [ ] Implementar mutations tipadas com validação Zod.
-- [ ] Tratar erros básicos de autenticação, sessão expirada e falha de banco.
+## Entregas
 
-Critério de conclusão: um usuário deve conseguir criar conta, fazer login, acessar o dashboard, sair e retornar depois acessando somente seus próprios dados.
+- Estrutura de rotas com TanStack Router iniciada.
+- Integracao base com TanStack Query criada.
+- Configuracao inicial de Drizzle criada.
+- Endpoint tecnico de saude do banco criado.
 
-Comandos de verificação:
+## Pendencias para issues
 
-```bash
-pnpm check
-pnpm build
-pnpm exec tsc --noEmit
-```
+- Separar dados ficticios de dados reais para facilitar a transicao gradual.
+- Criar helpers de ambiente com validacao explicita e sem non-null assertion.
+- Definir camada inicial de acesso a dados para Supabase Postgres via Drizzle.
+- Integrar Supabase Auth para cadastro.
+- Integrar Supabase Auth para login.
+- Integrar Supabase Auth para logout.
+- Integrar fluxo de recuperacao de senha.
+- Criar sincronizacao entre Supabase Auth e `public.users`.
+- Proteger rotas privadas do dashboard.
+- Garantir que usuario autenticado acesse apenas seus proprios dados.
+- Implementar tratamento basico para sessao expirada.
+- Implementar tratamento basico para falha de banco.
+- Definir padrao de loaders para dados iniciais de rotas publicas e privadas.
+- Definir padrao de mutations tipadas com validacao Zod.
 
-## Fase 3 - Perfil do criador
+## Criterios de conclusao
 
-### Concluído
+- O usuario consegue criar conta, fazer login, acessar o dashboard, sair e retornar depois.
+- Rotas privadas bloqueiam visitantes sem sessao.
+- Dados privados sao consultados considerando o usuario autenticado.
+- Erros comuns de autenticacao e banco tem retorno compreensivel na interface.
 
-- [x] Tela visual de edição de perfil criada no protótipo.
-- [x] Schema de `profiles` inclui username, nome de exibição, bio, avatar, banner e status de publicação.
-- [x] Decisão de normalizar username em lowercase registrada.
-
-### Parcial
-
-- [ ] Reaproveitar o layout atual para o formulário real de perfil.
-- [ ] Definir validações Zod para username, nome de exibição, bio e URLs de imagem.
-
-### Pendente
-
-- [ ] Persistir criação e edição de perfil no banco.
-- [ ] Validar username único, lowercase, tamanho e palavras reservadas.
-- [ ] Implementar upload de avatar no Supabase Storage.
-- [ ] Implementar upload de banner se mantido na interface do MVP.
-- [ ] Permitir visualizar prévia da página.
-- [ ] Exibir estados de perfil incompleto, perfil salvo, erro ao salvar e página despublicada.
-
-Critério de conclusão: o criador deve conseguir configurar username e nome de exibição, salvar o perfil real e visualizar uma prévia pública, mesmo sem produtos.
-
-Comandos de verificação:
+## Comandos de verificacao
 
 ```bash
 pnpm check
@@ -175,38 +276,102 @@ pnpm build
 pnpm exec tsc --noEmit
 ```
 
-## Fase 4 - Itens da página e produtos
+---
 
-### Concluído
+# Fase 3 - Schema PageItem e ItemClick
 
-- [x] Lista, cadastro e edição de produtos existem no protótipo.
-- [x] Schema de `products` inclui campos obrigatórios, opcionais, status ativo, destaque e posição.
-- [x] Regra de um item em destaque por perfil foi planejada no banco.
-- [ ] Documentação define a evolução para `page_items` com `type = product` e `type = link`.
+## Objetivo
 
-### Parcial
+Atualizar o modelo de dados real para a decisao atual: itens clicaveis unificados por `PageItem` e cliques registrados por `ItemClick`.
 
-- [ ] Converter formulários visuais em TanStack Form com validação Zod.
-- [ ] Reaproveitar estados visuais de produto ativo, inativo, destaque e sem imagem.
-- [ ] Adaptar nomenclatura interna para tratar produtos como `PageItem` do tipo `product`.
+## Estado
 
-### Pendente
+Pendente.
 
-- [ ] Implementar listagem real de itens do perfil autenticado, com filtro por tipo quando necessário.
-- [ ] Implementar criação, edição e exclusão de produto como `PageItem` do tipo `product`.
-- [ ] Implementar criação, edição e exclusão de link manual como `PageItem` do tipo `link`.
-- [ ] Implementar ativar e desativar item.
-- [ ] Implementar marcação de destaque removendo destaque anterior, com prioridade de UX para produtos.
-- [ ] Implementar ordenação simples de produtos e links com mover para cima e mover para baixo.
-- [ ] Implementar upload de imagem do produto no Supabase Storage.
-- [ ] Validar nome obrigatório, link externo válido, preço não negativo e posição não negativa.
-- [ ] Validar que links manuais não usam preço, preço anterior ou moeda.
-- [ ] Garantir que itens inativos não apareçam publicamente.
-- [ ] Sugerir desativação antes de exclusão definitiva.
+## Entregas
 
-Critério de conclusão: o criador deve conseguir cadastrar, editar, ativar, desativar, destacar, ordenar e remover itens reais, e itens ativos devem aparecer na prévia pública.
+- Enum ou tipo equivalente para `PageItem.type` com `product` e `link`.
+- Tabela `page_items`.
+- Tabela `item_clicks`.
+- Relacionamentos entre `profiles`, `page_items`, `page_views` e `item_clicks`.
+- Indices necessarios para listagem publica, dashboard e metricas basicas.
+- Migration de substituicao do modelo antigo.
 
-Comandos de verificação:
+## Pendencias para issues
+
+- Substituir `products` por `page_items` no schema Drizzle.
+- Substituir `product_clicks` por `item_clicks` no schema Drizzle.
+- Modelar campos comuns de `PageItem`: `profile_id`, `type`, `title`, `description`, `external_url`, `button_label`, `position`, `is_active`, `is_featured`, timestamps.
+- Modelar campos opcionais de produto em `PageItem`: `image_url`, `price`, `previous_price`, `currency`.
+- Validar regra de que campos de preco so se aplicam a `type = product`.
+- Validar regra de que `type = link` nao usa preco, preco anterior ou moeda.
+- Definir estrategia para no maximo um item em destaque por perfil.
+- Criar indices para `profile_id`, `profile_id + type`, `profile_id + is_active`, `profile_id + is_active + position` e metricas.
+- Garantir integridade entre `item_clicks.item_id` e `page_items.id`.
+- Atualizar referencias internas de nomenclatura que assumem `Product` como entidade final.
+
+## Criterios de conclusao
+
+- O banco permite salvar produtos e links manuais como `PageItem`.
+- O banco permite registrar cliques em qualquer `PageItem`.
+- O schema real nao exige implementar um CRUD definitivo de `Product` isolado antes de links manuais.
+- A documentacao, o schema e as migrations usam a nomenclatura `PageItem` e `ItemClick` como base do MVP.
+
+## Comandos de verificacao
+
+```bash
+pnpm drizzle-kit generate
+pnpm drizzle-kit migrate
+pnpm check
+pnpm build
+pnpm exec tsc --noEmit
+```
+
+---
+
+# Fase 4 - Perfil do criador
+
+## Objetivo
+
+Permitir que o criador configure a identidade da pagina publica.
+
+## Estado
+
+Prototipo visual existente, implementacao real pendente.
+
+## Entregas
+
+- Formulario real de perfil.
+- Persistencia de username, nome de exibicao, bio, avatar e banner quando mantido no MVP.
+- Validacao de username.
+- Upload de avatar.
+- Upload de banner se permanecer no MVP.
+- Previa da pagina publica.
+- Estados de perfil incompleto, salvo, erro ao salvar e pagina despublicada.
+
+## Pendencias para issues
+
+- Converter formulario visual de perfil para TanStack Form.
+- Criar schema Zod para username, nome de exibicao, bio e URLs de imagem.
+- Persistir criacao e edicao de perfil no banco.
+- Normalizar username em lowercase.
+- Validar username unico.
+- Bloquear palavras reservadas para username.
+- Implementar upload de avatar no Supabase Storage.
+- Implementar upload de banner, caso a interface mantenha banner no MVP.
+- Criar estado de sucesso ao salvar.
+- Criar estado de erro ao salvar.
+- Criar estado de perfil incompleto.
+- Permitir visualizar previa da pagina publica.
+
+## Criterios de conclusao
+
+- O criador consegue configurar username e nome de exibicao reais.
+- O perfil salvo persiste no banco.
+- O criador consegue visualizar uma previa publica mesmo sem itens.
+- O usuario nao consegue editar perfil de outra conta.
+
+## Comandos de verificacao
 
 ```bash
 pnpm check
@@ -214,63 +379,59 @@ pnpm build
 pnpm exec tsc --noEmit
 ```
 
-## Fase 5 - Redes sociais
+---
 
-### Concluído
+# Fase 5 - Produtos como PageItem
 
-- [x] Tipos iniciais de redes sociais definidos na documentação e no enum Drizzle.
-- [x] Página pública fictícia já mostra links sociais.
+## Objetivo
 
-### Parcial
+Implementar produtos recomendados como o primeiro e principal tipo de `PageItem`.
 
-- [ ] Definir componentes de formulário e lista para redes sociais usando padrões já criados no dashboard.
+## Estado
 
-### Pendente
+Prototipo visual existente, CRUD real pendente.
 
-- [ ] Criar rota privada para gerenciar redes sociais.
-- [ ] Implementar adicionar, editar e remover link social.
-- [ ] Implementar ativar, desativar e ordenar links sociais.
-- [ ] Validar tipo, URL, posição e label obrigatório para `other`.
-- [ ] Exibir somente links ativos na página pública.
-- [ ] Adicionar estado vazio e estado de erro para redes sociais.
+## Entregas
 
-Critério de conclusão: o criador deve conseguir gerenciar Instagram, TikTok, YouTube, WhatsApp, site e outro link, e o visitante deve conseguir abrir links ativos na página pública.
+- Listagem real de produtos do criador.
+- Criacao de produto como `PageItem.type = product`.
+- Edicao de produto.
+- Ativacao e desativacao de produto.
+- Exclusao ou remocao controlada de produto.
+- Ordenacao de produtos.
+- Marcacao de destaque.
+- Upload de imagem de produto.
+- Validacoes de campos de produto.
 
-Comandos de verificação:
+## Pendencias para issues
 
-```bash
-pnpm check
-pnpm build
-pnpm exec tsc --noEmit
-```
+- Adaptar lista visual de produtos para carregar `PageItem` com `type = product`.
+- Converter formulario de produto para TanStack Form.
+- Criar schema Zod para produto.
+- Implementar mutation de criacao de produto.
+- Implementar mutation de edicao de produto.
+- Implementar mutation de ativar e desativar produto.
+- Implementar mutation de exclusao ou remocao controlada.
+- Implementar mover produto para cima e para baixo.
+- Implementar destaque removendo destaque anterior do perfil.
+- Implementar upload de imagem de produto no Supabase Storage.
+- Validar titulo obrigatorio.
+- Validar URL externa obrigatoria.
+- Validar preco nao negativo quando informado.
+- Validar preco anterior maior que preco quando ambos existirem.
+- Aplicar moeda padrao `BRL` quando houver preco sem moeda.
+- Exibir estado de produto sem imagem.
+- Exibir estado de produto inativo.
+- Invalidar TanStack Query apos criar, editar, ativar, desativar, destacar, ordenar ou excluir.
 
-## Fase 6 - Página pública real
+## Criterios de conclusao
 
-### Concluído
+- O criador consegue cadastrar, editar, ativar, desativar, destacar, ordenar e remover produtos reais.
+- Produtos sao persistidos como `PageItem.type = product`.
+- Produtos ativos aparecem na previa ou pagina publica inicial.
+- Produtos inativos nao aparecem publicamente.
 
-- [x] Protótipo de página pública por username existe.
-- [x] Estados visuais de página inexistente, despublicada e sem produtos ativos existem no protótipo.
-- [ ] Estado sem itens ativos precisa considerar produtos e links manuais.
-
-### Parcial
-
-- [ ] Adaptar a rota pública para usar loader com dados reais.
-- [ ] Reaproveitar o layout mobile first validado no protótipo.
-
-### Pendente
-
-- [ ] Carregar perfil publicado por username.
-- [ ] Bloquear acesso público a perfis despublicados.
-- [ ] Exibir perfil, redes sociais ativas, item em destaque e itens ativos ordenados.
-- [ ] Implementar publicação e despublicação a partir do dashboard.
-- [ ] Exibir e copiar link público no dashboard.
-- [ ] Abrir link externo do item corretamente.
-- [ ] Adicionar SEO básico e metadados de compartilhamento.
-- [ ] Garantir que visitante não precise de conta.
-
-Critério de conclusão: qualquer visitante com o link deve acessar uma página publicada, ver apenas conteúdo ativo e abrir o destino externo de um item.
-
-Comandos de verificação:
+## Comandos de verificacao
 
 ```bash
 pnpm check
@@ -278,68 +439,55 @@ pnpm build
 pnpm exec tsc --noEmit
 ```
 
-## Fase 7 - Métricas básicas
+---
 
-### Concluído
+# Fase 6 - Links manuais como PageItem
 
-- [x] Entidades `page_views` e `product_clicks` modeladas no schema inicial.
-- [ ] Documentação define a evolução de `product_clicks` para `item_clicks`.
-- [x] Dashboard simulado já reserva espaço para visualizações e cliques.
-- [x] Regra de clique não bloquear redirecionamento está documentada.
+## Objetivo
 
-### Parcial
+Permitir que o criador adicione links manuais comuns que complementam a vitrine, usando `PageItem.type = link`.
 
-- [ ] Definir a forma mínima de identificar visitante anonimamente, sem coletar dados pessoais desnecessários.
+## Estado
 
-### Pendente
+Pendente.
 
-- [ ] Registrar visualização por carregamento de página pública publicada.
-- [ ] Registrar clique de item antes do redirecionamento.
-- [ ] Garantir que falha no registro de clique não impeça o redirecionamento.
-- [ ] Validar no banco que o item clicado pertence ao perfil registrado.
-- [ ] Exibir totais reais de visualizações e cliques no dashboard.
-- [ ] Exibir cliques por item se for simples manter a consulta no MVP.
-- [ ] Exibir cliques por tipo de item se for simples manter a consulta no MVP.
-- [ ] Evitar analytics avançado, filtros por período e origem detalhada nesta fase.
+## Entregas
 
-Critério de conclusão: a plataforma deve informar total de visualizações e total de cliques reais, mantendo o redirecionamento externo funcional mesmo em caso de falha de métrica.
+- Listagem real de links manuais.
+- Criacao de link manual.
+- Edicao de link manual.
+- Ativacao e desativacao de link manual.
+- Exclusao ou remocao controlada de link manual.
+- Ordenacao unificada junto aos produtos.
+- Validacoes de campos de link manual.
 
-Comandos de verificação:
+## Pendencias para issues
 
-```bash
-pnpm check
-pnpm build
-pnpm exec tsc --noEmit
-```
+- Criar interface para listar links manuais.
+- Criar formulario de link manual com TanStack Form.
+- Criar schema Zod para link manual.
+- Implementar mutation de criacao de link manual.
+- Implementar mutation de edicao de link manual.
+- Implementar mutation de ativar e desativar link manual.
+- Implementar mutation de exclusao ou remocao controlada.
+- Implementar ordenacao de links manuais na lista unica de `PageItem`.
+- Validar titulo obrigatorio.
+- Validar URL externa obrigatoria.
+- Validar descricao opcional.
+- Validar texto de botao opcional.
+- Garantir que link manual nao usa preco, preco anterior ou moeda.
+- Garantir que link manual nao substitui `SocialLink`.
+- Exibir estado vazio de links manuais.
+- Invalidar TanStack Query apos criar, editar, ativar, desativar, ordenar ou excluir.
 
-## Fase 8 - Deploy e validação
+## Criterios de conclusao
 
-### Concluído
+- O criador consegue cadastrar, editar, ativar, desativar, ordenar e remover links manuais.
+- Links manuais sao persistidos como `PageItem.type = link`.
+- Links manuais ativos aparecem junto aos produtos na lista publica unificada.
+- Links manuais inativos nao aparecem publicamente.
 
-- [x] Deploy alvo inicial definido como Cloudflare Workers.
-- [x] Consulta mínima ao Supabase Postgres validada em Worker publicado.
-
-### Parcial
-
-- [ ] Manter `wrangler.jsonc` e variáveis de ambiente alinhados ao runtime real.
-- [ ] Confirmar se o build local continua compatível com o Worker conforme funcionalidades reais forem adicionadas.
-
-### Pendente
-
-- [ ] Rodar teste interno completo do fluxo principal em celular e desktop.
-- [ ] Testar criar conta, login, recuperação de senha, logout e proteção de rota privada.
-- [ ] Testar perfil, produtos, links manuais, redes sociais, publicação, página pública, clique e redirecionamento.
-- [ ] Testar permissões entre dois usuários.
-- [ ] Testar página inexistente, página despublicada, item inativo, produto sem imagem e link manual sem descrição.
-- [ ] Validar deploy do MVP no Cloudflare Workers.
-- [ ] Conferir variáveis de produção sem commitar segredos.
-- [ ] Preparar política de privacidade, termos de uso, aviso sobre links externos e canal de contato antes de abrir para usuários.
-- [ ] Validar com 5 a 10 criadores ou afiliados iniciais.
-- [ ] Corrigir problemas críticos encontrados na validação.
-
-Critério de conclusão: o MVP deve estar publicado, com fluxo principal funcionando sem erros bloqueadores, permissões revisadas e condições mínimas para uso por primeiros criadores.
-
-Comandos de verificação:
+## Comandos de verificacao
 
 ```bash
 pnpm check
@@ -347,15 +495,317 @@ pnpm build
 pnpm exec tsc --noEmit
 ```
 
-## Próxima Sequência Recomendada
+---
 
-1. Revisar README e `.env.example` para garantir instalação, execução local e variáveis mínimas.
-2. Gerar e aplicar migrations do schema Drizzle para `page_items` e `item_clicks` em banco de desenvolvimento.
-3. Integrar Supabase Auth com cadastro, login, logout e recuperação de senha.
-4. Criar sincronização segura entre Supabase Auth e `public.users`.
-5. Proteger rotas privadas e validar isolamento de dados por usuário.
-6. Transformar o formulário de perfil em fluxo real com validação Zod e persistência.
-7. Transformar produtos e links manuais em CRUD real de `PageItem` com TanStack Form, TanStack Query e mutations.
-8. Implementar página pública real carregando perfil e itens ativos por username.
-9. Implementar publicação, despublicação e cópia do link público no dashboard.
-10. Implementar registro básico de visualizações e cliques com redirecionamento resiliente.
+# Fase 7 - Redes sociais
+
+## Objetivo
+
+Permitir que o criador gerencie os links sociais exibidos no topo da pagina publica.
+
+## Estado
+
+Pagina publica ficticia ja exibe redes sociais; gerenciamento real pendente.
+
+## Entregas
+
+- Rota privada de gerenciamento de redes sociais.
+- Criacao de link social.
+- Edicao de link social.
+- Remocao de link social.
+- Ativacao e desativacao de link social.
+- Ordenacao de links sociais.
+- Exibicao publica apenas de links sociais ativos.
+
+## Pendencias para issues
+
+- Criar tela privada de redes sociais.
+- Criar formulario de rede social com TanStack Form.
+- Criar schema Zod para rede social.
+- Implementar criacao de link social.
+- Implementar edicao de link social.
+- Implementar remocao de link social.
+- Implementar ativar e desativar link social.
+- Implementar ordenacao de links sociais.
+- Validar tipo permitido: Instagram, TikTok, YouTube, WhatsApp, site e outro.
+- Validar URL obrigatoria.
+- Validar posicao nao negativa.
+- Validar label obrigatorio quando `type = other`.
+- Exibir estado vazio de redes sociais.
+- Exibir estado de erro para redes sociais.
+- Garantir que redes sociais nao entram na lista principal de `PageItem`.
+
+## Criterios de conclusao
+
+- O criador consegue gerenciar Instagram, TikTok, YouTube, WhatsApp, site e outro link.
+- Apenas links sociais ativos aparecem no topo da pagina publica.
+- Redes sociais continuam separadas dos itens clicaveis principais.
+
+## Comandos de verificacao
+
+```bash
+pnpm check
+pnpm build
+pnpm exec tsc --noEmit
+```
+
+---
+
+# Fase 8 - Pagina publica unificada
+
+## Objetivo
+
+Disponibilizar a vitrine publica real por username, renderizando perfil, redes sociais e lista unificada de `PageItem` ativos.
+
+## Estado
+
+Prototipo visual existente, dados reais pendentes.
+
+## Entregas
+
+- Loader publico por username.
+- Bloqueio de perfis despublicados.
+- Renderizacao de perfil real.
+- Renderizacao de redes sociais ativas.
+- Renderizacao de item em destaque.
+- Renderizacao de lista unificada de produtos e links manuais ativos.
+- Estados publicos de pagina inexistente, despublicada e sem itens ativos.
+- Link externo funcionando para cada item.
+- SEO basico e metadados de compartilhamento.
+
+## Pendencias para issues
+
+- Adaptar rota publica por username para carregar dados reais via loader.
+- Carregar apenas perfil publicado para visitantes.
+- Bloquear acesso publico a perfil despublicado.
+- Exibir estado de pagina inexistente.
+- Exibir estado de pagina despublicada.
+- Exibir estado sem itens ativos considerando produtos e links manuais.
+- Exibir redes sociais ativas.
+- Exibir item em destaque quando existir.
+- Exibir produtos e links manuais ativos ordenados por `position`.
+- Garantir que visitante nao precise de conta.
+- Abrir destino externo de produto.
+- Abrir destino externo de link manual.
+- Adicionar SEO basico.
+- Adicionar metadados de compartilhamento.
+- Revisar layout mobile first com dados reais.
+
+## Criterios de conclusao
+
+- Qualquer visitante com o link consegue acessar uma pagina publicada sem login.
+- A pagina exibe somente conteudo ativo.
+- Produtos continuam visualmente prioritarios em relacao a links manuais.
+- Cliques em itens abrem corretamente o destino externo.
+
+## Comandos de verificacao
+
+```bash
+pnpm check
+pnpm build
+pnpm exec tsc --noEmit
+```
+
+---
+
+# Fase 9 - Publicacao e dashboard real
+
+## Objetivo
+
+Permitir que o criador controle a visibilidade da pagina e veja um resumo simples da propria vitrine.
+
+## Estado
+
+Dashboard simulado existente, implementacao real pendente.
+
+## Entregas
+
+- Publicacao da pagina.
+- Despublicacao da pagina.
+- Link publico exibido no dashboard.
+- Acao para copiar link publico.
+- Resumo real de produtos.
+- Resumo real de links manuais.
+- Atalhos para editar perfil, adicionar produto e adicionar link manual.
+
+## Pendencias para issues
+
+- Implementar mutation de publicar pagina.
+- Implementar mutation de despublicar pagina.
+- Registrar `published_at` quando aplicavel.
+- Exibir status atual da pagina no dashboard.
+- Exibir link publico baseado no username.
+- Implementar copiar link publico.
+- Exibir quantidade real de produtos.
+- Exibir quantidade real de links manuais.
+- Exibir quantidade real de visualizacoes quando metricas estiverem disponiveis.
+- Exibir quantidade real de cliques quando metricas estiverem disponiveis.
+- Criar estado de dashboard para perfil incompleto.
+- Criar estado de dashboard para pagina despublicada.
+
+## Criterios de conclusao
+
+- O criador consegue publicar e despublicar a pagina.
+- O dashboard mostra o link publico correto.
+- O dashboard mostra resumo real dos itens cadastrados.
+- Uma pagina despublicada nao fica acessivel para visitantes.
+
+## Comandos de verificacao
+
+```bash
+pnpm check
+pnpm build
+pnpm exec tsc --noEmit
+```
+
+---
+
+# Fase 10 - Metricas basicas
+
+## Objetivo
+
+Registrar visualizacoes da pagina publica e cliques em itens, mantendo o redirecionamento externo resiliente.
+
+## Estado
+
+Planejada. O schema inicial usa `product_clicks`, mas deve evoluir para `item_clicks`.
+
+## Entregas
+
+- Registro de `PageView`.
+- Registro de `ItemClick`.
+- Redirecionamento externo apos clique.
+- Dashboard com total de visualizacoes.
+- Dashboard com total de cliques.
+- Consultas basicas por item ou tipo quando simples.
+
+## Pendencias para issues
+
+- Definir identificador anonimo minimo de visitante sem coletar dados pessoais desnecessarios.
+- Registrar visualizacao por carregamento de pagina publica publicada.
+- Evitar registrar visualizacao para pagina inexistente ou despublicada.
+- Criar endpoint ou server function para clique em item.
+- Registrar `ItemClick` antes do redirecionamento.
+- Garantir que falha ao registrar clique nao impede redirecionamento.
+- Validar que o item clicado pertence ao perfil registrado.
+- Armazenar `item_type` no momento do clique.
+- Exibir total real de visualizacoes no dashboard.
+- Exibir total real de cliques no dashboard.
+- Exibir cliques por item se a consulta continuar simples.
+- Exibir cliques por tipo de item se a consulta continuar simples.
+- Evitar filtros por periodo, origem detalhada e analytics avancado nesta fase.
+
+## Criterios de conclusao
+
+- Visualizacoes de paginas publicadas sao registradas.
+- Cliques em produtos e links manuais sao registrados como `ItemClick`.
+- O visitante sempre e redirecionado ao destino externo, mesmo se a metrica falhar.
+- O dashboard exibe totais basicos reais.
+
+## Comandos de verificacao
+
+```bash
+pnpm check
+pnpm build
+pnpm exec tsc --noEmit
+```
+
+---
+
+# Fase 11 - Deploy e validacao do MVP
+
+## Objetivo
+
+Publicar o MVP em Cloudflare Workers e validar o fluxo principal com usuarios iniciais.
+
+## Estado
+
+Deploy alvo definido e conexao minima validada; MVP completo ainda pendente.
+
+## Entregas
+
+- Build local validado.
+- Deploy em Cloudflare Workers validado.
+- Variaveis de producao configuradas sem segredos no repositorio.
+- Fluxo principal testado em celular e desktop.
+- Permissoes entre usuarios testadas.
+- Estados obrigatorios testados.
+- Documentos minimos legais e de contato preparados antes de abrir para usuarios.
+- Validacao com 5 a 10 criadores ou afiliados iniciais.
+
+## Pendencias para issues
+
+- Validar build local antes do deploy.
+- Validar compatibilidade do runtime com as dependencias reais adicionadas.
+- Configurar variaveis de producao no Cloudflare Workers.
+- Rodar teste completo de cadastro, login, recuperacao de senha, logout e protecao de rota privada.
+- Rodar teste completo de perfil.
+- Rodar teste completo de redes sociais.
+- Rodar teste completo de produto como `PageItem`.
+- Rodar teste completo de link manual como `PageItem`.
+- Rodar teste completo de publicacao e despublicacao.
+- Rodar teste completo da pagina publica por username.
+- Rodar teste completo de clique e redirecionamento.
+- Testar isolamento de dados entre dois usuarios.
+- Testar pagina inexistente.
+- Testar pagina despublicada.
+- Testar item inativo.
+- Testar produto sem imagem.
+- Testar link manual sem descricao.
+- Preparar politica de privacidade.
+- Preparar termos de uso.
+- Preparar aviso sobre links externos.
+- Preparar canal de contato.
+- Validar o MVP com 5 a 10 criadores ou afiliados.
+- Registrar problemas criticos encontrados na validacao.
+- Corrigir problemas criticos antes de ampliar o uso.
+
+## Criterios de conclusao
+
+- O MVP esta publicado.
+- O fluxo principal funciona sem erro bloqueador.
+- Dados privados estao isolados por usuario.
+- Paginas publicas funcionam sem login.
+- Cliques redirecionam corretamente para destinos externos.
+- Estados obrigatorios foram verificados.
+- Primeiros criadores conseguem usar o produto com suporte manual aceitavel.
+
+## Comandos de verificacao
+
+```bash
+pnpm check
+pnpm build
+pnpm exec tsc --noEmit
+```
+
+---
+
+# Sequencia recomendada de milestones
+
+1. Preparacao e alinhamento.
+2. Prototipo navegavel.
+3. Fundacao da aplicacao.
+4. Schema `PageItem` e `ItemClick`.
+5. Perfil do criador.
+6. Produtos como `PageItem`.
+7. Links manuais como `PageItem`.
+8. Redes sociais.
+9. Pagina publica unificada.
+10. Publicacao e dashboard real.
+11. Metricas basicas.
+12. Deploy e validacao do MVP.
+
+# Proximas issues recomendadas
+
+1. Atualizar README e `.env.example`.
+2. Revisar configuracao de Worker e compatibilidade com Supabase Postgres.
+3. Alterar schema Drizzle de `products` para `page_items`.
+4. Alterar schema Drizzle de `product_clicks` para `item_clicks`.
+5. Integrar Supabase Auth para cadastro, login, logout e recuperacao de senha.
+6. Proteger rotas privadas.
+7. Implementar perfil real com validacao Zod.
+8. Implementar produto como `PageItem.type = product`.
+9. Implementar link manual como `PageItem.type = link`.
+10. Implementar pagina publica real por username.
+11. Implementar publicacao e despublicacao.
+12. Implementar metricas basicas com `PageView` e `ItemClick`.
