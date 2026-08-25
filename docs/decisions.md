@@ -245,6 +245,46 @@ Essa decisao nao altera os limites permanentes do produto: a Creator Store conti
 
 ---
 
+## Desativação em vez de exclusão definitiva de PageItem no primeiro corte
+
+**Status:** MVP
+
+### Decisão
+
+No primeiro corte do MVP, a ação padrão para remover um `PageItem` da página pública será definir:
+
+```text
+PageItem.is_active = false
+```
+
+Itens inativos não aparecem publicamente.
+
+Itens inativos continuam visíveis, editáveis e reativáveis no painel privado.
+
+`ItemClick` deve permanecer preservado no fluxo padrão para manter o analytics básico por item.
+
+Exclusão definitiva de `PageItem` fica fora do primeiro corte do MVP.
+
+Não introduzir `deleted_at` no MVP, salvo se houver justificativa explícita registrada.
+
+### Motivo
+
+A desativação remove o item da experiência pública sem perder dados úteis para o criador, sem quebrar métricas básicas e sem adicionar complexidade de recuperação, auditoria ou retenção de histórico no primeiro corte.
+
+### Consequências
+
+Consultas públicas devem carregar apenas `PageItem` com `is_active = true`.
+
+Consultas privadas devem permitir listar, editar e reativar itens ativos e inativos do criador.
+
+O fluxo padrão de remoção da página pública não deve apagar `ItemClick`.
+
+Se exclusão definitiva for adicionada futuramente, uma decisão específica deve definir se `ItemClick` será removido em cascade, anonimizado, preservado como histórico ou consolidado em métricas agregadas.
+
+Essa decisão não altera os limites permanentes do produto: a Creator Store continua apresentando destinos externos e não implementa e-commerce, marketplace, checkout, pagamentos, pedidos, estoque, frete, avaliações, comentários ou feed social.
+
+---
+
 ## SocialLink continua separado de PageItem
 
 **Status:** MVP

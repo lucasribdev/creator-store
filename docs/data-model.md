@@ -802,20 +802,34 @@ A exclusão da conta deve ser tratada com cuidado para evitar registros órfãos
 
 ## Exclusão de item
 
-Ao excluir um item, existem duas opções:
+No primeiro corte do MVP, a ação padrão para remover um `PageItem` da página pública não é exclusão definitiva.
 
-1. remover também seus registros de clique;
-2. preservar os cliques para histórico, removendo apenas a referência pública.
+O caminho padrão é desativar o item:
 
-Para o MVP, a opção mais simples é impedir a exclusão imediata e recomendar que o usuário desative o item.
+```text
+PageItem.is_active = false
+```
 
-Caso a exclusão definitiva seja permitida, os cliques podem ser removidos junto com o item.
+Ao desativar um item:
+
+- o item deixa de aparecer na página pública;
+- o item continua visível no painel privado;
+- o item continua editável;
+- o item pode ser reativado posteriormente;
+- os registros de `ItemClick` existentes permanecem preservados;
+- o analytics básico por item continua disponível com base no histórico de cliques.
+
+Excluir definitivamente um `PageItem` fica fora do primeiro corte do MVP.
+
+Se a exclusão definitiva for adicionada futuramente, uma decisão específica deve definir o comportamento dos registros de `ItemClick`, escolhendo explicitamente entre remover em cascade, anonimizar, preservar como histórico ou consolidar em métricas agregadas.
+
+O fluxo padrão do MVP não deve apagar `ItemClick` ao remover um item da página pública.
 
 ## Exclusão lógica
 
-No MVP, itens podem utilizar `is_active` para ocultação.
+No MVP, itens devem utilizar `is_active` para ocultação da página pública.
 
-Não é necessário adicionar `deleted_at` inicialmente.
+Não introduzir `deleted_at` no MVP, salvo se houver justificativa explícita registrada em `docs/decisions.md`.
 
 A exclusão lógica pode ser implementada futuramente caso exista necessidade de recuperação ou auditoria.
 
