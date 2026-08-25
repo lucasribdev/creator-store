@@ -119,7 +119,9 @@ Caso links manuais em destaque se tornem necessários, isso deve ser tratado com
 
 ### Decisão
 
-Produtos recomendados e links manuais comuns serão representados por uma entidade genérica `PageItem`.
+Produtos recomendados e links manuais comuns serão representados por uma entidade base chamada `PageItem`.
+
+`PageItem` será a base dos conteúdos clicáveis exibidos na área principal da página pública.
 
 `PageItem.type` definirá o comportamento inicial do item:
 
@@ -138,7 +140,11 @@ A lista principal da página pública deve carregar `PageItem` ativos.
 
 Produtos deixam de ser modelados como a única entidade clicável da página pública e passam a ser o tipo principal de `PageItem`.
 
+Produtos continuam sendo o foco principal da Creator Store.
+
 Links manuais podem aparecer na página, mas devem complementar a vitrine. Eles não substituem o foco em produtos recomendados.
+
+Links manuais não transformam a Creator Store em e-commerce, marketplace ou rede social. A compra, contratação ou interação principal continua acontecendo fora da plataforma.
 
 Campos específicos de produto, como preço e preço anterior, devem ser usados apenas quando `type = product`.
 
@@ -163,6 +169,8 @@ Links manuais comuns pertencem à área principal da página pública, junto dos
 `SocialLink` deve continuar sendo usado para Instagram, TikTok, YouTube, WhatsApp, site e outros links de presença social.
 
 `PageItem` deve ser usado para conteúdos clicáveis da vitrine, como produtos e links manuais comuns.
+
+`SocialLink` permanece separado para representar redes sociais e a presença do criador, sem entrar na lista principal de itens clicáveis da vitrine.
 
 Cliques em redes sociais podem ser medidos futuramente, mas não fazem parte das métricas de item do MVP.
 
@@ -279,11 +287,19 @@ Registrar apenas:
 - visualizações;
 - cliques.
 
+`ItemClick` será usado para registrar cliques em qualquer `PageItem`, independentemente do tipo do item.
+
 ### Motivo
 
 São suficientes para validar o uso da plataforma.
 
 Analytics avançado poderá ser desenvolvido posteriormente.
+
+### Consequências
+
+As métricas do MVP devem continuar simples e focadas em visualizações da página e cliques de itens.
+
+Analytics avançado, segmentações, funis, relatórios detalhados e atribuição continuam fora do MVP.
 
 ---
 
