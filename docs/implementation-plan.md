@@ -6,14 +6,18 @@ Este plano transforma o roadmap da Creator Store em uma sequência prática de e
 
 ## Estado Atual
 
+O codigo atual esta em fase de prototipo navegavel. As rotas e telas principais ja existem para validar fluxo e interface, mas ainda usam principalmente dados ficticios e nao representam a implementacao real de autenticacao, persistencia, autorizacao ou metricas.
+
 ### Concluído
 
 - [x] Documentação inicial do produto criada em `docs/`.
 - [x] Stack do MVP definida com TanStack Start, TypeScript, Tailwind CSS, Supabase, Drizzle, Zod, TanStack Form e Cloudflare Workers.
-- [x] Projeto base criado com rotas públicas e privadas iniciais.
-- [x] Protótipo navegável iniciado com dados fictícios para página pública, dashboard, perfil, login, cadastro e produtos.
+- [x] Projeto base criado com rotas públicas e privadas visuais.
+- [x] Protótipo navegável iniciado com dados fictícios para página pública, dashboard, perfil, redes sociais, login, cadastro, recuperação de senha e produtos.
 - [x] Schema inicial Drizzle modelado para `users`, `profiles`, `social_links`, `products`, `page_views` e `product_clicks`.
-- [x] Validação técnica inicial de Postgres no Cloudflare Workers registrada em `docs/decisions.md`.
+- [x] Migration inicial existente em `drizzle/0000_lazy_prodigy.sql`.
+- [x] Rota técnica `/api/health/db` existente para validar conexão com banco.
+- [x] Validação técnica de Cloudflare Workers com Supabase Postgres via `pg`/`node-postgres` concluída e registrada em `docs/decisions.md`.
 
 ### Parcial
 
@@ -26,10 +30,12 @@ Este plano transforma o roadmap da Creator Store em uma sequência prática de e
 ### Pendente
 
 - [ ] Autenticação real com Supabase Auth.
+- [ ] Integração real com Supabase Storage.
 - [ ] Proteção das rotas privadas.
-- [ ] Migrations e aplicação do schema no banco.
+- [ ] Persistência real para perfil, redes sociais, produtos, publicação e métricas.
+- [ ] Aplicação e validação das migrations no banco de desenvolvimento.
 - [ ] Server functions, loaders e mutations reais.
-- [ ] Upload de imagens no Supabase Storage.
+- [ ] Upload real de avatar, banner e imagens de produto.
 - [ ] Publicação e despublicação real da página.
 - [ ] Registro real de visualizações e cliques.
 - [ ] Testes internos do fluxo principal.
@@ -54,7 +60,6 @@ Este plano transforma o roadmap da Creator Store em uma sequência prática de e
 
 ### Pendente
 
-- [ ] Gerar e revisar migrations do schema atual.
 - [ ] Aplicar migrations no banco de desenvolvimento.
 - [ ] Revisar se a configuração do Worker está alinhada com `nodejs_compat`, Drizzle e Supabase Postgres.
 
@@ -74,6 +79,7 @@ pnpm exec tsc --noEmit
 
 - [x] Criar página inicial.
 - [x] Criar telas simuladas de login e cadastro.
+- [x] Criar tela simulada de recuperação de senha.
 - [x] Criar dashboard simulado.
 - [x] Criar tela simulada de edição de perfil.
 - [x] Criar lista simulada de produtos.
@@ -89,7 +95,6 @@ pnpm exec tsc --noEmit
 
 ### Pendente
 
-- [ ] Criar ou revisar tela de recuperação de senha no protótipo.
 - [ ] Registrar ajustes visuais necessários antes da integração real.
 
 Critério de conclusão: deve ser possível simular o fluxo de criar conta, configurar perfil, adicionar produto, visualizar página pública e clicar em produto usando dados fictícios.

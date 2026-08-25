@@ -6,7 +6,7 @@ O produto nao e um e-commerce, marketplace ou loja virtual. A compra sempre acon
 
 ## Status
 
-MVP em preparacao tecnica.
+MVP em preparacao tecnica. A aplicacao atual e um prototipo navegavel com telas publicas e privadas visuais, usando principalmente dados ficticios.
 
 ## Publico inicial
 
@@ -144,6 +144,10 @@ Nao implementar:
 
 A base usa TanStack Start com Cloudflare Workers, Tailwind CSS, Biome e Drizzle configurados.
 
+O codigo atual ja possui rotas visuais publicas e privadas para o fluxo principal do MVP, schema Drizzle para as entidades principais, migration inicial em `drizzle/0000_lazy_prodigy.sql` e a rota tecnica `/api/health/db`.
+
 A compatibilidade de `pg`/`node-postgres` com Supabase Postgres no runtime publicado do Cloudflare Workers ja foi validada com uma consulta minima em `/api/health/db`.
 
 Essa validacao permite seguir para o proximo corte do MVP usando Drizzle, `pg` e `nodejs_compat`. Hyperdrive continua sendo a alternativa preferida caso aparecam problemas operacionais de pooling, limites de conexao ou latencia em producao.
+
+Ainda estao pendentes a integracao real com Supabase Auth, Supabase Storage, loaders, mutations, CRUD real, persistencia, protecao de rotas privadas e metricas reais.
