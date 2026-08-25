@@ -33,6 +33,10 @@ As principais entidades do MVP são:
 
 `Product` e `ProductClick` não são entidades separadas no MVP. Produtos recomendados são representados por `PageItem` com `type = product`, e cliques em produtos ou links são registrados em `ItemClick`.
 
+O schema inicial do protótipo pode ainda conter tabelas `products` e `product_clicks`. Enquanto não houver dados reais, a substituição dessas tabelas por `page_items` e `item_clicks` pode ser feita de forma destrutiva, inclusive recomeçando o banco do zero.
+
+Essa exceção vale somente para a fase atual sem dados reais. Depois que existirem dados reais, qualquer migration equivalente deve preservar dados, executar backfill ou seguir um plano explícito de migração antes de ser aplicada.
+
 Relacionamentos principais:
 
 ```text
@@ -282,7 +286,8 @@ link
 - o título é obrigatório;
 - o destino externo é obrigatório;
 - somente itens ativos aparecem na página pública;
-- itens inativos continuam disponíveis no painel;
+- remover um item da página pública no primeiro corte significa definir `PageItem.is_active = false`;
+- itens inativos continuam visíveis, editáveis e reativáveis no painel privado;
 - a posição será utilizada para definir a ordem dos itens ativos e inativos no painel;
 - produtos e links devem compartilhar a mesma lista e a mesma regra de ordenação;
 - produtos e links devem compartilhar o mesmo fluxo de clique e redirecionamento;
@@ -377,7 +382,23 @@ Ao marcar um novo item como destaque, a plataforma deve remover o destaque do it
 
 Alternativamente, essa regra pode ser garantida pela aplicação no primeiro momento e reforçada no banco posteriormente.
 
-Um item inativo não deve aparecer como destaque na página pública. Ao desativar um item destacado, a aplicação deve remover seu destaque ou ignorá-lo nas consultas públicas.
+Um item inativo não pode permanecer destacado.
+
+Ao desativar um item com `is_featured = true`, a aplicação deve atualizar o registro para:
+
+```text
+PageItem.is_active = false
+PageItem.is_featured = false
+```
+
+Ao reativar o item, `is_featured` deve permanecer `false`. O criador pode destacar o item novamente depois da reativação, respeitando a regra de no máximo um destaque por perfil.
+
+A página pública só deve exibir destaque ativo. Consultas públicas de destaque devem filtrar por:
+
+```text
+PageItem.is_active = true
+PageItem.is_featured = true
+```
 
 ### Publicação, ativação e visibilidade
 
@@ -534,6 +555,11 @@ Representa uma visualização da página pública.
 
 - a visualização deve estar relacionada ao perfil acessado;
 - visitantes não precisam possuir conta;
+- `PageView` deve ser criado no server/loader da rota pública por username;
+- registrar `PageView` somente quando uma página publicada real for carregada;
+- não registrar `PageView` para página inexistente;
+- não registrar `PageView` para página despublicada;
+- falha ao registrar `PageView` não deve impedir a renderização da página publicada;
 - não armazenar informações pessoais desnecessárias;
 - `visitor_id` deve ser anônimo, gerado pela aplicação e salvo em cookie first-party;
 - `visitor_id` deve conter apenas um valor aleatório, como UUID, sem dados pessoais diretos;
@@ -542,6 +568,7 @@ Representa uma visualização da página pública.
 - endereços IP não devem ser armazenados diretamente no banco no MVP;
 - user-agent completo não deve ser armazenado no MVP;
 - métricas do MVP podem ser acumuladas sem análises avançadas.
+- se cache, SSR ou outra estratégia de renderização exigir mudar o ponto de registro de `PageView`, isso deve ser tratado como nova decisão registrada em `docs/decisions.md`.
 
 ### Contagem inicial
 
@@ -884,7 +911,7 @@ O fluxo padrão do MVP não deve apagar `ItemClick` ao remover um item da págin
 
 No MVP, itens devem utilizar `is_active` para ocultação da página pública.
 
-Não introduzir `deleted_at` no MVP, salvo se houver justificativa explícita registrada em `docs/decisions.md`.
+Não introduzir `deleted_at` no MVP sem nova decisão explícita registrada em `docs/decisions.md`.
 
 A exclusão lógica pode ser implementada futuramente caso exista necessidade de recuperação ou auditoria.
 

@@ -192,15 +192,43 @@ A ordenação manual será suficiente na primeira versão.
 
 Cada página poderá destacar apenas um item.
 
+Somente itens ativos podem permanecer destacados.
+
+Ao desativar um `PageItem` com `is_featured = true`, a aplicação deve limpar o destaque no mesmo fluxo:
+
+```text
+PageItem.is_active = false
+PageItem.is_featured = false
+```
+
+Ao reativar esse item, `is_featured` deve continuar `false`. O criador pode destacar o item novamente depois da reativação, respeitando a regra de no máximo um destaque por perfil.
+
+A página pública só deve exibir destaque ativo, ou seja, itens com:
+
+```text
+PageItem.is_active = true
+PageItem.is_featured = true
+```
+
 ### Motivo
 
 Ajuda o criador a direcionar a atenção do visitante para sua principal recomendação, seja produto ou link.
 
 Também simplifica o layout da página pública.
 
+Limpar o destaque ao desativar evita estado ambíguo em que um item oculto continua marcado como principal no painel ou pode voltar a aparecer como destaque sem ação explícita do criador.
+
 ### Consequências
 
 A interface deve deixar claro qual tipo de item está em destaque.
+
+Mutations de desativação devem limpar `is_featured` quando o item desativado estiver destacado.
+
+Mutations de reativação não devem restaurar destaque automaticamente.
+
+Consultas públicas de destaque devem sempre exigir `is_active = true`.
+
+A regra de no máximo um destaque por perfil continua obrigatória.
 
 ---
 
@@ -251,13 +279,13 @@ Campos específicos de produto, como preço e preço anterior, devem ser usados 
 
 A gestao privada principal de `PageItem` deve se chamar **Itens**.
 
-A rota final recomendada para essa area e:
+A rota final para essa area e:
 
 ```text
 /dashboard/items
 ```
 
-A navegacao principal da area privada deve usar o rotulo **Itens**.
+A navegacao privada principal deve usar o rotulo **Itens** e apontar para `/dashboard/items`.
 
 Produtos e links manuais devem ser tratados como tipos, filtros e acoes dentro dessa area. A interface pode oferecer:
 
@@ -265,7 +293,7 @@ Produtos e links manuais devem ser tratados como tipos, filtros e acoes dentro d
 - botao `Adicionar link`;
 - filtros `Todos`, `Produtos` e `Links`.
 
-Rotas centradas em produtos, como `/dashboard/products`, podem existir temporariamente durante a transicao do prototipo, mas nao devem ser a nomenclatura final do MVP.
+Rotas centradas em produtos, como `/dashboard/products`, podem existir somente como rotas temporarias de prototipo ou transicao, mas nao devem ser a nomenclatura final do MVP.
 
 Produto nao deve ser tratado como secao central obrigatoria.
 
@@ -279,7 +307,7 @@ Nomear a area principal como `Itens` evita que a arquitetura e a experiencia do 
 
 ### Consequências
 
-`/dashboard/items` deve orientar a implementacao final da gestao privada de itens.
+`/dashboard/items` deve ser a rota final da gestao privada de itens.
 
 A navegacao principal deve apontar para `Itens`, enquanto produtos e links aparecem como filtros ou acoes de criacao dentro da mesma area.
 
@@ -309,7 +337,7 @@ Itens inativos continuam visíveis, editáveis e reativáveis no painel privado.
 
 Exclusão definitiva de `PageItem` fica fora do primeiro corte do MVP.
 
-Não introduzir `deleted_at` no MVP, salvo se houver justificativa explícita registrada.
+Não introduzir `deleted_at` no MVP sem nova decisão explícita registrada.
 
 ### Motivo
 
@@ -579,6 +607,45 @@ Essa decisão mantém analytics básico dentro do escopo do MVP e não altera os
 
 ---
 
+## PageView no server/loader da rota pública
+
+**Status:** MVP
+
+### Decisão
+
+`PageView` será criado no server/loader da rota pública por username.
+
+O registro deve acontecer somente quando uma página publicada real for carregada.
+
+Não registrar `PageView` para:
+
+- página inexistente;
+- página despublicada.
+
+Falha ao registrar `PageView` não deve impedir a renderização da página publicada.
+
+Se cache, SSR ou outra estratégia de renderização exigir mudar esse ponto de registro futuramente, a mudança deve ser tratada como nova decisão registrada.
+
+### Motivo
+
+A rota pública por username já precisa localizar o perfil e validar se ele está publicado antes de renderizar dados públicos.
+
+Registrar a visualização nesse ponto mantém a regra próxima da fonte de verdade de visibilidade pública e evita contar acessos a páginas inexistentes ou indisponíveis.
+
+### Consequências
+
+O loader público deve primeiro confirmar que existe um `Profile` correspondente ao username e que `Profile.is_published = true`.
+
+Somente depois dessa confirmação a aplicação deve tentar criar `PageView`.
+
+Erros de analytics devem ser tratados como não bloqueantes para a experiência pública.
+
+Páginas inexistentes e páginas despublicadas continuam podendo exibir seus respectivos estados públicos, mas não geram visualização.
+
+Qualquer ajuste futuro motivado por cache, SSR, revalidação, deduplicação ou mudança de estratégia de renderização deve ter decisão própria antes da implementação.
+
+---
+
 # Desenvolvimento
 
 ## Mobile First
@@ -709,6 +776,36 @@ Esta validacao nao elimina riscos operacionais futuros de pooling, limites de co
 ---
 
 # Banco de dados
+
+## Migration destrutiva de products para page_items permitida apenas sem dados reais
+
+**Status:** MVP
+
+### Decisão
+
+Enquanto a Creator Store estiver em fase de protótipo sem dados reais de usuários, a migration de `products`/`product_clicks` para `page_items`/`item_clicks` pode ser destrutiva.
+
+Nesta fase, recomeçar o banco do zero é aceitável para alinhar o schema à decisão de `PageItem` e `ItemClick`.
+
+Essa permissão termina quando existirem dados reais. A partir desse ponto, migrations que alterem ou substituam tabelas existentes devem preservar dados, executar backfill ou seguir um plano explícito de migração registrado antes da execução.
+
+### Motivo
+
+O schema inicial foi criado para o protótipo navegável e ainda usava produto como entidade separada.
+
+Como não há dados reais a preservar, uma migration destrutiva reduz complexidade e evita criar um processo de backfill desnecessário para dados fictícios ou descartáveis.
+
+### Consequências
+
+A substituição de `products` por `page_items` e de `product_clicks` por `item_clicks` pode descartar tabelas e dados apenas nesta fase sem dados reais.
+
+Antes de executar qualquer migration destrutiva, deve ser confirmado que o banco afetado não possui dados reais.
+
+Quando houver dados reais, o projeto deve usar uma estratégia conservadora: preservar registros existentes, fazer backfill para o novo modelo ou registrar um plano explícito de migração com riscos e validações.
+
+Essa decisão não introduz funcionalidades fora do MVP. Ela apenas define a estratégia de evolução do schema para produtos e links como tipos de `PageItem`, mantendo os limites permanentes do produto.
+
+---
 
 ## A tabela public.users espelha o Supabase Auth
 

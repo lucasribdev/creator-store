@@ -125,6 +125,16 @@ ItemClick
 - Tratar links manuais como outro tipo de item, sem transformar a plataforma em rede social, e-commerce ou marketplace.
 - Usar `PageItem` como base de ordenacao, ativacao, destaque, redirecionamento e metricas.
 
+### Estrategia de migration nesta fase
+
+Como o projeto ainda esta em fase de prototipo e nao possui dados reais de usuarios, a migration de `products`/`product_clicks` para `page_items`/`item_clicks` pode ser destrutiva neste momento.
+
+Recomecar o banco do zero e aceitavel enquanto nao houver dados reais a preservar.
+
+Essa permissao e temporaria. A partir do momento em que existirem dados reais, migrations que alterem tabelas existentes devem preservar dados, executar backfill ou seguir um plano explicito de migracao registrado antes da execucao.
+
+Essa estrategia nao altera o escopo do MVP e nao autoriza funcionalidades fora da Creator Store como pagina publica de recomendacoes e destinos externos.
+
 ### Consequencias para milestones
 
 - A proxima implementacao de schema deve partir de `PageItem` e `ItemClick`.
@@ -139,13 +149,15 @@ ItemClick
 
 A area privada principal para gestao de `PageItem` deve se chamar **Itens**.
 
-A rota final recomendada para essa gestao e:
+A rota final para essa gestao e:
 
 ```text
 /dashboard/items
 ```
 
-A navegacao principal da area privada deve usar o rotulo **Itens**. Produtos e links manuais devem aparecer como tipos, filtros ou acoes dentro dessa area, nao como secoes centrais obrigatorias separadas.
+A navegacao privada principal deve usar o rotulo **Itens** e apontar para `/dashboard/items`.
+
+Produtos e links manuais devem aparecer como tipos, filtros ou acoes dentro dessa area, nao como secoes centrais obrigatorias separadas.
 
 A interface de `Itens` pode oferecer:
 
@@ -154,6 +166,8 @@ A interface de `Itens` pode oferecer:
 - filtros `Todos`, `Produtos` e `Links`.
 
 Rotas centradas em produtos, como `/dashboard/products`, podem existir temporariamente durante a transicao do prototipo, especialmente para reaproveitar telas ja criadas. Elas nao devem ser a nomenclatura final do MVP nem orientar a navegacao principal.
+
+Produto nao e uma secao central obrigatoria da Creator Store.
 
 `SocialLink` continua separado de `PageItem` e deve manter sua propria area de gerenciamento de redes sociais.
 
@@ -210,6 +224,8 @@ Parcialmente concluida.
 
 - A documentacao nao trata produto como entidade central obrigatoria.
 - `PageItem` e `ItemClick` estao documentados como base do MVP.
+- A rota privada final de gestao de `PageItem` esta registrada como `/dashboard/items`.
+- A navegacao privada principal esta registrada como **Itens**.
 - Uma pessoa nova no projeto consegue instalar dependencias e rodar o app localmente seguindo o README.
 - Variaveis obrigatorias estao documentadas sem segredos reais.
 - Nao ha decisao tecnica bloqueadora para iniciar autenticacao e persistencia.
@@ -261,7 +277,9 @@ Concluida como prototipo inicial, com revisoes visuais pendentes.
 
 - O fluxo principal pode ser simulado com dados ficticios.
 - A navegacao entre dashboard, perfil, itens, redes sociais e pagina publica esta clara.
-- A gestao privada principal de itens usa a nomenclatura `Itens`.
+- A gestao privada principal de itens usa a nomenclatura `Itens` e a rota final `/dashboard/items`.
+- Produtos e links aparecem como filtros, tipos ou acoes dentro de `Itens`.
+- `/dashboard/products`, se existir, e apenas rota temporaria de prototipo ou transicao.
 - O prototipo permite simular uma pagina com apenas produtos, apenas links ou ambos.
 - Os estados vazios, de erro visual e de pagina indisponivel estao representados.
 
@@ -350,6 +368,8 @@ Pendente.
 
 - Substituir `products` por `page_items` no schema Drizzle.
 - Substituir `product_clicks` por `item_clicks` no schema Drizzle.
+- Permitir migration destrutiva nesta substituicao apenas enquanto nao houver dados reais.
+- Se ja houver dados reais antes da execucao, trocar o reset por preservacao de dados, backfill ou plano explicito de migracao.
 - Modelar campos comuns de `PageItem`: `profile_id`, `type`, `title`, `description`, `external_url`, `button_label`, `position`, `is_active`, `is_featured`, timestamps.
 - Modelar campos opcionais de produto em `PageItem`: `image_url`, `price`, `previous_price`, `currency`.
 - Validar regra de que campos de preco so se aplicam a `type = product`.
@@ -365,6 +385,7 @@ Pendente.
 - O banco permite registrar cliques em qualquer `PageItem`.
 - O schema real nao exige implementar um CRUD definitivo de `Product` isolado antes de links manuais.
 - A documentacao, o schema e as migrations usam a nomenclatura `PageItem` e `ItemClick` como base do MVP.
+- A migration destrutiva esta limitada ao periodo sem dados reais; migrations futuras com dados reais preservam dados, executam backfill ou seguem plano explicito.
 
 ## Comandos de verificacao
 
@@ -434,7 +455,9 @@ pnpm exec tsc --noEmit
 
 ## Objetivo
 
-Criar a base compartilhada para listar, ordenar, ativar, desativar, destacar e remover itens da pagina, independentemente do tipo.
+Criar a base compartilhada para listar, ordenar, ativar, desativar, destacar e remover itens da pagina publica, independentemente do tipo.
+
+No primeiro corte do MVP, remover um item da pagina publica significa desativar o registro com `PageItem.is_active = false`, nao excluir definitivamente.
 
 ## Estado
 
@@ -449,7 +472,7 @@ Pendente.
 - Criacao tecnica de item com tipo.
 - Edicao tecnica de campos comuns.
 - Ativacao e desativacao de item.
-- Remocao controlada de item.
+- Remocao da pagina publica por desativacao do item.
 - Ordenacao unificada.
 - Marcacao de destaque para no maximo um item por perfil.
 - Invalidacao de queries apos mutations de item.
@@ -463,11 +486,19 @@ Pendente.
 - Criar consulta privada para listar `PageItem` por `profile_id`.
 - Criar componentes ou helpers compartilhados para cards de item no dashboard.
 - Implementar mutation comum de ativar e desativar item.
-- Implementar mutation comum de remover item.
+- Implementar mutation comum de remover item da pagina publica definindo `PageItem.is_active = false`.
 - Implementar mutation comum de ordenar itens.
 - Implementar mutation comum de destacar item removendo destaque anterior.
+- Ao desativar item destacado, limpar `PageItem.is_featured = false`.
+- Ao reativar item, manter `PageItem.is_featured = false` ate o criador destacar novamente.
 - Garantir que ordenacao misture produtos e links na mesma sequencia.
-- Garantir que item inativo continue editavel no painel.
+- Garantir que item inativo nao apareca publicamente.
+- Garantir que item inativo nao permaneca destacado.
+- Garantir que a pagina publica so exiba destaque ativo.
+- Garantir que item inativo continue visivel, editavel e reativavel no painel.
+- Garantir que `ItemClick` permaneca preservado ao remover item da pagina publica.
+- Manter exclusao definitiva de `PageItem` fora do primeiro corte.
+- Nao introduzir `deleted_at` sem nova decisao registrada em `docs/decisions.md`.
 - Exibir estado vazio quando nao houver nenhum item.
 - Exibir contagem de itens ativos e inativos quando simples.
 - Invalidar TanStack Query apos criar, editar, ativar, desativar, destacar, ordenar ou remover.
@@ -475,9 +506,17 @@ Pendente.
 ## Criterios de conclusao
 
 - O painel possui uma base real para gerenciar itens sem depender de produto como entidade central.
-- `/dashboard/items` e a rota final recomendada para a gestao privada principal de itens.
+- `/dashboard/items` e a rota final para a gestao privada principal de itens.
 - A navegacao principal da area privada usa `Itens`.
+- Produtos e links sao tratados como filtros, tipos ou acoes dentro de `Itens`.
 - Produtos e links podem compartilhar a mesma lista, ordenacao, ativacao, destaque e remocao.
+- Remover item da pagina publica define `PageItem.is_active = false`.
+- Desativar item destacado tambem define `PageItem.is_featured = false`.
+- Reativar item nao restaura destaque automaticamente; o criador pode destacar novamente.
+- Itens inativos nao aparecem publicamente, mas continuam visiveis, editaveis e reativaveis no painel.
+- A pagina publica exibe apenas destaque com `is_active = true`.
+- `ItemClick` permanece preservado quando um item e removido da pagina publica.
+- Exclusao definitiva e `deleted_at` ficam fora do primeiro corte.
 - A regra de no maximo um destaque por perfil esta aplicada.
 
 ## Comandos de verificacao
@@ -690,6 +729,7 @@ Prototipo visual existente, dados reais pendentes.
 
 - Loader publico por username.
 - Bloqueio de perfis despublicados.
+- Registro de `PageView` no server/loader quando uma pagina publicada real for carregada.
 - Renderizacao de perfil real.
 - Renderizacao de redes sociais ativas.
 - Renderizacao de item em destaque.
@@ -703,6 +743,11 @@ Prototipo visual existente, dados reais pendentes.
 - Adaptar rota publica por username para carregar dados reais via loader.
 - Carregar apenas perfil publicado para visitantes.
 - Bloquear acesso publico a perfil despublicado.
+- Registrar `PageView` no server/loader da rota publica por username somente apos localizar uma pagina publicada real.
+- Garantir que pagina inexistente nao registra `PageView`.
+- Garantir que pagina despublicada nao registra `PageView`.
+- Garantir que falha ao registrar `PageView` nao impede a renderizacao da pagina publicada.
+- Tratar qualquer mudanca futura exigida por cache, SSR ou estrategia equivalente como nova decisao em `docs/decisions.md`.
 - Exibir estado de pagina inexistente.
 - Exibir estado de pagina despublicada.
 - Exibir estado sem itens ativos considerando produtos e links manuais.
@@ -721,6 +766,9 @@ Prototipo visual existente, dados reais pendentes.
 - Qualquer visitante com o link consegue acessar uma pagina publicada sem login.
 - A pagina exibe somente conteudo ativo.
 - A pagina funciona com apenas produtos, apenas links ou produtos e links juntos.
+- `PageView` e registrado quando uma pagina publicada real e carregada.
+- Paginas inexistentes e despublicadas nao registram `PageView`.
+- Falha ao registrar `PageView` nao impede a renderizacao da pagina publicada.
 - Cliques em itens abrem corretamente o destino externo.
 
 ## Comandos de verificacao
@@ -820,8 +868,10 @@ Planejada. O schema inicial usa `product_clicks`, mas deve evoluir para `item_cl
 ## Pendencias para issues
 
 - Definir identificador anonimo minimo de visitante sem coletar dados pessoais desnecessarios.
-- Registrar visualizacao por carregamento de pagina publica publicada.
+- Registrar visualizacao no server/loader por carregamento de pagina publica publicada real.
 - Evitar registrar visualizacao para pagina inexistente ou despublicada.
+- Garantir que falha ao registrar visualizacao nao impede a renderizacao da pagina publicada.
+- Registrar nova decisao se cache, SSR ou outra estrategia futura exigir mudar o ponto de registro de `PageView`.
 - Criar endpoint ou server function para clique em item.
 - Registrar `ItemClick` antes do redirecionamento.
 - Garantir que falha ao registrar clique nao impede redirecionamento.
@@ -836,6 +886,8 @@ Planejada. O schema inicial usa `product_clicks`, mas deve evoluir para `item_cl
 ## Criterios de conclusao
 
 - Visualizacoes de paginas publicadas sao registradas.
+- Visualizacoes nao sao registradas para paginas inexistentes ou despublicadas.
+- Falha no registro de visualizacao nao impede a renderizacao da pagina publicada.
 - Cliques em produtos e links manuais sao registrados como `ItemClick`.
 - O visitante sempre e redirecionado ao destino externo, mesmo se a metrica falhar.
 - O dashboard exibe totais basicos reais.
