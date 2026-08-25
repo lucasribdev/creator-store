@@ -35,10 +35,13 @@ A plataforma nunca será responsável por:
 - estoque;
 - frete;
 - entrega;
-- devoluções.
+- emissão de notas;
+- devoluções;
 - avaliações;
 - comentários;
 - feed social.
+
+A ação final do visitante sempre acontecerá fora da plataforma, seja compra, inscrição, cadastro, contato, download, contratação ou qualquer outra interação com o destino externo.
 
 ---
 
@@ -51,6 +54,8 @@ A plataforma nunca será responsável por:
 A Creator Store é uma plataforma para criadores organizarem e compartilharem recomendações, produtos, links importantes e destinos externos em uma página pública pessoal.
 
 Produtos não são foco principal obrigatório da plataforma.
+
+Produtos e links são tipos equivalentes de item publicável na área principal da página pública. Nenhum dos dois deve ser tratado como o tipo principal obrigatório.
 
 Um criador pode usar:
 
@@ -73,11 +78,13 @@ Forçar produtos como centro obrigatório reduziria a utilidade da página públ
 - `product`;
 - `link`.
 
+`SocialLink` permanece separado de `PageItem` e deve continuar representando redes sociais e links de presença exibidos no topo da página.
+
 A página pública deve funcionar quando houver links ativos, mesmo sem produtos.
 
 Analytics e dashboard devem considerar itens, produtos e links, com cliques registrados por `ItemClick`.
 
-Essa decisão não muda os limites permanentes: a plataforma não será e-commerce, marketplace ou rede social.
+Essa decisão não muda os limites permanentes: a plataforma não será e-commerce, marketplace ou rede social, não terá carrinho, checkout, pagamentos, pedidos, estoque, avaliações, comentários ou feed social, e a ação final continuará acontecendo fora da plataforma.
 
 ---
 
@@ -163,6 +170,8 @@ Produtos recomendados e links manuais comuns serão representados por uma entida
 
 `PageItem` será a base dos conteúdos clicáveis exibidos na área principal da página pública.
 
+Produtos e links são tipos equivalentes de `PageItem`: o criador poderá publicar apenas produtos, apenas links ou combinar os dois tipos na mesma página.
+
 `PageItem.type` definirá o comportamento inicial do item:
 
 - `product`;
@@ -181,6 +190,8 @@ A lista principal da página pública deve carregar `PageItem` ativos.
 Produtos deixam de ser modelados como a única entidade clicável da página pública e passam a ser um tipo de `PageItem`.
 
 Links manuais passam a ser outro tipo de `PageItem`, com a mesma base de ordenação, ativação, redirecionamento e métricas.
+
+`ItemClick` deve registrar cliques em qualquer `PageItem`, independentemente de `PageItem.type`.
 
 Produtos e links manuais não transformam a Creator Store em e-commerce, marketplace ou rede social. A compra, contratação ou interação principal continua acontecendo fora da plataforma.
 
