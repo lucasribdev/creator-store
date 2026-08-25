@@ -199,6 +199,52 @@ Campos específicos de produto, como preço e preço anterior, devem ser usados 
 
 ---
 
+## Itens como area privada principal de PageItem
+
+**Status:** MVP
+
+### Decisão
+
+A gestao privada principal de `PageItem` deve se chamar **Itens**.
+
+A rota final recomendada para essa area e:
+
+```text
+/dashboard/items
+```
+
+A navegacao principal da area privada deve usar o rotulo **Itens**.
+
+Produtos e links manuais devem ser tratados como tipos, filtros e acoes dentro dessa area. A interface pode oferecer:
+
+- botao `Adicionar produto`;
+- botao `Adicionar link`;
+- filtros `Todos`, `Produtos` e `Links`.
+
+Rotas centradas em produtos, como `/dashboard/products`, podem existir temporariamente durante a transicao do prototipo, mas nao devem ser a nomenclatura final do MVP.
+
+Produto nao deve ser tratado como secao central obrigatoria.
+
+`SocialLink` continua separado de `PageItem` e deve manter sua propria area de gerenciamento.
+
+### Motivo
+
+Produtos e links manuais sao tipos equivalentes de `PageItem`.
+
+Nomear a area principal como `Itens` evita que a arquitetura e a experiencia do MVP voltem a tratar produto como o centro obrigatorio da plataforma.
+
+### Consequências
+
+`/dashboard/items` deve orientar a implementacao final da gestao privada de itens.
+
+A navegacao principal deve apontar para `Itens`, enquanto produtos e links aparecem como filtros ou acoes de criacao dentro da mesma area.
+
+Qualquer rota temporaria centrada em produtos deve ser considerada legado de prototipo ou transicao.
+
+Essa decisao nao altera os limites permanentes do produto: a Creator Store continua apresentando destinos externos e nao implementa e-commerce, marketplace, checkout, pagamentos, pedidos, estoque, frete, avaliacoes, comentarios ou feed social.
+
+---
+
 ## SocialLink continua separado de PageItem
 
 **Status:** MVP

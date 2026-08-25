@@ -134,6 +134,28 @@ ItemClick
 - O analytics basico deve ser por item e funcionar para qualquer tipo de `PageItem`.
 - Imagens para links, video e analytics avancado ficam para evolucoes futuras.
 
+## Decisao de navegacao privada de PageItem
+
+A area privada principal para gestao de `PageItem` deve se chamar **Itens**.
+
+A rota final recomendada para essa gestao e:
+
+```text
+/dashboard/items
+```
+
+A navegacao principal da area privada deve usar o rotulo **Itens**. Produtos e links manuais devem aparecer como tipos, filtros ou acoes dentro dessa area, nao como secoes centrais obrigatorias separadas.
+
+A interface de `Itens` pode oferecer:
+
+- botao `Adicionar produto`;
+- botao `Adicionar link`;
+- filtros `Todos`, `Produtos` e `Links`.
+
+Rotas centradas em produtos, como `/dashboard/products`, podem existir temporariamente durante a transicao do prototipo, especialmente para reaproveitar telas ja criadas. Elas nao devem ser a nomenclatura final do MVP nem orientar a navegacao principal.
+
+`SocialLink` continua separado de `PageItem` e deve manter sua propria area de gerenciamento de redes sociais.
+
 ## Verificacao padrao
 
 Quando houver alteracao de codigo no futuro, rodar quando aplicavel:
@@ -229,13 +251,16 @@ Concluida como prototipo inicial, com revisoes visuais pendentes.
 - Confirmar que a pagina publica parece uma pagina pessoal de recomendacoes, nao uma loja.
 - Atualizar textos visuais que ainda falem apenas em produtos.
 - Representar produto e link manual como itens da mesma pagina.
+- Ajustar a navegacao privada final para usar `Itens` apontando para `/dashboard/items`.
+- Tratar rotas centradas em produtos, como `/dashboard/products`, apenas como transicao de prototipo quando existirem.
 - Registrar ajustes visuais necessarios antes da integracao real.
 - Incluir no prototipo o estado "sem itens ativos", considerando produtos e links manuais.
 
 ## Criterios de conclusao
 
 - O fluxo principal pode ser simulado com dados ficticios.
-- A navegacao entre dashboard, perfil, itens e pagina publica esta clara.
+- A navegacao entre dashboard, perfil, itens, redes sociais e pagina publica esta clara.
+- A gestao privada principal de itens usa a nomenclatura `Itens`.
 - O prototipo permite simular uma pagina com apenas produtos, apenas links ou ambos.
 - Os estados vazios, de erro visual e de pagina indisponivel estao representados.
 
@@ -416,6 +441,8 @@ Pendente.
 
 ## Entregas
 
+- Rota privada final `/dashboard/items`.
+- Navegacao principal da area privada com o rotulo `Itens`.
 - Listagem real de `PageItem` do criador.
 - Estado vazio de itens.
 - Criacao tecnica de item com tipo.
@@ -428,6 +455,10 @@ Pendente.
 
 ## Pendencias para issues
 
+- Criar ou consolidar a rota privada `/dashboard/items` como tela principal de gestao de `PageItem`.
+- Garantir que a navegacao principal aponte para `Itens`, nao para `Produtos`.
+- Oferecer filtros `Todos`, `Produtos` e `Links` na gestao de itens quando isso ajudar a operacao.
+- Oferecer acoes `Adicionar produto` e `Adicionar link` dentro da area de itens.
 - Criar consulta privada para listar `PageItem` por `profile_id`.
 - Criar componentes ou helpers compartilhados para cards de item no dashboard.
 - Implementar mutation comum de ativar e desativar item.
@@ -443,6 +474,8 @@ Pendente.
 ## Criterios de conclusao
 
 - O painel possui uma base real para gerenciar itens sem depender de produto como entidade central.
+- `/dashboard/items` e a rota final recomendada para a gestao privada principal de itens.
+- A navegacao principal da area privada usa `Itens`.
 - Produtos e links podem compartilhar a mesma lista, ordenacao, ativacao, destaque e remocao.
 - A regra de no maximo um destaque por perfil esta aplicada.
 
@@ -477,7 +510,7 @@ Prototipo visual existente, implementacao real pendente.
 
 ## Pendencias para issues
 
-- Adaptar lista visual de produtos para carregar `PageItem` com `type = product`.
+- Adaptar telas visuais de produtos para carregar `PageItem` com `type = product`, mantendo `/dashboard/products` apenas como rota temporaria de prototipo ou transicao quando existir.
 - Converter formulario de produto para TanStack Form.
 - Criar schema Zod para produto.
 - Implementar mutation de criacao de produto como `PageItem.type = product`.
@@ -694,7 +727,8 @@ Dashboard simulado existente, implementacao real pendente.
 - Resumo real de links manuais.
 - Resumo real de visualizacoes.
 - Resumo real de cliques.
-- Atalhos para editar perfil, adicionar item, adicionar produto e adicionar link manual.
+- Atalho principal para `Itens`.
+- Atalhos para editar perfil, adicionar produto e adicionar link manual.
 
 ## Pendencias para issues
 
@@ -711,6 +745,7 @@ Dashboard simulado existente, implementacao real pendente.
 - Exibir quantidade real de cliques quando metricas estiverem disponiveis.
 - Criar estado de dashboard para perfil incompleto.
 - Criar estado de dashboard para pagina despublicada.
+- Criar atalho principal para `/dashboard/items` com rotulo `Itens`.
 - Criar atalhos para adicionar produto e adicionar link manual sem sugerir que produto e obrigatorio.
 
 ## Criterios de conclusao
@@ -718,6 +753,7 @@ Dashboard simulado existente, implementacao real pendente.
 - O criador consegue publicar e despublicar a pagina.
 - O dashboard mostra o link publico correto.
 - O dashboard mostra contagens reais de itens, produtos, links, visualizacoes e cliques.
+- O dashboard direciona a gestao principal de `PageItem` para `Itens` em `/dashboard/items`.
 - Uma pagina despublicada nao fica acessivel para visitantes.
 
 ## Comandos de verificacao
