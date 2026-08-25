@@ -7,7 +7,8 @@ Este documento descreve os principais fluxos de uso do MVP.
 O foco está nas ações necessárias para que:
 
 - um criador crie e publique sua página;
-- um visitante encontre e acesse produtos recomendados, links manuais e destinos externos;
+- um criador possa publicar apenas produtos, apenas links manuais ou uma combinação dos dois;
+- um visitante encontre e acesse itens recomendados e destinos externos;
 - a plataforma registre os principais eventos de uso.
 
 Os fluxos devem permanecer simples, especialmente por se tratar de um projeto desenvolvido por uma única pessoa.
@@ -32,8 +33,7 @@ Pessoa que acessa a página pública de um criador para:
 
 - conhecer o perfil;
 - acessar suas redes sociais;
-- visualizar produtos;
-- visualizar links manuais;
+- visualizar itens ativos;
 - seguir links externos.
 
 ---
@@ -539,7 +539,7 @@ Permitir que o criador defina a ordem conjunta de produtos e links manuais na á
 ### Fluxo principal
 
 1. O usuário acessa a lista de itens da página.
-2. Move um produto ou link para cima ou para baixo.
+2. Move um item para cima ou para baixo.
 3. A plataforma salva a nova ordem.
 4. A página pública passa a utilizar essa ordenação.
 
@@ -555,6 +555,13 @@ Arrastar e soltar não é necessário no primeiro corte.
 ### Observação
 
 Produtos são itens do tipo `product`. Links manuais são itens do tipo `link`. A ordenação usa uma lista única de itens publicáveis.
+
+### Cenários suportados
+
+- página com apenas produtos;
+- página com apenas links manuais;
+- página com produtos e links manuais;
+- página publicada sem itens ativos.
 
 ---
 
@@ -583,6 +590,8 @@ O criador deve possuir:
 ### Resultado esperado
 
 Qualquer visitante com o endereço pode acessar a página.
+
+Produtos e links manuais são opcionais para publicação. A página pode ser publicada com os dados mínimos de perfil, mesmo sem itens ativos.
 
 ### Possíveis impedimentos
 
@@ -623,7 +632,7 @@ Permitir que o criador veja como sua página aparecerá para o visitante.
 1. O usuário acessa o dashboard.
 2. Clica em `Visualizar página`.
 3. A plataforma abre a prévia.
-4. O usuário verifica as informações, redes sociais, produtos e links manuais.
+4. O usuário verifica as informações, redes sociais e itens.
 5. Retorna ao painel para fazer ajustes, caso necessário.
 
 ### Resultado esperado
@@ -675,9 +684,16 @@ O visitante consegue visualizar a página sem criar uma conta.
 ### Possíveis estados
 
 - página publicada;
+- página publicada sem itens ativos;
 - página não encontrada;
 - página despublicada;
 - erro temporário.
+
+### Estado sem itens ativos
+
+Quando a página estiver publicada sem itens ativos, a plataforma deve exibir o perfil e as redes sociais disponíveis.
+
+A área principal deve usar um estado vazio adequado, sem sugerir erro e sem impedir o acesso à página.
 
 ---
 
@@ -807,7 +823,7 @@ Registrar o interesse do visitante em um item publicável antes do redirecioname
 
 ### Fluxo principal
 
-1. O visitante clica em um produto ou link manual ativo.
+1. O visitante clica em um item ativo.
 2. A plataforma identifica o perfil, o item e o tipo do item.
 3. A plataforma cria um registro de clique.
 4. A plataforma redireciona o visitante para a URL externa cadastrada.
@@ -848,8 +864,9 @@ Apresentar ao criador um resumo simples da página.
 3. Visualiza:
    - status da página;
    - link público;
-   - quantidade de produtos;
-   - quantidade de links manuais;
+   - quantidade de itens;
+   - quantidade de produtos, quando houver;
+   - quantidade de links manuais, quando houver;
    - quantidade de visualizações;
    - quantidade de cliques.
 
@@ -885,6 +902,7 @@ Permitir que o criador acompanhe o uso da página.
 - visualizações da página;
 - cliques totais nos itens;
 - cliques por tipo de item, caso seja simples;
+- quantidade de itens ativos;
 - quantidade de produtos ativos;
 - quantidade de links manuais ativos.
 
@@ -911,7 +929,7 @@ Configura perfil
         ↓
 Adiciona redes sociais
         ↓
-Cadastra produto e/ou link manual
+Cadastra produtos, links manuais ou nenhum item
         ↓
 Publica a página
         ↓
@@ -935,14 +953,13 @@ Para a primeira versão funcional, os fluxos obrigatórios são:
 1. Criar conta.
 2. Fazer login.
 3. Configurar perfil.
-4. Cadastrar produto ou link manual.
-5. Editar item cadastrado.
-6. Ativar ou desativar item.
-7. Cadastrar outro tipo de item, se necessário.
-8. Publicar página.
-9. Acessar página pública.
-10. Clicar em item.
-11. Registrar clique.
+4. Publicar página.
+5. Acessar página pública com ou sem itens ativos.
+6. Cadastrar item, quando for testar fluxos com itens.
+7. Editar item cadastrado.
+8. Ativar ou desativar item.
+9. Clicar em item.
+10. Registrar clique.
 
 Os fluxos de redes sociais, ordenação, destaque, banner e métricas visíveis podem ser adicionados depois que o fluxo principal estiver funcionando.
 
@@ -1008,7 +1025,7 @@ Os fluxos devem seguir estes princípios:
 - não exigir configurações avançadas;
 - permitir que o criador publique rapidamente;
 - não interromper o visitante com cadastro ou login;
-- deixar claro que produtos e links levam para destinos externos.
+- deixar claro que itens levam para destinos externos.
 
 ---
 
@@ -1023,5 +1040,5 @@ Os fluxos serão considerados funcionais quando:
 - a interface funcionar em celular e computador;
 - dados salvos aparecerem corretamente na página pública;
 - itens inativos não aparecerem para visitantes;
-- cliques levarem para o endereço correto;
+- cliques em itens levarem para o endereço correto;
 - o fluxo principal puder ser testado do início ao fim.
